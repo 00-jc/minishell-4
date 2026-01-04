@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/02 14:46:48 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/03 19:35:35 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/04 00:50:39 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static t_cmd	*create_command(char **tokens, int start, int end, char *op)
 	i = 0;
 	while (i < cmd->arg_count)
 	{
-		cmd->args[i] = ft_strdup(tokens[start + i]); //tokens[start + i];
+		cmd->args[i] = ft_strdup(tokens[start + i]);
 		i++;
 	}
 	cmd->args[i] = NULL;

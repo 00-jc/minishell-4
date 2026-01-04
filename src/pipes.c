@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/03 23:51:54 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/03 23:52:57 by asoria           ###   ########.fr       */
+/*   Created: 2026/01/04 00:52:03 by asoria            #+#    #+#             */
+/*   Updated: 2026/01/04 21:40:27 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void     setup_pipe_fds(t_cmd *cmd, int prev_fd, int pipe_fd[2])
+void	setup_pipe_fds(t_cmd *cmd, int prev_fd, int pipe_fd[2])
 {
 	if (prev_fd != -1)
 	{
@@ -26,4 +26,3 @@ void     setup_pipe_fds(t_cmd *cmd, int prev_fd, int pipe_fd[2])
 		close(pipe_fd[1]);
 	}
 }
-

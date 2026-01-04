@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 02:46:23 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/03 19:37:45 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/04 00:51:10 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,11 @@ void	minishell(t_shell *shell, char **argv, char **envp)
 	{
 		read_input(shell);
 		if (!shell->input)
-			break;
+			break ;
 		if (*shell->input)
 		{
 			tokenize_input(shell);
 			clusterize_tokens(shell);
-			//print_cmd_list(shell->cmd_list);
 			execute_pipeline(shell);
 			black_hole(shell);
 		}
@@ -33,7 +32,7 @@ void	minishell(t_shell *shell, char **argv, char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_shell shell;
+	t_shell	shell;
 
 	(void)argc;
 	minishell(&shell, argv, envp);
