@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 02:47:47 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/03 23:50:46 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/04 21:45:14 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,16 @@
 # include <readline/history.h>
 # include "libft/libft.h"
 
-#define MAX_TOKENS 1000
-#define MAX_BUFFER 4096
+# define MAX_TOKENS 1000
+# define MAX_BUFFER 4096
 
 typedef struct s_cmd
 {
-	char		**args;
-	int		arg_count;
-	char		*operator;
+	char			**args;
+	int				arg_count;
+	char			*operator;
 	struct s_cmd	*next;
-} 			t_cmd;
+}					t_cmd;
 
 typedef struct s_shell
 {
@@ -72,7 +72,7 @@ void	process_input(t_shell *shell);
 void	tokenize_input(t_shell *shell);
 
 /* clusters.c */
-int	is_operator(char *str);
+int		is_operator(char *str);
 void	clusterize_tokens(t_shell *shell);
 
 /* cd.c */
