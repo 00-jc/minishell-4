@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 02:47:47 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/03 18:26:56 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/03 23:50:46 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_shell
 }		t_shell;
 
 /* init.c */
+char	*find_path(char *cmd, char **envp);
 int		init_shell(char **argv, char **envp, t_shell *shell);
 
 /* parsing.c */
@@ -74,11 +75,13 @@ void	tokenize_input(t_shell *shell);
 int	is_operator(char *str);
 void	clusterize_tokens(t_shell *shell);
 
-
 /* cd.c */
 char	*ms_cd(t_shell *shell);
 
 /* test.c */
 void	test_print(void);
+
+/* pipes */
+void	setup_pipe_fds(t_cmd *cmd, int prev_fd, int pipe_fd[2]);
 
 #endif

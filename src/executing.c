@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 16:48:33 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/03 23:12:23 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/03 23:52:49 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,6 @@ static void	execute_command(t_cmd *cmd, char **envp)
 		free(path);
 		perror("execve");
 		exit(126);
-	}
-}
-
-static void	setup_pipe_fds(t_cmd *cmd, int prev_fd, int pipe_fd[2])
-{
-	if (prev_fd != -1)
-	{
-		dup2(prev_fd, STDIN_FILENO);
-		close(prev_fd);
-	}
-	if (cmd->operator && ft_strncmp(cmd->operator, "|", 1) == 0)
-	{
-		close(pipe_fd[0]);
-		dup2(pipe_fd[1], STDOUT_FILENO);
-		close(pipe_fd[1]);
 	}
 }
 

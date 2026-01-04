@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 01:51:27 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/03 23:12:12 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/03 23:23:23 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	get_envp(char **envp, t_shell *shell)
 	return (0);
 }
 
-static char     *find_path(char *cmd, char **envp)
+char     *find_path(char *cmd, char **envp)
 {
         char    **paths;
         char    *path;
