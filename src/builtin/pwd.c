@@ -12,19 +12,12 @@
 
 #include "../../includes/minishell.h"
 
-int	main(int ac, char **av, char **env)
+int	main(void)
 {
-	int	i;
-
-	(void)ac;
-	(void)av;
-	i = 0;
-	if (!env)
-		return (1);
-	while (ft_strncmp(env[i], "PWD", 3) != 0)
-		i++;
-	if (!env[i])
-		return (1);
-	printf("%s\n", env[i] + 4);
+	char *cwd;
+	
+	cwd = getcwd(NULL, 0);
+	printf("%s",cwd);
+	free(cwd);
 	return (0);
 }
