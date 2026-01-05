@@ -28,6 +28,25 @@
 # define MAX_TOKENS 1000
 # define MAX_BUFFER 4096
 
+typedef enum e_token_type
+{
+	T_WORD,
+	T_ENDLINE,
+	T_PIPE,
+	T_INFILE,
+	T_OUTFILE,
+	T_APPEND,
+	T_HEREDOC,
+	T_AND,
+	T_OR
+}	t_token_type;
+
+typedef struct s_token
+{
+	t_token_type	type;
+	char			*value;
+}	t_token;
+
 typedef struct s_cmd
 {
 	char			**args;
@@ -41,11 +60,19 @@ typedef struct s_shell
 	char	**envp;
 	char	*prompt;
 	char	*input;
-	char	**token;
+	t_token	*token;
 	t_cmd	*cmd_list;
 	char	*config_file;
 	char	*history_file;
 }		t_shell;
+
+typedef struct s_redirect
+{
+	int		prev_fd;
+	int		heredoc;
+	int		fd[2];
+	pid_t	*child;
+}	t_redirect;
 
 /* init.c */
 char	*find_path(char *cmd, char **envp);
@@ -72,7 +99,7 @@ void	process_input(t_shell *shell);
 void	tokenize_input(t_shell *shell);
 
 /* clusters.c */
-int		is_operator(char *str);
+int		typify_token(t_token *token);
 void	clusterize_tokens(t_shell *shell);
 
 /* cd.c */

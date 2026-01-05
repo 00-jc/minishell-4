@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static t_cmd	*create_command(char **tokens, int start, int end, char *op)
+static t_cmd	*create_command(t_token	*token, int start, int end, char *op)
 {
 	t_cmd	*cmd;
 	int		i;
@@ -30,7 +30,7 @@ static t_cmd	*create_command(char **tokens, int start, int end, char *op)
 	i = 0;
 	while (i < cmd->arg_count)
 	{
-		cmd->args[i] = ft_strdup(tokens[start + i]);
+		cmd->args[i] = ft_strdup(token[start + i].value);
 		i++;
 	}
 	cmd->args[i] = NULL;
@@ -64,18 +64,19 @@ void	clusterize_tokens(t_shell *shell)
 
 	i = 0;
 	cmd_start = 0;
-	while (shell->token[i])
+	while (shell->token[i].value != NULL)
 	{
-		if (is_operator(shell->token[i]))
+		if (typify_token(&(shell->token[i])))
 		{
 			if (i > cmd_start)
 			{
 				cmd = create_command(shell->token, cmd_start,
-						i - 1, shell->token[i]);
+						i - 1, shell->token[i].value);
 				add_command_to_list(&shell->cmd_list, cmd);
 			}
 			cmd_start = i + 1;
 		}
+		printf("%d\n", shell->token[i].type);
 		i++;
 	}
 	if (i > cmd_start)
