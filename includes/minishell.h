@@ -47,7 +47,6 @@ typedef struct s_token
 	char			*value;
 }	t_token;
 
-
 typedef struct s_cmd
 {
 	char			**args;
@@ -66,6 +65,14 @@ typedef struct s_shell
 	char	*config_file;
 	char	*history_file;
 }		t_shell;
+
+typedef struct s_redirect
+{
+	int		prev_fd;
+	int		heredoc;
+	int		fd[2];
+	pid_t	*child;
+}	t_redirect;
 
 /* init.c */
 char	*find_path(char *cmd, char **envp);

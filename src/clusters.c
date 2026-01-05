@@ -76,6 +76,7 @@ void	clusterize_tokens(t_shell *shell)
 			}
 			cmd_start = i + 1;
 		}
+		printf("%d\n", shell->token[i].type);
 		i++;
 	}
 	if (i > cmd_start)
