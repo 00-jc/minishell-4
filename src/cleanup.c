@@ -68,9 +68,9 @@ void	black_hole(t_shell *shell)
 		free(shell->input);
 	if (shell->token)
 	{
-		while (shell->token[i])
+		while (shell->token[i].value)
 		{
-			free(shell->token[i]);
+			free(shell->token[i].value);
 			i++;
 		}
 		free(shell->token);

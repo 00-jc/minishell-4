@@ -11,16 +11,17 @@
 # **************************************************************************** #
 
 NAME		:= minishell
-CC		?= cc
-CFLAGS		?= -Wall -Wextra -Werror -Wpedantic -g
+CC			?= cc
+CFLAGS		?= -Wall -Wextra -Werror -Wpedantic -g3 -fsanitize=address
 CPPFLAGS	?= -Iincludes -Iincludes/libft -lreadline
 SRC_DIR		:= src
 OBJ_DIR		:= obj
-OBJ		= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
+OBJ			= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
 LIBFT_DIR	:= includes/libft
+LDLIBS 		= -lreadline -lncurses
 LIBFT		:= $(LIBFT_DIR)/libft.a
 TARGET_DIR	:= target
-RM		?= rm
+RM			?= rm
 BUILTIN_SRC_DIR	:= $(SRC_DIR)/builtin
 
 SRC	:= \
@@ -53,8 +54,8 @@ re:
 	$(MAKE) fclean
 	$(MAKE) all
 
-$(NAME): $(OBJ) $(LIBFT) | $(TARGET_DIR)
-	$(CC) $(CFLAGS) $(CPPFLAGS) $(OBJ) $(LIBFT) -o $(TARGET_DIR)/$(NAME)
+$(NAME): $(LIBFT) $(OBJ) | $(TARGET_DIR)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(LDLIBS) -o $(TARGET_DIR)/$(NAME)
 
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
