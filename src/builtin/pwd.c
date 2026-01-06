@@ -6,7 +6,7 @@
 /*   By: edblazqu <edblazqu@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 13:25:32 by edblazqu          #+#    #+#             */
-/*   Updated: 2026/01/06 01:29:09 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/06 01:34:55 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 int	ms_pwd(void)
 {
-	return(printf("%s", getcwd(NULL, 0)));
+	return(printf("%s\n", getcwd(NULL, 0)));
 }
