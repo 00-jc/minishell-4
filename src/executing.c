@@ -6,18 +6,24 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 16:48:33 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/03 23:52:49 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/06 01:56:11 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	execute_command(t_cmd *cmd, char **envp)
+int	is_builtin(t_cmd *cmd, char **envp)
+{
+	(void)envp;
+	if (strncmp("pwd", cmd->args[0], 3))
+		return (1);
+	return (0);
+}
+
+void	execute_external(t_cmd *cmd, char **envp)
 {
 	char	*path;
 
-	if (!cmd || !cmd->args || !cmd->args[0])
-		exit(127);
 	path = find_path(cmd->args[0], envp);
 	if (!path)
 	{
@@ -32,6 +38,17 @@ static void	execute_command(t_cmd *cmd, char **envp)
 		perror("execve");
 		exit(126);
 	}
+}
+
+static void	execute_command(t_cmd *cmd, char **envp)
+{
+	if (!cmd || !cmd->args || !cmd->args[0])
+		exit(127);
+	if (is_builtin(cmd, envp))
+		execute_builtin(cmd, envp)
+		
+	else if (!is_builtin(cmd, envp))
+		execute_external(cmd, envp);
 }
 
 static int	count_commands(t_cmd *cmd_list)

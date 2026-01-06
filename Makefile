@@ -6,22 +6,22 @@
 #    By: asoria <asoria@stedent.42madrid.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/15 00:26:06 by asoria            #+#    #+#              #
-#    Updated: 2026/01/03 23:52:16 by asoria           ###   ########.fr        #
+#    Updated: 2026/01/05 19:13:09 by asoria           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		:= minishell
-CC			?= cc
-CFLAGS		?= -Wall -Wextra -Werror -Wpedantic -g3 -fsanitize=address
-CPPFLAGS	?= -Iincludes -Iincludes/libft -lreadline
+CC		?= cc
+CFLAGS		?= -Wall -Wextra -Werror -Wpedantic -g3
+CPPFLAGS	?= -Iincludes -Iincludes/libft
 SRC_DIR		:= src
 OBJ_DIR		:= obj
-OBJ			= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
+OBJ		= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
 LIBFT_DIR	:= includes/libft
-LDLIBS 		= -lreadline -lncurses
+LDLIBS 		= -lreadline
 LIBFT		:= $(LIBFT_DIR)/libft.a
 TARGET_DIR	:= target
-RM			?= rm
+RM		?= rm
 BUILTIN_SRC_DIR	:= $(SRC_DIR)/builtin
 
 SRC	:= \

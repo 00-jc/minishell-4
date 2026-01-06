@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 02:47:47 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/04 21:45:14 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/06 01:43:56 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_token
 {
 	t_token_type	type;
 	char			*value;
+	size_t size;
 }	t_token;
 
 typedef struct s_cmd
@@ -102,8 +103,14 @@ void	tokenize_input(t_shell *shell);
 int		typify_token(t_token *token);
 void	clusterize_tokens(t_shell *shell);
 
+/* builtin.c */
+int	is_builtin(t_cmd *cmd, char **envp);
+
 /* cd.c */
 char	*ms_cd(t_shell *shell);
+
+/* pwd.c */
+int	ms_pwd(void);
 
 /* test.c */
 void	test_print(void);
