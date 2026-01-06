@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 00:53:59 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/04 21:41:02 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/06 02:48:13 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,6 @@ char	*find_path(char *cmd, char **envp)
 	char	*temp;
 	int		i;
 
-	if (!cmd || !*cmd)
-		return (NULL);
-	if (access(cmd, X_OK) == 0)
-		return (ft_strdup(cmd));
 	i = 0;
 	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5) != 0)
 		i++;

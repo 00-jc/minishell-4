@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 16:48:33 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/06 02:19:31 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/06 02:46:07 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	execute_builtin(t_cmd *cmd, char **envp)
 	(void)envp;
 	if (ft_strncmp(cmd->args[0], "pwd", 3) == 0)
 		ms_pwd();
-	return(1);
+	return (1);
 }
 
 void	execute_external(t_cmd *cmd, char **envp)

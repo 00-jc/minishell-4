@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 00:52:03 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/06 02:37:37 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/06 02:41:48 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	execute_pipeline(t_shell *shell)
 {
 	int		pipe_fd[2];
 	int		prev_fd;
-	pid_t	pids[MAX_TOKENS / 2];
+	pid_t	pids[(MAX_TOKENS / 2) + 1];
 	int		i;
 	int		cmd_count;
 	t_cmd	*cmd;
