@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 02:47:47 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/06 01:11:32 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/06 02:25:21 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_token
 {
 	t_token_type	type;
 	char			*value;
-	size_t size;
+	size_t			size;
 }	t_token;
 
 typedef struct s_cmd
@@ -77,6 +77,7 @@ typedef struct s_redirect
 
 /* init.c */
 char	*find_path(char *cmd, char **envp);
+void	process_input(t_shell *shell);
 int		init_shell(char **argv, char **envp, t_shell *shell);
 
 /* parsing.c */
@@ -93,9 +94,11 @@ void	free_cmd_list(t_cmd *cmd_list);
 void	black_hole(t_shell *shell);
 
 /* executing.c  */
-void	execute_pipeline(t_shell *shell);
-void	process_input(t_shell *shell);
-int	execute_builtin(t_cmd *cmd, char **envp);
+int	is_builtin(t_cmd *cmd, char **envp);
+int		execute_builtin(t_cmd *cmd, char **envp);
+void	execute_external(t_cmd *cmd, char **envp);
+void	execute_command(t_cmd *cmd, char **envp);
+int	count_commands(t_cmd *cmd_list);
 
 /* tokens.c */
 void	tokenize_input(t_shell *shell);
@@ -105,18 +108,16 @@ int		typify_token(t_token *token);
 void	clusterize_tokens(t_shell *shell);
 
 /* builtin.c */
-int	is_builtin(t_cmd *cmd, char **envp);
+int		is_builtin(t_cmd *cmd, char **envp);
 
 /* cd.c */
 char	*ms_cd(t_shell *shell);
 
 /* pwd.c */
-int	ms_pwd(void);
-
-/* test.c */
-void	test_print(void);
+void		ms_pwd();
 
 /* pipes */
+void	execute_pipeline(t_shell *shell);
 void	setup_pipe_fds(t_cmd *cmd, int prev_fd, int pipe_fd[2]);
 
 #endif
