@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 16:48:33 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/06 01:56:11 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/06 01:28:16 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,17 @@
 int	is_builtin(t_cmd *cmd, char **envp)
 {
 	(void)envp;
-	if (strncmp("pwd", cmd->args[0], 3))
+	if (strncmp("pwd", cmd->args[0], 3) == 0)
 		return (1);
 	return (0);
+}
+
+int	execute_builtin(t_cmd *cmd, char **envp)
+{
+	(void)envp;
+	if (ft_strncmp(cmd->args[0], "pwd", 3) == 0)
+		return (ms_pwd());
+	return(1);
 }
 
 void	execute_external(t_cmd *cmd, char **envp)
@@ -45,8 +53,7 @@ static void	execute_command(t_cmd *cmd, char **envp)
 	if (!cmd || !cmd->args || !cmd->args[0])
 		exit(127);
 	if (is_builtin(cmd, envp))
-		execute_builtin(cmd, envp)
-		
+		execute_builtin(cmd, envp);
 	else if (!is_builtin(cmd, envp))
 		execute_external(cmd, envp);
 }

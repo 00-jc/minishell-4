@@ -6,7 +6,7 @@
 #    By: asoria <asoria@stedent.42madrid.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/15 00:26:06 by asoria            #+#    #+#              #
-#    Updated: 2026/01/05 19:13:09 by asoria           ###   ########.fr        #
+#    Updated: 2026/01/06 01:21:33 by asoria           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,8 @@ SRC	:= \
 	$(SRC_DIR)/clusters.c \
 	$(SRC_DIR)/utils.c \
 	$(SRC_DIR)/pipes.c \
-	$(BUILTIN_SRC_DIR)/cd.c
+	$(BUILTIN_SRC_DIR)/cd.c \
+	$(BUILTIN_SRC_DIR)/pwd.c
 
 all:	$(NAME)
 

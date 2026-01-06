@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 02:47:47 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/06 01:43:56 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/06 01:11:32 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void	black_hole(t_shell *shell);
 /* executing.c  */
 void	execute_pipeline(t_shell *shell);
 void	process_input(t_shell *shell);
+int	execute_builtin(t_cmd *cmd, char **envp);
 
 /* tokens.c */
 void	tokenize_input(t_shell *shell);
