@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 02:47:47 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/06 02:25:21 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/06 03:24:22 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +94,11 @@ void	free_cmd_list(t_cmd *cmd_list);
 void	black_hole(t_shell *shell);
 
 /* executing.c  */
-int	is_builtin(t_cmd *cmd, char **envp);
+int		is_builtin(t_cmd *cmd, char **envp);
 int		execute_builtin(t_cmd *cmd, char **envp);
 void	execute_external(t_cmd *cmd, char **envp);
 void	execute_command(t_cmd *cmd, char **envp);
-int	count_commands(t_cmd *cmd_list);
+int		count_commands(t_cmd *cmd_list);
 
 /* tokens.c */
 void	tokenize_input(t_shell *shell);
@@ -114,7 +114,7 @@ int		is_builtin(t_cmd *cmd, char **envp);
 char	*ms_cd(t_shell *shell);
 
 /* pwd.c */
-void		ms_pwd();
+void	ms_pwd(void);
 
 /* pipes */
 void	execute_pipeline(t_shell *shell);

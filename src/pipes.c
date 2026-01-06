@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 00:52:03 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/06 02:41:48 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/06 03:23:05 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,59 +17,43 @@ int	op_is_pipe(void)
 	return (0);
 }
 
+void	check_if_pipe(char *op, int *prev_fd, int (*pipe_fd)[2])
+{
+	if (op && ft_strncmp(op, "|", 1) == 0)
+	{
+		close((*pipe_fd)[1]);
+		*prev_fd = (*pipe_fd)[0];
+	}
+	else
+		*prev_fd = -1;
+}
+
 void	execute_pipeline(t_shell *shell)
 {
-	int		pipe_fd[2];
 	int		prev_fd;
-	pid_t	pids[(MAX_TOKENS / 2) + 1];
-	int		i;
-	int		cmd_count;
+	int		pipe_fd[2];
 	t_cmd	*cmd;
 
 	if (!shell->cmd_list)
 		return ;
-	cmd_count = count_commands(shell->cmd_list);
-	cmd = shell->cmd_list;
 	prev_fd = -1;
-	i = 0;
+	cmd = shell->cmd_list;
 	while (cmd)
 	{
-		pids[i] = fork();
-		if (pids[i] == -1)
-		{
-			perror("fork");
-			if (prev_fd != -1)
-				close(prev_fd);
-			if (cmd->operator && ft_strncmp(cmd->operator, "|", 1) == 0)
-			{
-				close(pipe_fd[0]);
-				close(pipe_fd[1]);
-			}
-			return ;
-		}
-		if (pids[i] == 0)
+		if (cmd->operator && ft_strncmp(cmd->operator, "|", 1) == 0)
+			pipe(pipe_fd);
+		if (fork() == 0)
 		{
 			setup_pipe_fds(cmd, prev_fd, pipe_fd);
 			execute_command(cmd, shell->envp);
 		}
 		if (prev_fd != -1)
 			close(prev_fd);
-		if (cmd->operator && ft_strncmp(cmd->operator, "|", 1) == 0)
-		{
-			close(pipe_fd[1]);
-			prev_fd = pipe_fd[0];
-		}
-		else
-			prev_fd = -1;
+		check_if_pipe(cmd->operator, &prev_fd, &pipe_fd);
 		cmd = cmd->next;
-		i++;
 	}
-	i = 0;
-	while (i < cmd_count)
-	{
-		waitpid(pids[i], NULL, 0);
-		i++;
-	}
+	while (wait(NULL) > 0)
+		;
 }
 
 void	setup_pipe_fds(t_cmd *cmd, int prev_fd, int pipe_fd[2])
