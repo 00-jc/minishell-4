@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/02 14:46:48 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/06 01:34:28 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/06 03:28:19 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ void	clusterize_tokens(t_shell *shell)
 			add_command_to_list(&shell->cmd_list, cmd);
 			cmd_start = i + 1;
 		}
-		printf("%d\n", shell->token[i].type);
 		i++;
 	}
 	if (i > cmd_start)
