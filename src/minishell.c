@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 02:46:23 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/04 00:51:10 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/07 02:09:27 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,11 @@ void	minishell(t_shell *shell, char **argv, char **envp)
 	{
 		read_input(shell);
 		if (!shell->input)
+		{
+			black_hole(shell);
 			break ;
-		if (*shell->input)
+		}
+		else if (*shell->input)
 		{
 			tokenize_input(shell);
 			clusterize_tokens(shell);

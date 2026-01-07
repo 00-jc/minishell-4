@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 21:15:11 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/03 18:15:08 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/07 02:06:05 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,41 +41,47 @@ void	free_cmd_list(t_cmd *cmd_list)
 		free(current);
 		current = next;
 	}
+	cmd_list = NULL;
 }
 
-void	free_envp(t_shell *shell)
+void	free_envp(char **envp)
 {
 	int	i;
 
 	i = 0;
-	if (shell->envp)
+	if (envp)
 	{
-		while (shell->envp[i])
+		while (envp[i])
 		{
-			free(shell->envp[i]);
+			free(envp[i]);
 			i++;
 		}
-		free(shell->envp);
+		free(envp);
+	}
+}
+
+void	free_tokens(t_token *token)
+{
+	int	i;
+
+	i = 0;
+	if (token)
+	{
+		while (token[i].value)
+		{
+			free(token[i].value);
+			i++;
+		}
+		free(token);
 	}
 }
 
 void	black_hole(t_shell *shell)
 {
-	int	i;
-
-	i = 0;
 	if (shell->input)
 		free(shell->input);
-	if (shell->token)
-	{
-		while (shell->token[i].value)
-		{
-			free(shell->token[i].value);
-			i++;
-		}
-		free(shell->token);
-	}
+	free_tokens(shell->token);
 	free_cmd_list(shell->cmd_list);
-	shell->cmd_list = NULL;
+	free_envp(shell->envp);
 	write_history(shell->history_file);
 }
