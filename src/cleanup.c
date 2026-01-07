@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 21:15:11 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/07 02:06:05 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/07 03:49:04 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,61 +27,65 @@ void	free_split(char **tokens)
 	free(tokens);
 }
 
-void	free_cmd_list(t_cmd *cmd_list)
+void	free_cmd_list(t_cmd **cmd_list)
 {
 	t_cmd	*current;
 	t_cmd	*next;
 
-	current = cmd_list;
+	if (!cmd_list || !*cmd_list)
+		return ;
+	current = *cmd_list;
 	while (current)
 	{
 		next = current->next;
 		if (current->args)
-			free(current->args);
+			free_split(current->args);
 		free(current);
 		current = next;
 	}
-	cmd_list = NULL;
+	*cmd_list = NULL;
 }
 
-void	free_envp(char **envp)
+void	free_envp(char ***envp)
 {
 	int	i;
 
+	if (!envp || !*envp)
+		return ;
 	i = 0;
-	if (envp)
+	while ((*envp)[i])
 	{
-		while (envp[i])
-		{
-			free(envp[i]);
-			i++;
-		}
-		free(envp);
+		free((*envp)[i]);
+		i++;
 	}
+	free(*envp);
+	*envp = NULL;
 }
 
-void	free_tokens(t_token *token)
+void	free_tokens(t_token **token)
 {
 	int	i;
 
+	if (!token || !*token)
+		return ;
 	i = 0;
-	if (token)
+	while ((*token)[i].value)
 	{
-		while (token[i].value)
-		{
-			free(token[i].value);
-			i++;
-		}
-		free(token);
+		free((*token)[i].value);
+		i++;
 	}
+	free(*token);
+	*token = NULL;
 }
 
 void	black_hole(t_shell *shell)
 {
 	if (shell->input)
+	{
 		free(shell->input);
-	free_tokens(shell->token);
-	free_cmd_list(shell->cmd_list);
-	free_envp(shell->envp);
+		shell->input = NULL;
+	}
+	free_tokens(&shell->token);
+	free_cmd_list(&shell->cmd_list);
 	write_history(shell->history_file);
 }

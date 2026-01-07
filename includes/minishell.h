@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 02:47:47 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/06 03:24:22 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/07 03:50:03 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,9 @@ void	print_cmd_list(t_cmd *cmd_list);
 void	print_envp(t_shell *shell);
 
 /* cleanup.c */
+void	free_envp(char ***envp);
 void	free_split(char **tokens);
-void	free_cmd_list(t_cmd *cmd_list);
+void	free_cmd_list(t_cmd **cmd_list);
 void	black_hole(t_shell *shell);
 
 /* executing.c  */

@@ -6,15 +6,16 @@
 /*   By: edblazqu <edblazqu@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 13:25:32 by edblazqu          #+#    #+#             */
-/*   Updated: 2026/01/06 03:47:31 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/07 03:53:32 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* WIP: THIS IS NOT THE FINISHED FUNCTION, IT ACCEPTS NO ARGUMENTS, IT IS
- * UNCOMPLETE */
 void	ms_pwd(void)
 {
-	printf("%s\n", getcwd(NULL, 0));
+	char	cwd[PATH_MAX];
+
+	if (getcwd(cwd, PATH_MAX))
+		printf("%s\n", cwd);
 }

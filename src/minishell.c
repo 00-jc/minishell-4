@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 02:46:23 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/07 02:09:27 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/07 03:51:02 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	minishell(t_shell *shell, char **argv, char **envp)
 		if (!shell->input)
 		{
 			black_hole(shell);
+			free_envp(&shell->envp);
 			break ;
 		}
 		else if (*shell->input)
@@ -31,6 +32,7 @@ void	minishell(t_shell *shell, char **argv, char **envp)
 			black_hole(shell);
 		}
 	}
+	free_envp(&shell->envp);
 }
 
 int	main(int argc, char **argv, char **envp)
