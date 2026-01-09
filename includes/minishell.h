@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 02:47:47 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/07 03:50:03 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/09 04:55:48 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void	clusterize_tokens(t_shell *shell);
 int		is_builtin(t_cmd *cmd, char **envp);
 
 /* cd.c */
-char	*ms_cd(t_shell *shell);
+char	*ms_cd(char *arg);
 
 /* pwd.c */
 void	ms_pwd(void);

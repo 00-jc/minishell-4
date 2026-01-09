@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 16:48:33 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/06 02:46:07 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/09 04:56:49 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	is_builtin(t_cmd *cmd, char **envp)
 	(void)envp;
 	if (strncmp("pwd", cmd->args[0], 3) == 0)
 		return (1);
+	if (strncmp("cd", cmd->args[0], 2) == 0)
+		return (1);
 	return (0);
 }
 
@@ -25,6 +27,8 @@ int	execute_builtin(t_cmd *cmd, char **envp)
 	(void)envp;
 	if (ft_strncmp(cmd->args[0], "pwd", 3) == 0)
 		ms_pwd();
+	if (ft_strncmp(cmd->args[0], "cd", 2) == 0)
+		ms_cd(cmd->args[1]);
 	return (1);
 }
 
