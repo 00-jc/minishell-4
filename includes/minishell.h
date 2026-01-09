@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 02:47:47 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/09 04:55:48 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/09 06:20:32 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,12 @@ char	*ms_cd(char *arg);
 
 /* pwd.c */
 void	ms_pwd(void);
+
+/* env.c */
+void	ms_env(char **envp);
+
+/* echo.c */
+void	ms_echo(char *arg1, char *arg2);
 
 /* pipes */
 void	execute_pipeline(t_shell *shell);
