@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 00:52:03 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/06 03:23:05 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/11 02:12:32 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	execute_pipeline(t_shell *shell)
 		{
 			setup_pipe_fds(cmd, prev_fd, pipe_fd);
 			execute_command(cmd, shell->envp);
+			exit(0);
 		}
 		if (prev_fd != -1)
 			close(prev_fd);
