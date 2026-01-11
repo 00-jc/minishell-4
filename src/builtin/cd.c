@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 18:49:10 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/09 06:01:44 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/11 03:18:10 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*ms_cd(char *arg)
 	char	*new_dir;
 
 	new_dir = get_new_dir(arg);
-	if (chdir(new_dir) == 1)
+	if (chdir(new_dir) == -1)
 	{
 		perror("cd");
 		free(new_dir);

@@ -96,7 +96,7 @@ void	black_hole(t_shell *shell);
 
 /* executing.c  */
 int		is_builtin(t_cmd *cmd, char **envp);
-int		execute_builtin(t_cmd *cmd, char **envp);
+int		execute_builtin(t_cmd *cmd, char ***envp);
 void	execute_external(t_cmd *cmd, char **envp);
 void	execute_command(t_cmd *cmd, char **envp);
 int		count_commands(t_cmd *cmd_list);
@@ -123,8 +123,20 @@ void	ms_env(char **envp);
 /* echo.c */
 void	ms_echo(char *arg1, char *arg2);
 
+/* export.c */
+void	ms_export(char *arg, char ***envp);
+
+/* unset.c */
+void	ms_unset(char *arg, char ***envp);
+
+/* exit.c */
+void	ms_exit(char *arg);
+
 /* pipes */
 void	execute_pipeline(t_shell *shell);
 void	setup_pipe_fds(t_cmd *cmd, int prev_fd, int pipe_fd[2]);
+
+/* utils.c */
+int	is_environment_modifier(t_cmd *cmd);
 
 #endif
