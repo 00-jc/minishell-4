@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 00:53:59 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/06 02:48:13 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/12 21:05:44 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,12 @@ static void	init_config_file(t_shell *shell)
 
 static void	init_rl_history(t_shell *shell)
 {
+	int	fd;
+
 	shell->history_file = ".ms_history";
+	fd = open(shell->history_file, O_RDWR | O_CREAT, 0644);
+	if (fd < 0)
+		printf("Couldn't open .ms_history: %s\n", strerror(errno));
 	read_history(shell->history_file);
 }
 
