@@ -40,17 +40,23 @@ void	execute_pipeline(t_shell *shell)
 	cmd = shell->cmd_list;
 	while (cmd)
 	{
-		if (cmd->operator && ft_strncmp(cmd->operator, "|", 1) == 0)
-			pipe(pipe_fd);
-		if (fork() == 0)
+		if (is_environment_modifier(cmd) &&
+				(!cmd->operator || ft_strncmp(cmd->operator, "|", 1) != 0))
+			execute_builtin(cmd, &shell->envp);
+		else
 		{
-			setup_pipe_fds(cmd, prev_fd, pipe_fd);
-			execute_command(cmd, shell->envp);
-			exit(0);
+			if (cmd->operator && ft_strncmp(cmd->operator, "|", 1) == 0)
+				pipe(pipe_fd);
+			if (fork() == 0)
+			{
+				setup_pipe_fds(cmd, prev_fd, pipe_fd);
+				execute_command(cmd, shell->envp);
+				exit(0);
+			}
+			if (prev_fd != -1)
+				close(prev_fd);
+			check_if_pipe(cmd->operator, &prev_fd, &pipe_fd);
 		}
-		if (prev_fd != -1)
-			close(prev_fd);
-		check_if_pipe(cmd->operator, &prev_fd, &pipe_fd);
 		cmd = cmd->next;
 	}
 	while (wait(NULL) > 0)
