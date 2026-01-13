@@ -66,7 +66,7 @@ void	clusterize_tokens(t_shell *shell)
 	cmd_start = 0;
 	while (shell->token[i].value != NULL)
 	{
-		if (typify_token(&(shell->token[i])) && i > cmd_start)
+		if (classify_token(&(shell->token[i])) && i > cmd_start)
 		{
 			cmd = create_command(shell->token, cmd_start,
 					i - 1, shell->token[i].value);

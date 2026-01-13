@@ -108,7 +108,7 @@ int		count_commands(t_cmd *cmd_list);
 void	tokenize_input(t_shell *shell);
 
 /* clusters.c */
-int		typify_token(t_token *token);
+int		classify_token(t_token *token);
 void	clusterize_tokens(t_shell *shell);
 
 /* builtin.c */
@@ -136,6 +136,7 @@ void	ms_unset(char *arg, char ***envp);
 void	ms_exit(t_shell *shell, char *arg);
 
 /* pipes */
+void	check_if_pipe(char *op, int *prev_fd, int (*pipe_fd)[2]);
 void	execute_pipeline(t_shell *shell);
 void	setup_pipe_fds(t_cmd *cmd, int prev_fd, int pipe_fd[2]);
 
