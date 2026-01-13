@@ -54,7 +54,7 @@ typedef struct s_cmd
 {
 	char			**args;
 	int				arg_count;
-	char			*operator;
+	t_token_type	operator;
 	struct s_cmd	*next;
 }					t_cmd;
 

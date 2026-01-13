@@ -12,7 +12,8 @@
 
 #include "minishell.h"
 
-static t_cmd	*create_command(t_token	*token, int start, int end, char *op)
+static t_cmd	*create_command(t_token	*token, int start, int end,
+				t_token_type op)
 {
 	t_cmd	*cmd;
 	int		i;
@@ -69,7 +70,7 @@ void	clusterize_tokens(t_shell *shell)
 		if (classify_token(&(shell->token[i])) && i > cmd_start)
 		{
 			cmd = create_command(shell->token, cmd_start,
-					i - 1, shell->token[i].value);
+					i - 1, shell->token[i].type);
 			add_command_to_list(&shell->cmd_list, cmd);
 			cmd_start = i + 1;
 		}
@@ -77,7 +78,7 @@ void	clusterize_tokens(t_shell *shell)
 	}
 	if (i > cmd_start)
 	{
-		cmd = create_command(shell->token, cmd_start, i - 1, NULL);
+		cmd = create_command(shell->token, cmd_start, i - 1, 0);
 		add_command_to_list(&shell->cmd_list, cmd);
 	}
 }

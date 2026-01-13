@@ -51,6 +51,12 @@ void	execute_command(t_shell *shell, t_cmd *cmd, char **envp)
 void	execute_pipeline(t_shell *shell)
 {
 	t_redirect	redir;
+	t_cmd		*cmd;
 
-	
+	redir.n_child = count_commands(shell->cmd_list);
+	cmd = shell->cmd_list;
+	while (cmd)
+	{
+		
+	}
 }
