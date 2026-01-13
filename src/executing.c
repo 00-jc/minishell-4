@@ -88,17 +88,37 @@ void	execute_command(t_shell *shell, t_cmd *cmd, char **envp)
 		execute_external(cmd, envp);
 }
 
-int	count_commands(t_cmd *cmd_list)
+void	execute_pipeline(t_shell *shell)
 {
-	int		count;
-	t_cmd	*current;
+	int		prev_fd;
+	int		pipe_fd[2];
+	t_cmd	*cmd;
 
-	count = 0;
-	current = cmd_list;
-	while (current)
+	if (!shell->cmd_list)
+		return ;
+	prev_fd = -1;
+	cmd = shell->cmd_list;
+	while (cmd)
 	{
-		count++;
-		current = current->next;
+		if (is_environment_modifier(cmd) &&
+				(!cmd->operator || ft_strncmp(cmd->operator, "|", 1) != 0))
+			execute_builtin(shell, cmd, &shell->envp);
+		else
+		{
+			if (cmd->operator && ft_strncmp(cmd->operator, "|", 1) == 0)
+				pipe(pipe_fd);
+			if (fork() == 0)
+			{
+				setup_pipe_fds(cmd, prev_fd, pipe_fd);
+				execute_command(shell, cmd, shell->envp);
+				exit(0);
+			}
+			if (prev_fd != -1)
+				close(prev_fd);
+			check_if_pipe(cmd->operator, &prev_fd, &pipe_fd);
+		}
+		cmd = cmd->next;
 	}
-	return (count);
+	while (wait(NULL) > 0)
+		;
 }

@@ -140,6 +140,7 @@ void	execute_pipeline(t_shell *shell);
 void	setup_pipe_fds(t_cmd *cmd, int prev_fd, int pipe_fd[2]);
 
 /* utils.c */
-int	is_environment_modifier(t_cmd *cmd);
+int		is_environment_modifier(t_cmd *cmd);
+int		count_commands(t_cmd *cmd_list);
 
 #endif
