@@ -22,6 +22,7 @@ LDLIBS 		:= -lreadline
 LIBFT		:= $(LIBFT_DIR)/libft.a
 TARGET_DIR	:= target
 RM		?= rm
+EXECUTION_SRC_DIR := $(SRC_DIR)/execution
 BUILTIN_SRC_DIR	:= $(SRC_DIR)/builtin
 
 SRC	:= \
@@ -30,11 +31,12 @@ SRC	:= \
 	$(SRC_DIR)/parsing.c \
 	$(SRC_DIR)/debug.c \
 	$(SRC_DIR)/cleanup.c \
-	$(SRC_DIR)/executing.c \
 	$(SRC_DIR)/tokens.c \
 	$(SRC_DIR)/clusters.c \
 	$(SRC_DIR)/pipes.c \
 	$(SRC_DIR)/utils.c \
+	$(EXECUTION_SRC_DIR)/executor.c \
+	$(EXECUTION_SRC_DIR)/builtins.c \
 	$(BUILTIN_SRC_DIR)/cd.c \
 	$(BUILTIN_SRC_DIR)/env.c \
 	$(BUILTIN_SRC_DIR)/echo.c \

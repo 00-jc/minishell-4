@@ -14,7 +14,6 @@
 # define MINISHELL_H
 
 # include <stdio.h>
-# include <stdbool.h>
 # include <unistd.h>
 # include <sys/wait.h>
 # include <fcntl.h>
@@ -28,6 +27,8 @@
 
 # define MAX_TOKENS 1000
 # define MAX_BUFFER 4096
+# define true 1
+# define false 0
 
 typedef enum e_token_type
 {
@@ -59,7 +60,7 @@ typedef struct s_cmd
 
 typedef struct s_shell
 {
-	bool	is_alive;
+	int		is_alive;
 	int		exit_code;
 	char	**envp;
 	char	*prompt;
@@ -72,6 +73,7 @@ typedef struct s_shell
 
 typedef struct s_redirect
 {
+	int		n_child;
 	int		prev_fd;
 	int		heredoc;
 	int		fd[2];
