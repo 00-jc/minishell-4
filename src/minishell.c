@@ -17,7 +17,8 @@ void	minishell(t_shell *shell, char **argv, char **envp)
 	init_shell(argv, envp, shell);
 	while (1)
 	{
-		read_input(shell);
+		if (shell->is_alive)
+			read_input(shell);
 		if (!shell->input)
 		{
 			black_hole(shell);
@@ -41,5 +42,5 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	minishell(&shell, argv, envp);
-	return (0);
+	return (shell.exit_code);
 }

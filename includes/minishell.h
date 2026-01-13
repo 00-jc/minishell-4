@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include <stdio.h>
+# include <stdbool.h>
 # include <unistd.h>
 # include <sys/wait.h>
 # include <fcntl.h>
@@ -58,6 +59,8 @@ typedef struct s_cmd
 
 typedef struct s_shell
 {
+	bool	is_alive;
+	int		exit_code;
 	char	**envp;
 	char	*prompt;
 	char	*input;
@@ -96,9 +99,9 @@ void	black_hole(t_shell *shell);
 
 /* executing.c  */
 int		is_builtin(t_cmd *cmd, char **envp);
-int		execute_builtin(t_cmd *cmd, char ***envp);
+int		execute_builtin(t_shell *shell, t_cmd *cmd, char ***envp);
 void	execute_external(t_cmd *cmd, char **envp);
-void	execute_command(t_cmd *cmd, char **envp);
+void	execute_command(t_shell *shell, t_cmd *cmd, char **envp);
 int		count_commands(t_cmd *cmd_list);
 
 /* tokens.c */
@@ -130,7 +133,7 @@ void	ms_export(char *arg, char ***envp);
 void	ms_unset(char *arg, char ***envp);
 
 /* exit.c */
-void	ms_exit(char *arg);
+void	ms_exit(t_shell *shell, char *arg);
 
 /* pipes */
 void	execute_pipeline(t_shell *shell);

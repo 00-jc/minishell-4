@@ -94,6 +94,8 @@ int	init_shell(char **argv, char **envp, t_shell *shell)
 {
 	(void)argv;
 	ft_bzero(shell, sizeof(t_shell));
+	shell->is_alive = true;
+	shell->exit_code = 0;
 	shell->cmd_list = NULL;
 	get_envp(envp, shell);
 	init_config_file(shell);

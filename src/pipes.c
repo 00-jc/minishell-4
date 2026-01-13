@@ -42,7 +42,7 @@ void	execute_pipeline(t_shell *shell)
 	{
 		if (is_environment_modifier(cmd) &&
 				(!cmd->operator || ft_strncmp(cmd->operator, "|", 1) != 0))
-			execute_builtin(cmd, &shell->envp);
+			execute_builtin(shell, cmd, &shell->envp);
 		else
 		{
 			if (cmd->operator && ft_strncmp(cmd->operator, "|", 1) == 0)
@@ -50,7 +50,7 @@ void	execute_pipeline(t_shell *shell)
 			if (fork() == 0)
 			{
 				setup_pipe_fds(cmd, prev_fd, pipe_fd);
-				execute_command(cmd, shell->envp);
+				execute_command(shell, cmd, shell->envp);
 				exit(0);
 			}
 			if (prev_fd != -1)

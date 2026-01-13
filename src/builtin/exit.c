@@ -12,15 +12,14 @@
 
 #include "minishell.h"
 
-void	ms_exit(char *arg)
+void	ms_exit(t_shell *shell, char *arg)
 {
 	int	exit_code;
 
 	exit_code = 0;
 	if (arg)
-	{
 		exit_code = ft_atoi(arg);
-	}
 	printf("exit\n");
-	exit(exit_code);
+	shell->is_alive = 0;
+	shell->exit_code = exit_code;
 }
