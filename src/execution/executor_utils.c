@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	*search_command(char *cmd, t_shell *shell)
+char	*search_cmd(char *cmd, t_shell *shell)
 {
 	char	*route;
 	size_t	i;
@@ -41,7 +41,7 @@ void	init_redir(t_redirect *redir)
 	redir->heredoc = 0;
 	redir->prev_fd = -1;
 	redir->n_child = 1;
-	redir->child = malloc(sizeof(pid_t));
+	redir->child = malloc(sizeof(pid_t) * redir->n_child);
 	if (!redir->child)
 	{
 		perror("Error: ");

@@ -74,11 +74,12 @@ typedef struct s_shell
 
 typedef struct s_redirect
 {
+	int		heredoc;
 	int		n_child;
 	int		prev_fd;
-	int		heredoc;
 	int		fd[2];
 	pid_t	*child;
+	char	**now_route;
 }	t_redirect;
 
 /* init.c */
@@ -100,17 +101,18 @@ void	free_split(char **tokens);
 void	free_cmd_list(t_cmd **cmd_list);
 void	black_hole(t_shell *shell);
 
-/* executor.c  */
+/* execution/executor.c  */
 int		is_builtin(t_cmd *cmd, char **envp);
 int		execute_builtin(t_shell *shell, t_cmd *cmd, char ***envp);
 void	execute_external(t_cmd *cmd, t_redirect *redir,char **envp);
 void	execute_command(t_shell *shell, t_cmd *cmd, char **envp);
 int		count_commands(t_cmd *cmd_list);
 
-/* executor_utils.c */
+/* execution/executor_utils.c */
+char	*search_cmd(char *cmd, t_shell *shell);
 void	init_redir(t_redirect *redir);
 
-/* pipes.c */
+/* execution/pipes.c */
 
 int		dup2_manager(int fd_stdout, int fd_stdin);
 void	close_pipes(int pipe[2]);

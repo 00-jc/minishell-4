@@ -58,11 +58,14 @@ void	execute_pipeline(t_shell *shell)
 {
 	t_redirect	redir;
 	t_cmd		*cmd;
+	char		*route;
 
-	redir.n_child = count_commands(shell->cmd_list);
+	init_redir(&redir);
 	cmd = shell->cmd_list;
 	while (cmd)
 	{
-		
+		redir.now_route = cmd->args;
+		execute_command(shell, cmd, shell->envp);
+		cmd = cmd->next;
 	}
 }
