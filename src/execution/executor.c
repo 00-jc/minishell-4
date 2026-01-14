@@ -12,24 +12,30 @@
 
 #include "minishell.h"
 
-void	execute_external(t_cmd *cmd, char **envp)
+static void	new_child(t_redirect *redir, int fd_pipe[2], size_t i, char **envp)
 {
-	char	*path;
+	redir->child[i] = fork();
+	if (redir->child[i] == 0)
+	{
+		if (i == 0)
+			dup2_manager(fd_pipe[1], redir->fd[0]);
+		else if (i == redir->n_child - 1)
+			dup2_manager(redir->fd[1], redir->prev_fd);
+		else
+			dup2_manager(fd_pipe[1], redir->prev_fd);
+		if (i != 0)
+			close(redir->prev_fd);
+		close_pipes(redir->fd);
+		close_pipes(fd_pipe);
+		execve();
+	}
+	else if (redir->child[i] < 0)
+		
+}
 
-	path = find_path(cmd->args[0], envp);
-	if (!path)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(cmd->args[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
-		exit(127);
-	}
-	if (execve(path, cmd->args, envp) == -1)
-	{
-		free(path);
-		perror("execve");
-		exit(126);
-	}
+void	execute_external(t_cmd *cmd, t_redirect *redir,char **envp)
+{
+	
 }
 
 void	execute_command(t_shell *shell, t_cmd *cmd, char **envp)

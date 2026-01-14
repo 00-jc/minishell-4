@@ -100,12 +100,20 @@ void	free_split(char **tokens);
 void	free_cmd_list(t_cmd **cmd_list);
 void	black_hole(t_shell *shell);
 
-/* executing.c  */
+/* executor.c  */
 int		is_builtin(t_cmd *cmd, char **envp);
 int		execute_builtin(t_shell *shell, t_cmd *cmd, char ***envp);
-void	execute_external(t_cmd *cmd, char **envp);
+void	execute_external(t_cmd *cmd, t_redirect *redir,char **envp);
 void	execute_command(t_shell *shell, t_cmd *cmd, char **envp);
 int		count_commands(t_cmd *cmd_list);
+
+/* executor_utils.c */
+void	init_redir(t_redirect *redir);
+
+/* pipes.c */
+
+int		dup2_manager(int fd_stdout, int fd_stdin);
+void	close_pipes(int pipe[2]);
 
 /* tokens.c */
 void	tokenize_input(t_shell *shell);
@@ -137,11 +145,6 @@ void	ms_unset(char *arg, char ***envp);
 
 /* exit.c */
 void	ms_exit(t_shell *shell, char *arg);
-
-/* pipes */
-void	check_if_pipe(char *op, int *prev_fd, int (*pipe_fd)[2]);
-void	execute_pipeline(t_shell *shell);
-void	setup_pipe_fds(t_cmd *cmd, int prev_fd, int pipe_fd[2]);
 
 /* utils.c */
 int		is_environment_modifier(t_cmd *cmd);

@@ -33,3 +33,18 @@ char	*search_command(char *cmd, t_shell *shell)
 	}
 	return (route);
 }
+
+void	init_redir(t_redirect *redir)
+{
+	redir->fd[0] = 0;
+	redir->fd[1] = 1;
+	redir->heredoc = 0;
+	redir->prev_fd = -1;
+	redir->n_child = 1;
+	redir->child = malloc(sizeof(pid_t));
+	if (!redir->child)
+	{
+		perror("Error: ");
+		return ;
+	}
+}

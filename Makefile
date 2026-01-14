@@ -33,9 +33,10 @@ SRC	:= \
 	$(SRC_DIR)/cleanup.c \
 	$(SRC_DIR)/tokens.c \
 	$(SRC_DIR)/clusters.c \
-	$(SRC_DIR)/pipes.c \
 	$(SRC_DIR)/utils.c \
 	$(EXECUTION_SRC_DIR)/executor.c \
+	$(EXECUTION_SRC_DIR)/pipes.c \
+	$(EXECUTION_SRC_DIR)/executor_utils.c \
 	$(EXECUTION_SRC_DIR)/builtins.c \
 	$(BUILTIN_SRC_DIR)/cd.c \
 	$(BUILTIN_SRC_DIR)/env.c \
