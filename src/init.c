@@ -40,31 +40,23 @@ static int	get_envp(char **envp, t_shell *shell)
 	return (0);
 }
 
-char	*find_path(char *cmd, char **envp)
+void	refresh_path(t_shell *shell)
 {
-	char	**paths;
-	char	*path;
-	char	*temp;
-	int		i;
+	size_t	i;
 
 	i = 0;
-	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5) != 0)
-		i++;
-	if (!envp[i])
-		return (NULL);
-	paths = ft_split(envp[i] + 5, ':');
-	i = 0;
-	while (paths[i])
+	while (shell->envp[i])
 	{
-		temp = ft_strjoin(paths[i], "/");
-		path = ft_strjoin(temp, cmd);
-		free(temp);
-		if (access(path, X_OK) == 0)
-			return (free_split(paths), path);
-		free(path);
+		if (ft_strncmp(shell->envp[i], "PATH=", 5) == 0)
+		{
+			shell->path = ft_split(shell->envp[i] + 5, ':');
+			slash_path(shell);
+			break ;
+		}
 		i++;
 	}
-	return (free_split(paths), NULL);
+	if (!shell->envp[i] || !shell->path)
+		shell->path = NULL;
 }
 
 static void	init_config_file(t_shell *shell)

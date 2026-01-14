@@ -27,6 +27,7 @@ void	minishell(t_shell *shell, char **argv, char **envp)
 		}
 		else if (*shell->input)
 		{
+			refresh_path(shell);
 			tokenize_input(shell);
 			clusterize_tokens(shell);
 			execute_pipeline(shell);

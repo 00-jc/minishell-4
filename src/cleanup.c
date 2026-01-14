@@ -78,6 +78,19 @@ void	free_tokens(t_token **token)
 	*token = NULL;
 }
 
+void	free_path(char ***path)
+{
+	size_t	i;
+
+	i = 0;
+	while ((*path)[i])
+	{
+		free((*path)[i]);
+	}
+	free(*path);
+	*path = NULL;
+}
+
 void	black_hole(t_shell *shell)
 {
 	if (shell->input)
@@ -86,6 +99,7 @@ void	black_hole(t_shell *shell)
 		shell->input = NULL;
 	}
 	free_tokens(&shell->token);
+	free_path(shell->path);
 	free_cmd_list(&shell->cmd_list);
 	write_history(shell->history_file);
 }

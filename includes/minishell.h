@@ -63,6 +63,7 @@ typedef struct s_shell
 	int		is_alive;
 	int		exit_code;
 	char	**envp;
+	char	**path;
 	char	*prompt;
 	char	*input;
 	t_token	*token;
@@ -81,7 +82,7 @@ typedef struct s_redirect
 }	t_redirect;
 
 /* init.c */
-char	*find_path(char *cmd, char **envp);
+void	refresh_path(t_shell *shell);
 void	process_input(t_shell *shell);
 int		init_shell(char **argv, char **envp, t_shell *shell);
 
@@ -145,5 +146,6 @@ void	setup_pipe_fds(t_cmd *cmd, int prev_fd, int pipe_fd[2]);
 /* utils.c */
 int		is_environment_modifier(t_cmd *cmd);
 int		count_commands(t_cmd *cmd_list);
+void	slash_path(t_shell *shell);
 
 #endif
