@@ -79,3 +79,13 @@ void	slash_path(t_shell *shell)
 		i++;
 	}
 }
+
+int	count_tokens(t_token *tokens)
+{
+	int	i;
+
+	i = 0;
+	while (tokens[i].value != NULL)
+		i++;
+	return (i);
+}

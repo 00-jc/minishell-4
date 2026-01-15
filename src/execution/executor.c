@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static void	new_child(t_redirect *redir, int fd_pipe[2], size_t i, char **envp)
+static void	new_child(t_redir *redir, int fd_pipe[2], size_t i, char **envp)
 {
 	redir->child[i] = fork();
 	if (redir->child[i] == 0)
@@ -33,12 +33,13 @@ static void	new_child(t_redirect *redir, int fd_pipe[2], size_t i, char **envp)
 		
 }
 
-void	execute_external(t_cmd *cmd, t_redirect *redir,char **envp)
+void	execute_external(t_shell *shell, t_redir *redir, char **envp)
 {
-	
+	if (!execve(search_cmd(redir->now_route[0], shell), redir->now_route, envp))
+		exit (127);
 }
 
-void	execute_command(t_shell *shell, t_cmd *cmd, char **envp)
+void	execute_command(t_shell *shell, t_redir *redir, char **envp)
 {
 	char	**temp_envp;
 
@@ -51,12 +52,12 @@ void	execute_command(t_shell *shell, t_cmd *cmd, char **envp)
 		exit(0);
 	}
 	else
-		execute_external(cmd, envp);
+		execute_external(shell, redir, envp);
 }
 
 void	execute_pipeline(t_shell *shell)
 {
-	t_redirect	redir;
+	t_redir	redir;
 	t_cmd		*cmd;
 	char		*route;
 

@@ -43,6 +43,14 @@ typedef enum e_token_type
 	T_OR
 }	t_token_type;
 
+typedef enum e_node_type
+{
+	N_CMD,
+	N_PIPE,
+	N_OR,
+	N_AND
+}	t_node_type;
+
 typedef struct s_token
 {
 	t_token_type	type;
@@ -52,11 +60,25 @@ typedef struct s_token
 
 typedef struct s_cmd
 {
-	char			**args;
-	int				arg_count;
-	t_token_type	operator;
+	t_token			*tokens;
+	t_token_type	redir;
 	struct s_cmd	*next;
 }					t_cmd;
+
+typedef struct s_redir
+{
+	t_token_type	type;
+	t_token			*files;
+	struct s_redir	*next;	
+}	t_redir;
+
+typedef struct s_tree
+{
+	t_node_type		type;
+	t_cmd			*cmd;
+	struct s_tree	*left;
+	struct s_tree	*right;
+}	t_tree;
 
 typedef struct s_shell
 {
@@ -72,15 +94,7 @@ typedef struct s_shell
 	char	*history_file;
 }		t_shell;
 
-typedef struct s_redirect
-{
-	int		heredoc;
-	int		n_child;
-	int		prev_fd;
-	int		fd[2];
-	pid_t	*child;
-	char	**now_route;
-}	t_redirect;
+
 
 /* init.c */
 void	refresh_path(t_shell *shell);
@@ -104,13 +118,13 @@ void	black_hole(t_shell *shell);
 /* execution/executor.c  */
 int		is_builtin(t_cmd *cmd, char **envp);
 int		execute_builtin(t_shell *shell, t_cmd *cmd, char ***envp);
-void	execute_external(t_cmd *cmd, t_redirect *redir,char **envp);
+void	execute_external(t_cmd *cmd, t_redir *redir,char **envp);
 void	execute_command(t_shell *shell, t_cmd *cmd, char **envp);
 int		count_commands(t_cmd *cmd_list);
 
 /* execution/executor_utils.c */
 char	*search_cmd(char *cmd, t_shell *shell);
-void	init_redir(t_redirect *redir);
+void	init_redir(t_redir *redir);
 
 /* execution/pipes.c */
 
@@ -152,5 +166,6 @@ void	ms_exit(t_shell *shell, char *arg);
 int		is_environment_modifier(t_cmd *cmd);
 int		count_commands(t_cmd *cmd_list);
 void	slash_path(t_shell *shell);
+int		count_tokens(t_token *tokens);
 
 #endif

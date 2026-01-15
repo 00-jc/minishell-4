@@ -34,7 +34,7 @@ char	*search_cmd(char *cmd, t_shell *shell)
 	return (route);
 }
 
-void	init_redir(t_redirect *redir)
+void	init_redir(t_redir *redir)
 {
 	redir->fd[0] = 0;
 	redir->fd[1] = 1;

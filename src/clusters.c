@@ -16,28 +16,30 @@ static t_cmd	*create_command(t_token	*token, int start, int end,
 				t_token_type op)
 {
 	t_cmd	*cmd;
-	int		i;
 
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
-	cmd->arg_count = end - start + 1;
-	cmd->args = malloc(sizeof(char *) * (cmd->arg_count + 1));
-	if (!cmd->args)
+	cmd->token_count = end - start + 1;
+	cmd->tokens = malloc(sizeof(token) * (cmd->token_count + 1));
+	if (!cmd->tokens)
 	{
 		free(cmd);
 		return (NULL);
 	}
-	i = 0;
-	while (i < cmd->arg_count)
-	{
-		cmd->args[i] = ft_strdup(token[start + i].value);
-		i++;
-	}
-	cmd->args[i] = NULL;
-	cmd->operator = op;
 	cmd->next = NULL;
 	return (cmd);
+}
+
+static void	add_tokens(t_cmd *cmd, t_token *token)
+{
+	int	i;
+
+	i = 0;
+	while (i < cmd->token_count)
+	{
+		
+	}
 }
 
 static void	add_command_to_list(t_cmd **list, t_cmd *new_cmd)
