@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 06:32:00 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/16 04:33:32 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/16 04:55:36 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,7 @@ int	ms_unset(char ***envp, const char *var_name)
 	if (!envp || !*envp || !var_name)
 		return (1);
 	if (!is_valid_identifier(var_name))
-	{
-		ft_putstr_fd("minishell: unset: '", STDERR_FILENO);
-		ft_putstr_fd((char *)var_name, STDERR_FILENO);
-		ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
 		return (1);
-	}
 	idx = find_env_index(*envp, var_name);
 	if (idx != -1)
 		remove_env_var(*envp, idx);
