@@ -1,0 +1,45 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edblazqu <edblazqu@student.42madrid.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/16 12:14:35 by edblazqu          #+#    #+#             */
+/*   Updated: 2026/01/16 12:14:36 by edblazqu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+int	is_redir(const t_token *token)
+{
+	if (token->type == T_APPEND || token->type == T_HEREDOC)
+		return (1);
+	if (token->type == T_OUTFILE || token->type == T_INFILE)
+		return (1);
+	return (0);
+}
+
+int	add_redir(t_redir **redir, t_token *redir_token, t_token *next)
+{
+	t_redir	*new;
+	t_redir	*idx;
+
+	new = ft_calloc(1, sizeof(t_redir));
+	if (!new)
+		return (0);
+	new->type = redir_token->type;
+	new->file = *next;
+	new->next = NULL;
+	if (!redir)
+		(*redir) = new;
+	else
+	{
+		idx = *redir;
+		while (idx->next != NULL)
+			idx = idx->next;
+		idx->next = new;
+	}
+	return (1);
+}

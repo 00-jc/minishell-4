@@ -55,22 +55,22 @@ typedef struct s_token
 {
 	t_token_type	type;
 	char			*value;
-	size_t			size;
+	struct s_token	*next;
 }	t_token;
-
-typedef struct s_cmd
-{
-	t_token			*tokens;
-	t_token_type	redir;
-	struct s_cmd	*next;
-}					t_cmd;
 
 typedef struct s_redir
 {
 	t_token_type	type;
-	t_token			*files;
-	struct s_redir	*next;	
+	t_token			file;
+	struct s_redir	*next;
 }	t_redir;
+
+typedef struct s_cmd
+{
+	t_token			*tokens;
+	t_redir			*redir;
+	struct s_cmd	*next;
+}					t_cmd;
 
 typedef struct s_tree
 {
@@ -114,6 +114,13 @@ void	free_envp(char ***envp);
 void	free_split(char **tokens);
 void	free_cmd_list(t_cmd **cmd_list);
 void	black_hole(t_shell *shell);
+
+/* parser/parser_utils.c */
+int		is_redir(const t_token *token);
+int		add_redir(t_redir **redir, t_token *redir_token, t_token *next);
+
+/* parser/parser.c */
+t_cmd	*create_cmd(t_tree *node, t_token *start, t_token *end);
 
 /* execution/executor.c  */
 int		is_builtin(t_cmd *cmd, char **envp);
