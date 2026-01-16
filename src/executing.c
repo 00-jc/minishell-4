@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 16:48:33 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/11 03:21:48 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/16 04:23:00 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	execute_builtin(t_shell *shell, t_cmd *cmd, char ***envp)
 	if (ft_strncmp(cmd->args[0], "export", 6) == 0)
 		ms_export(cmd->args[1], envp);
 	if (ft_strncmp(cmd->args[0], "unset", 5) == 0)
-		ms_unset(cmd->args[1], envp);
+		ms_unset(envp, cmd->args[1]);
 	if (ft_strncmp(cmd->args[0], "exit", 4) == 0)
 		ms_exit(shell, cmd->args[1]);
 	return (1);
