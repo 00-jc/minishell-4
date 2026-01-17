@@ -12,19 +12,18 @@
 
 #include "minishell.h"
 
-void	free_split(char **tokens)
+void	free_tokens(t_token **lst)
 {
-	int	i;
+	t_token	*tmp;
 
-	i = 0;
-	if (!tokens)
+	if (!lst || !(*lst))
 		return ;
-	while (tokens[i])
+	while (*lst)
 	{
-		free(tokens[i]);
-		i++;
+		tmp = (*lst)->next;
+		free(*lst);
+		*lst = tmp;
 	}
-	free(tokens);
 }
 
 void	free_cmd_list(t_cmd **cmd_list)

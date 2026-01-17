@@ -39,6 +39,8 @@ SRC	:= \
 	$(EXECUTION_SRC_DIR)/pipes.c \
 	$(EXECUTION_SRC_DIR)/executor_utils.c \
 	$(EXECUTION_SRC_DIR)/builtins.c \
+	$(TOKEN_SRC_DIR)/tokens.c \
+	$(TOKEN_SRC_DIR)/tokens_utils.c \
 	$(BUILTIN_SRC_DIR)/cd.c \
 	$(BUILTIN_SRC_DIR)/env.c \
 	$(BUILTIN_SRC_DIR)/echo.c \
@@ -47,7 +49,7 @@ SRC	:= \
 	$(BUILTIN_SRC_DIR)/exit.c \
 	$(BUILTIN_SRC_DIR)/pwd.c
 
-all:	$(NAME)
+all: $(NAME)
 
 clean:
 	$(RM) -f ".msrc"

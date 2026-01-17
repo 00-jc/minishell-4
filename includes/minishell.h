@@ -111,7 +111,7 @@ void	print_envp(t_shell *shell);
 
 /* cleanup.c */
 void	free_envp(char ***envp);
-void	free_split(char **tokens);
+void	free_tokens(t_token **list);
 void	free_cmd_list(t_cmd **cmd_list);
 void	black_hole(t_shell *shell);
 
