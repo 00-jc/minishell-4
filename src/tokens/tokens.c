@@ -24,6 +24,7 @@ static char	*get_token(t_shell *shell, int i)
 	int		j;
 	int		k;
 	char	*start;
+	char	*tmp;
 
 	start = shell->input;
 	j = 0;
@@ -33,38 +34,37 @@ static char	*get_token(t_shell *shell, int i)
 		shell->input++;
 		j++;
 	}
-	shell->token[i].value = malloc(sizeof(char) * (j + 1));
-	if (!shell->token[i].value)
+	tmp = malloc(sizeof(char) * (j + 1));
+	if (tmp)
 		return (NULL);
 	k = 0;
 	while (k < j)
 	{
-		shell->token[i].value[k] = start[k];
+		tmp[k] = start[k];
 		k++;
 	}
-	shell->token[i].value[j] = '\0';
-	return (shell->input);
+	tmp[j] = '\0';
+	return (tmp);
 }
 
 void	tokenize_input(t_shell *shell)
 {
 	int		i;
 	char	*start;
+	t_token	*new;
 
 	start = shell->input;
-	shell->token = malloc(sizeof(t_token *) * MAX_TOKENS);
-	if (!shell->token)
-		return ;
 	i = 0;
 	while (*shell->input != '\0')
 	{
 		shell->input = skip_whitespace(shell->input);
 		if (*shell->input == '\0')
 			break ;
-		get_token(shell, i);
+		new = new_token(get_token(shell, i));
+		add_token_to_list(shell->first_token, new);
+		new = NULL;
 		i++;
 	}
-	shell->token[i].value = NULL;
 	shell->input = start;
 }
 

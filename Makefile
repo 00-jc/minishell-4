@@ -11,18 +11,19 @@
 # **************************************************************************** #
 
 NAME		:= minishell
-CC		?= cc
+CC			?= cc
 CFLAGS		?= -Wall -Wextra -Werror -Wpedantic -g3
 CPPFLAGS	?= -Iincludes -Iincludes/libft
 SRC_DIR		:= src
 OBJ_DIR		:= obj
-OBJ		= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
+OBJ			= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
 LIBFT_DIR	:= includes/libft
 LDLIBS 		:= -lreadline
 LIBFT		:= $(LIBFT_DIR)/libft.a
 TARGET_DIR	:= target
-RM		?= rm
+RM			?= rm
 EXECUTION_SRC_DIR := $(SRC_DIR)/execution
+TOKEN_SRC_DIR := $(SRC_DIR)/tokens
 BUILTIN_SRC_DIR	:= $(SRC_DIR)/builtin
 
 SRC	:= \

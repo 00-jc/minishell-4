@@ -26,7 +26,7 @@ t_token	*new_token(char *value)
 	return (new);
 }
 
-void	add_token(t_token **lst, t_token *new)
+void	add_token_to_list(t_token **lst, t_token *new)
 {
 	t_token	*idx;
 

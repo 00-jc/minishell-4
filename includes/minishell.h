@@ -88,7 +88,7 @@ typedef struct s_shell
 	char	**path;
 	char	*prompt;
 	char	*input;
-	t_token	*token;
+	t_token	*first_token;
 	t_cmd	*cmd_list;
 	char	*config_file;
 	char	*history_file;
@@ -137,6 +137,10 @@ void	init_redir(t_redir *redir);
 
 int		dup2_manager(int fd_stdout, int fd_stdin);
 void	close_pipes(int pipe[2]);
+
+/* token/tokens_utils.c */
+t_token		*new_token(char *value);
+void		add_token_to_list(t_token **lst, t_token *new);
 
 /* tokens.c */
 void	tokenize_input(t_shell *shell);

@@ -21,7 +21,7 @@ static t_cmd	*create_command(t_token	*token, int start, int end,
 	if (!cmd)
 		return (NULL);
 	cmd->token_count = end - start + 1;
-	cmd->tokens = malloc(sizeof(token) * (cmd->token_count + 1));
+	cmd->tokens = malloc(sizeof(t_token) * (cmd->token_count + 1));
 	if (!cmd->tokens)
 	{
 		free(cmd);
