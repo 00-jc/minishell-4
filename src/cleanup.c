@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 21:15:11 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/18 13:51:51 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/18 23:15:22 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ void	free_path(char **path)
 	while (path[i])
 	{
 		free(path[i]);
+		i++;
 	}
 	free(path);
 }

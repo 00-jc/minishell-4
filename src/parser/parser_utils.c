@@ -6,7 +6,7 @@
 /*   By: edblazqu <edblazqu@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 12:14:35 by edblazqu          #+#    #+#             */
-/*   Updated: 2026/01/16 12:14:36 by edblazqu         ###   ########.fr       */
+/*   Updated: 2026/01/18 23:34:34 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,14 @@ int	add_redir(t_redir **redir, t_token *redir_token, t_token *next)
 	if (!new)
 		return (0);
 	new->type = redir_token->type;
-	new->file = *next;
+	new->file.type = next->type;
+	new->file.value = ft_strdup(next->value);
+	if (!new->file.value)
+	{
+		free(new);
+		return (0);
+	}
+	new->file.next = NULL;
 	new->next = NULL;
 	if (!redir)
 		(*redir) = new;

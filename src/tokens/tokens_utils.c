@@ -6,7 +6,7 @@
 /*   By: edblazqu <edblazqu@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 12:27:15 by edblazqu          #+#    #+#             */
-/*   Updated: 2026/01/16 12:27:15 by edblazqu         ###   ########.fr       */
+/*   Updated: 2026/01/18 22:56:26 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	add_token_to_list(t_token **lst, t_token *new)
 {
 	t_token	*idx;
 
-	if (!lst)
+	if (!*lst)
 	{
 		*lst = new;
 		return ;

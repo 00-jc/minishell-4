@@ -6,23 +6,12 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 06:32:00 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/11 03:18:25 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/18 19:15:25 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-static int	env_size(char **envp)
-{
-	int	i;
-
-	i = 0;
-	while (envp[i])
-		i++;
-	return (i);
-}
-*/
 static int	find_var(char **envp, char *arg)
 {
 	int	i;

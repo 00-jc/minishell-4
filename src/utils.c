@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 02:30:42 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/11 02:35:44 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/18 23:50:24 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,13 @@ static char	*ft_strjoin_free(char *s1, char *s2)
 
 int	is_environment_modifier(t_cmd *cmd)
 {
-	if (ft_strncmp(cmd->args[0], "export", ft_strlen(cmd->args[0])) == 0)
+	if (ft_strncmp(cmd->args[0], "export", 6) == 0 && cmd->args[0][6] == '\0')
 		return (1);
-	if (ft_strncmp(cmd->args[0], "unset", ft_strlen(cmd->args[0])) == 0)
+	if (ft_strncmp(cmd->args[0], "unset", 5) == 0 && cmd->args[0][5] == '\0')
 		return (1);
-	if (ft_strncmp(cmd->args[0], "exit", ft_strlen(cmd->args[0])) == 0)
+	if (ft_strncmp(cmd->args[0], "exit", 4) == 0 && cmd->args[0][4] == '\0')
 		return (1);
-	if (ft_strncmp(cmd->args[0], "cd", ft_strlen(cmd->args[0])) == 0)
+	if (ft_strncmp(cmd->args[0], "cd", 2) == 0 && cmd->args[0][2] == '\0')
 		return (1);
 	return (0);
 }
@@ -85,7 +85,10 @@ int	count_tokens(t_token *tokens)
 	int	i;
 
 	i = 0;
-	while (tokens[i].value != NULL)
+	while (tokens)
+	{
 		i++;
+		tokens = tokens->next;
+	}
 	return (i);
 }

@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 19:43:20 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/18 14:09:47 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/18 23:39:24 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,13 @@ int	classify_token(t_token *token)
 		return (token->type = T_AND, 1);
 	if (ft_strncmp(token->value, "||", 2) == 0)
 		return (token->type = T_OR, 1);
-	if (ft_strncmp(token->value, "|", 2) == 0)
+	if (ft_strncmp(token->value, "|", 1) == 0)
 		return (token->type = T_PIPE, 1);
-	if (ft_strncmp(token->value, ";", 2) == 0)
+	if (ft_strncmp(token->value, ";", 1) == 0)
 		return (token->type = T_ENDLINE, 1);
-	if (ft_strncmp(token->value, ">", 2) == 0)
+	if (ft_strncmp(token->value, ">", 1) == 0)
 		return (token->type = T_OUTFILE, 1);
-	if (ft_strncmp(token->value, "<", 2) == 0)
+	if (ft_strncmp(token->value, "<", 1) == 0)
 		return (token->type = T_INFILE, 1);
 	if (ft_strncmp(token->value, "<<", 2) == 0)
 		return (token->type = T_HEREDOC, 1);

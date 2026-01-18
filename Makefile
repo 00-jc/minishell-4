@@ -6,13 +6,13 @@
 #    By: asoria <asoria@stedent.42madrid.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/15 00:26:06 by asoria            #+#    #+#              #
-#    Updated: 2026/01/18 11:58:14 by asoria           ###   ########.fr        #
+#    Updated: 2026/01/18 23:59:43 by asoria           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		:= minishell
 CC			?= cc
-CFLAGS		?= -Wall -Wextra -Werror -Wpedantic -g3
+CFLAGS		?= -Wall -Wextra -Werror -Wpedantic -g3 -fsanitize=address
 CPPFLAGS	?= -Iincludes -Iincludes/libft
 SRC_DIR		:= src
 OBJ_DIR		:= obj

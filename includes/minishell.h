@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 02:47:47 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/18 14:08:18 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/18 23:06:55 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ t_cmd	*create_cmd(t_tree *node, t_token *start, t_token *end);
 int		is_builtin(t_cmd *cmd, char **envp);
 void	execute_pipeline(t_shell *shell);
 int		execute_builtin(t_shell *shell, t_cmd *cmd, char ***envp);
-void	execute_external(t_cmd *cmd, t_redir *redir,char **envp);
+void	execute_external(t_cmd *cmd, t_redir *redir,char **envp, t_shell *shell);
 void	execute_command(t_shell *shell, t_cmd *cmd, char **envp);
 int		count_commands(t_cmd *cmd_list);
 

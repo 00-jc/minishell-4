@@ -6,7 +6,7 @@
 /*   By: edblazqu <edblazqu@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 11:47:40 by edblazqu          #+#    #+#             */
-/*   Updated: 2026/01/18 13:43:40 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/18 23:04:44 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,17 @@ char	*search_cmd(char *cmd, t_shell *shell)
 		return (NULL);
 	if (access(cmd, X_OK) == 0)
 		return (cmd);
-	if (!shell->path)
+	if (!shell ||!shell->path)
 		return (NULL);
 	i = 0;
 	while (shell->path[i] && cmd != NULL)
 	{
 		route = ft_strjoin(shell->path[i], cmd);
 		if (access(route, X_OK) == 0)
-			break ;
+			return (route) ;
 		free(route);
 		route = NULL;
 		i++;
 	}
-	return (route);
+	return (NULL);
 }
