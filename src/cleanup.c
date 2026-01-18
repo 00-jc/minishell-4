@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 21:15:11 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/07 03:49:04 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/18 12:03:02 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	free_cmd_list(t_cmd **cmd_list)
 	{
 		next = current->next;
 		if (current->args)
-			free_split(current->args);
+			free_split(current->tokens);
 		free(current);
 		current = next;
 	}
@@ -61,7 +61,7 @@ void	free_envp(char ***envp)
 	*envp = NULL;
 }
 
-void	free_tokens(t_token **token)
+void	free_split(t_token **token)
 {
 	int	i;
 

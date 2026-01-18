@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 02:47:47 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/09 06:20:32 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/18 12:20:47 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ typedef struct s_redir
 
 typedef struct s_cmd
 {
-	t_token			*tokens;
+	char	**args;
+	t_token_type		operator;
 	t_redir			*redir;
 	struct s_cmd	*next;
 }					t_cmd;
@@ -88,7 +89,7 @@ typedef struct s_shell
 	char	**path;
 	char	*prompt;
 	char	*input;
-	t_token	*first_token;
+	t_token	*tokens;
 	t_cmd	*cmd_list;
 	char	*config_file;
 	char	*history_file;
@@ -112,6 +113,7 @@ void	print_envp(t_shell *shell);
 /* cleanup.c */
 void	free_envp(char ***envp);
 void	free_tokens(t_token **list);
+void	free_split(t_token **list);
 void	free_cmd_list(t_cmd **cmd_list);
 void	black_hole(t_shell *shell);
 

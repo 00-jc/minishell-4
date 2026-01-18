@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 19:43:20 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/02 21:20:28 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/18 12:21:52 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static char	*get_token(t_shell *shell, int i)
 		j++;
 	}
 	tmp = malloc(sizeof(char) * (j + 1));
-	if (tmp)
+	if (!tmp)
 		return (NULL);
 	k = 0;
 	while (k < j)

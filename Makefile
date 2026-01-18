@@ -6,7 +6,7 @@
 #    By: asoria <asoria@stedent.42madrid.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/15 00:26:06 by asoria            #+#    #+#              #
-#    Updated: 2026/01/09 06:15:13 by asoria           ###   ########.fr        #
+#    Updated: 2026/01/18 11:58:14 by asoria           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,6 @@ SRC	:= \
 	$(SRC_DIR)/parsing.c \
 	$(SRC_DIR)/debug.c \
 	$(SRC_DIR)/cleanup.c \
-	$(SRC_DIR)/tokens.c \
 	$(SRC_DIR)/clusters.c \
 	$(SRC_DIR)/utils.c \
 	$(EXECUTION_SRC_DIR)/executor.c \
@@ -74,7 +73,9 @@ $(LIBFT):
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
-	mkdir -p $(OBJ_DIR)/builtin
+	mkdir -p $(OBJ_DIR)/$(BUILTIN_SRC_DIR)
+	mkdir -p $(OBJ_DIR)/$(TOKEN_SRC_DIR)
+	mkdir -p $(OBJ_DIR)/$(EXECUTION_SRC_DIR)
 
 $(TARGET_DIR):
 	mkdir -p $(TARGET_DIR)
