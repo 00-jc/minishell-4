@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 21:15:11 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/18 12:03:02 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/18 13:51:51 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,44 @@
 void	free_tokens(t_token **lst)
 {
 	t_token	*tmp;
+	t_token *current;
 
 	if (!lst || !(*lst))
 		return ;
-	while (*lst)
+	current = *lst;
+	while (current)
 	{
-		tmp = (*lst)->next;
-		free(*lst);
-		*lst = tmp;
+		tmp = current->next;
+		if (current->value)
+			free(current->value);
+		free(current);
+		current = tmp;
 	}
+	*lst = NULL;
+}
+
+static void	free_redir_list(t_redir **redir)
+{
+	t_redir	*current;
+	t_redir	*next;
+
+	if (!redir || !*redir)
+		return ;
+	current = *redir;
+	while (current)
+	{
+		next = current->next;
+		if (current->file.value)
+			free(current->file.value);
+		free(current);
+		current = next;
+	}
+	*redir = NULL;
 }
 
 void	free_cmd_list(t_cmd **cmd_list)
 {
+	int	i;
 	t_cmd	*current;
 	t_cmd	*next;
 
@@ -38,7 +63,17 @@ void	free_cmd_list(t_cmd **cmd_list)
 	{
 		next = current->next;
 		if (current->args)
-			free_split(current->tokens);
+		{
+			i = 0;
+			while (current->args[i])
+			{
+				free(current->args[i]);
+				i++;
+			}
+			free(current->args);
+		}
+		if (current->redir)
+			free_redir_list(&current->redir);
 		free(current);
 		current = next;
 	}
@@ -77,17 +112,18 @@ void	free_split(t_token **token)
 	*token = NULL;
 }
 
-void	free_path(char ***path)
+void	free_path(char **path)
 {
 	size_t	i;
 
+	if (!path)
+		return ;
 	i = 0;
-	while ((*path)[i])
+	while (path[i])
 	{
-		free((*path)[i]);
+		free(path[i]);
 	}
-	free(*path);
-	*path = NULL;
+	free(path);
 }
 
 void	black_hole(t_shell *shell)
@@ -97,8 +133,12 @@ void	black_hole(t_shell *shell)
 		free(shell->input);
 		shell->input = NULL;
 	}
-	free_tokens(&shell->token);
-	free_path(shell->path);
+	free_tokens(&shell->tokens);
+	if (shell->path)
+	{
+		free_path(shell->path);
+		shell->path = NULL;
+	}
 	free_cmd_list(&shell->cmd_list);
 	write_history(shell->history_file);
 }

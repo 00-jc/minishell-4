@@ -6,13 +6,61 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/02 14:46:48 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/18 12:29:19 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/18 13:20:31 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_cmd	*create_command(t_token	*token, int start, int end,
+static int	count_tokens_range(t_token *head, int start, int end)
+{
+	t_token	*current;
+	int		i;
+	int		count;
+
+	current = head;
+	i = 0;
+	count = 0;
+	while (current && i <= end)
+	{
+		if (i >= start && i <= end)
+			count++;
+		current = current->next;
+		i++;
+	}
+	return (count);
+}
+
+static char	**tokens_to_args(t_token *head, int start, int end)
+{
+	char	**args;
+	t_token	*current;
+	int		i;
+	int		j;
+
+	args = malloc(sizeof(char *) * (count_tokens_range(head, start, end) + 1));
+	if (!args)
+		return (NULL);
+	current = head;
+	i = 0;
+	j = 0;
+	while (current && i <= end)
+	{
+		if (i >= start && i <= end && current->type == T_WORD)
+		{
+			args[j] = ft_strdup(current->value);
+			if (!args[j])
+				return (NULL);
+			j++;
+		}
+		current = current->next;
+		i++;
+	}
+	args[j] = NULL;
+	return (args);
+}
+
+static t_cmd	*create_command(t_token *tokens, int start, int end,
 				t_token_type op)
 {
 	t_cmd	*cmd;
@@ -20,26 +68,16 @@ static t_cmd	*create_command(t_token	*token, int start, int end,
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
-	cmd->token_count = end - start + 1;
-	cmd->tokens = malloc(sizeof(t_token) * (cmd->token_count + 1));
-	if (!cmd->tokens)
+	cmd->args = tokens_to_args(tokens, start, end);
+	if (!cmd->args)
 	{
 		free(cmd);
 		return (NULL);
 	}
+	cmd->operator = op;
+	cmd->redir = NULL;
 	cmd->next = NULL;
 	return (cmd);
-}
-
-static void	add_tokens(t_cmd *cmd, t_token *token)
-{
-	int	i;
-
-	i = 0;
-	while (i < cmd->token_count)
-	{
-		
-	}
 }
 
 static void	add_command_to_list(t_cmd **list, t_cmd *new_cmd)
@@ -64,23 +102,26 @@ void	clusterize_tokens(t_shell *shell)
 	int		i;
 	int		cmd_start;
 	t_cmd	*cmd;
+	t_token	*current;
 
 	i = 0;
 	cmd_start = 0;
-	while (shell->token[i].value != NULL)
+	current = shell->tokens;
+	while (current)
 	{
-		if (classify_token(&(shell->token[i])) && i > cmd_start)
+		if (classify_token(current) && i > cmd_start)
 		{
-			cmd = create_command(shell->token, cmd_start,
-					i - 1, shell->token[i].type);
+			cmd = create_command(shell->tokens, cmd_start, i - 1,
+					current->type);
 			add_command_to_list(&shell->cmd_list, cmd);
 			cmd_start = i + 1;
 		}
+		current = current->next;
 		i++;
 	}
 	if (i > cmd_start)
 	{
-		cmd = create_command(shell->token, cmd_start, i - 1, 0);
+		cmd = create_command(shell->tokens, cmd_start, i - 1, T_WORD);
 		add_command_to_list(&shell->cmd_list, cmd);
 	}
 }

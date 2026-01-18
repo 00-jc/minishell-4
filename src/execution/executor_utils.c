@@ -6,7 +6,7 @@
 /*   By: edblazqu <edblazqu@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 11:47:40 by edblazqu          #+#    #+#             */
-/*   Updated: 2026/01/14 11:47:41 by edblazqu         ###   ########.fr       */
+/*   Updated: 2026/01/18 13:43:40 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ char	*search_cmd(char *cmd, t_shell *shell)
 		return (NULL);
 	if (access(cmd, X_OK) == 0)
 		return (cmd);
+	if (!shell->path)
+		return (NULL);
 	i = 0;
 	while (shell->path[i] && cmd != NULL)
 	{
@@ -32,19 +34,4 @@ char	*search_cmd(char *cmd, t_shell *shell)
 		i++;
 	}
 	return (route);
-}
-
-void	init_redir(t_redir *redir)
-{
-	redir->fd[0] = 0;
-	redir->fd[1] = 1;
-	redir->heredoc = 0;
-	redir->prev_fd = -1;
-	redir->n_child = 1;
-	redir->child = malloc(sizeof(pid_t) * redir->n_child);
-	if (!redir->child)
-	{
-		perror("Error: ");
-		return ;
-	}
 }

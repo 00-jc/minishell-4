@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 19:43:20 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/18 12:21:52 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/18 14:09:47 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,51 +19,48 @@ static char	*skip_whitespace(char *input)
 	return (input);
 }
 
-static char	*get_token(t_shell *shell, int i)
+static char	*get_token(t_shell *shell)
 {
+	int		i;
 	int		j;
-	int		k;
 	char	*start;
 	char	*tmp;
 
 	start = shell->input;
-	j = 0;
+	i = 0;
 	while (*shell->input != ' ' && *shell->input != '\t'
 		&& *shell->input != '\0')
 	{
 		shell->input++;
-		j++;
+		i++;
 	}
-	tmp = malloc(sizeof(char) * (j + 1));
+	tmp = malloc(sizeof(char) * (i + 1));
 	if (!tmp)
 		return (NULL);
-	k = 0;
-	while (k < j)
+	j = 0;
+	while (j < i)
 	{
-		tmp[k] = start[k];
-		k++;
+		tmp[j] = start[j];
+		j++;
 	}
-	tmp[j] = '\0';
+	tmp[i] = '\0';
 	return (tmp);
 }
 
 void	tokenize_input(t_shell *shell)
 {
-	int		i;
 	char	*start;
 	t_token	*new;
 
 	start = shell->input;
-	i = 0;
 	while (*shell->input != '\0')
 	{
 		shell->input = skip_whitespace(shell->input);
 		if (*shell->input == '\0')
 			break ;
-		new = new_token(get_token(shell, i));
-		add_token_to_list(shell->first_token, new);
+		new = new_token(get_token(shell));
+		add_token_to_list(&shell->tokens, new);
 		new = NULL;
-		i++;
 	}
 	shell->input = start;
 }
