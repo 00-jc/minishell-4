@@ -66,10 +66,7 @@ void	free_cmd_list(t_cmd **cmd_list)
 		{
 			i = 0;
 			while (current->args[i])
-			{
-				free(current->args[i]);
-				i++;
-			}
+				free(current->args[i++]);
 			free(current->args);
 		}
 		if (current->redir)
