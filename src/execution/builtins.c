@@ -44,7 +44,7 @@ int	execute_builtin(t_shell *shell, t_cmd *cmd, char ***envp)
 	else if (ft_strncmp(cmd->args[0], "export", 6) == 0 && cmd->args[0][6] == '\0')
 		ms_export(cmd->args[1], envp);
 	else if (ft_strncmp(cmd->args[0], "unset", 5) == 0 && cmd->args[0][5] == '\0')
-		ms_unset(cmd->args[1], envp);
+		ms_unset(envp, cmd->args[1]);
 	else if (ft_strncmp(cmd->args[0], "exit", 4) == 0 && cmd->args[0][4] == '\0')
 		ms_exit(shell, cmd->args[1]);
 	return (1);
