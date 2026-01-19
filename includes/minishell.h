@@ -170,7 +170,7 @@ void	ms_echo(char *arg1, char *arg2);
 void	ms_export(char *arg, char ***envp);
 
 /* unset.c */
-void	ms_unset(char *arg, char ***envp);
+int	ms_unset(char ***envp, const char *var_name);
 
 /* exit.c */
 void	ms_exit(t_shell *shell, char *arg);
