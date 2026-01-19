@@ -33,10 +33,7 @@ int	add_redir(t_redir **redir, t_token *redir_token, t_token *next)
 	new->file.type = next->type;
 	new->file.value = ft_strdup(next->value);
 	if (!new->file.value)
-	{
-		free(new);
-		return (0);
-	}
+		return (free(new), 0);
 	new->file.next = NULL;
 	new->next = NULL;
 	if (!redir)
@@ -49,4 +46,17 @@ int	add_redir(t_redir **redir, t_token *redir_token, t_token *next)
 		idx->next = new;
 	}
 	return (1);
+}
+
+t_node_type	is_div(t_token *token)
+{
+	if (token->type == T_PIPE)
+		return (N_PIPE); 
+	if (token->type == T_AND)
+		return (N_AND);
+	if (token->type == T_OR)
+		return (N_OR);
+	if (token->type == T_ENDLINE)
+		return (N_ENDLINE);
+	return (N_CMD);
 }

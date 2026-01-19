@@ -48,7 +48,8 @@ typedef enum e_node_type
 	N_CMD,
 	N_PIPE,
 	N_OR,
-	N_AND
+	N_AND,
+	N_ENDLINE
 }	t_node_type;
 
 typedef struct s_token
@@ -98,87 +99,88 @@ typedef struct s_shell
 
 
 /* init.c */
-void	refresh_path(t_shell *shell);
-void	process_input(t_shell *shell);
-int		init_shell(char **argv, char **envp, t_shell *shell);
+void		refresh_path(t_shell *shell);
+void		process_input(t_shell *shell);
+int			init_shell(char **argv, char **envp, t_shell *shell);
 
 /* parsing.c */
-char	*get_prompt(t_shell *shell);
-void	read_input(t_shell *shell);
+char		*get_prompt(t_shell *shell);
+void		read_input(t_shell *shell);
 
 /* debug.c */
-void	print_cmd_list(t_cmd *cmd_list);
-void	print_envp(t_shell *shell);
+void		print_cmd_list(t_cmd *cmd_list);
+void		print_envp(t_shell *shell);
 
 /* cleanup.c */
-void	free_envp(char ***envp);
-void	free_tokens(t_token **list);
-void	free_split(t_token **list);
-void	free_cmd_list(t_cmd **cmd_list);
-void	black_hole(t_shell *shell);
+void		free_envp(char ***envp);
+void		free_tokens(t_token **list);
+void		free_split(t_token **list);
+void		free_cmd_list(t_cmd **cmd_list);
+void		black_hole(t_shell *shell);
 
 /* parser/parser_utils.c */
-int		is_redir(const t_token *token);
-int		add_redir(t_redir **redir, t_token *redir_token, t_token *next);
+int			is_redir(const t_token *token);
+int			add_redir(t_redir **redir, t_token *redir_token, t_token *next);
+t_node_type	is_div(t_token *token);
 
 /* parser/parser.c */
-t_cmd	*create_cmd(t_tree *node, t_token *start, t_token *end);
+t_cmd		*create_cmd(t_tree *node, t_token *start, t_token *end);
 
 /* execution/executor.c  */
-int		is_builtin(t_cmd *cmd, char **envp);
-void	execute_pipeline(t_shell *shell);
-int		execute_builtin(t_shell *shell, t_cmd *cmd, char ***envp);
-void	execute_external(t_cmd *cmd, t_redir *redir,char **envp, t_shell *shell);
-void	execute_command(t_shell *shell, t_cmd *cmd, char **envp);
-int		count_commands(t_cmd *cmd_list);
+int			is_builtin(t_cmd *cmd, char **envp);
+void		execute_pipeline(t_shell *shell);
+int			execute_builtin(t_shell *shell, t_cmd *cmd, char ***envp);
+void		execute_external(t_cmd *cmd, t_redir *redir,char **envp, t_shell *shell);
+void		execute_command(t_shell *shell, t_cmd *cmd, char **envp);
+int			count_commands(t_cmd *cmd_list);
 
 /* execution/executor_utils.c */
-char	*search_cmd(char *cmd, t_shell *shell);
+char		*search_cmd(char *cmd, t_shell *shell);
 
 /* execution/pipes.c */
 
-int		dup2_manager(int fd_stdout, int fd_stdin);
-void	close_pipes(int pipe[2]);
+int			dup2_manager(int fd_stdout, int fd_stdin);
+void		close_pipes(int pipe[2]);
 
 /* token/tokens_utils.c */
 t_token		*new_token(char *value);
 void		add_token_to_list(t_token **lst, t_token *new);
 
 /* tokens.c */
-void	tokenize_input(t_shell *shell);
+void		tokenize_input(t_shell *shell);
 
 /* clusters.c */
-int		classify_token(t_token *token);
-void	clusterize_tokens(t_shell *shell);
+int			classify_token(t_token *token);
+void		clusterize_tokens(t_shell *shell);
 
 /* builtin.c */
-int		is_builtin(t_cmd *cmd, char **envp);
+int			is_builtin(t_cmd *cmd, char **envp);
 
 /* cd.c */
-char	*ms_cd(char *arg);
+char		*ms_cd(char *arg);
 
 /* pwd.c */
-void	ms_pwd(void);
+void		ms_pwd(void);
 
 /* env.c */
-void	ms_env(char **envp);
+void		ms_env(char **envp);
 
 /* echo.c */
-void	ms_echo(char *arg1, char *arg2);
+void		ms_echo(char *arg1, char *arg2);
 
 /* export.c */
-void	ms_export(char *arg, char ***envp);
+void		ms_export(char *arg, char ***envp);
 
 /* unset.c */
-int	ms_unset(char ***envp, const char *var_name);
+int			ms_unset(char ***envp, const char *var_name);
 
 /* exit.c */
-void	ms_exit(t_shell *shell, char *arg);
+void		ms_exit(t_shell *shell, char *arg);
 
 /* utils.c */
-int		is_environment_modifier(t_cmd *cmd);
-int		count_commands(t_cmd *cmd_list);
-void	slash_path(t_shell *shell);
-int		count_tokens(t_token *tokens);
+int			is_environment_modifier(t_cmd *cmd);
+int			count_commands(t_cmd *cmd_list);
+void		slash_path(t_shell *shell);
+int			count_tokens(t_token *tokens);
 
 #endif
