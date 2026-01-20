@@ -32,7 +32,7 @@ void	minishell(t_shell *shell, char **argv, char **envp)
 		{
 			refresh_path(shell);
 			tokenize_input(shell);
-			clusterize_tokens(shell);
+			shell->ast = create_tree(shell->first, shell->last);
 			execute_pipeline(shell);
 			black_hole(shell);
 		}

@@ -88,8 +88,9 @@ typedef struct s_shell
 	char	**path;
 	char	*prompt;
 	char	*input;
-	t_token	*tokens;
-	t_cmd	*cmd_list;
+	t_token	*first;
+	t_token	*last;
+	t_tree	*ast;
 	char	*config_file;
 	char	*history_file;
 }		t_shell;
@@ -108,12 +109,12 @@ void		print_cmd_list(t_cmd *cmd_list);
 void		print_envp(t_shell *shell);
 
 /* cleanup.c */
-void	free_envp(char ***envp);
-void	free_path(char **path);
-void	free_tokens(t_token **list);
-void	free_split(t_token **list);
-void	free_cmd_list(t_cmd **cmd_list);
-void	black_hole(t_shell *shell);
+void		free_envp(char ***envp);
+void		free_path(char **path);
+void		free_tokens(t_token **list);
+void		free_split(t_token **list);
+void		free_cmd_list(t_cmd **cmd_list);
+void		black_hole(t_shell *shell);
 
 /* parser/parser_utils.c */
 int			is_redir(const t_token *token);
@@ -123,6 +124,7 @@ t_token		*div_point(t_token *start, t_token *stop);
 
 /* parser/parser.c */
 t_cmd		*create_cmd(t_tree *node, t_token *start, t_token *end);
+t_tree		*create_tree(t_token *start, t_token *stop);
 
 /* execution/executor.c  */
 int		is_builtin(t_cmd *cmd, char **envp);
@@ -142,8 +144,8 @@ int			dup2_manager(int fd_stdout, int fd_stdin);
 void		close_pipes(int pipe[2]);
 
 /* token/tokens_utils.c */
-t_token	*new_token(char *value);
-void	add_token_to_list(t_token **lst, t_token *new);
+t_token		*new_token(char *value);
+void		add_token_to_list(t_token **lst, t_token *new);
 
 /* tokens.c */
 void		tokenize_input(t_shell *shell);
@@ -168,13 +170,13 @@ void		ms_pwd(void);
 void		ms_env(char **envp);
 
 /* echo.c */
-void	ms_echo(char **args);
+void		ms_echo(char **args);
 
 /* export.c */
 void		ms_export(char *arg, char ***envp);
 
 /* unset.c */
-int		ms_unset(char ***envp, const char *var_name);
+int			ms_unset(char ***envp, const char *var_name);
 
 /* exit.c */
 void		ms_exit(t_shell *shell, char *arg);
@@ -185,6 +187,7 @@ int			count_commands(t_cmd *cmd_list);
 void		slash_path(t_shell *shell);
 int			count_tokens(t_token *tokens);
 
-char	*ms_getenv(char**envp, const char *name);
+char		*ms_getenv(char**envp, const char *name);
+t_token		*last_token(t_token	*start);
 
 #endif

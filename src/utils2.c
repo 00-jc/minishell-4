@@ -28,3 +28,15 @@ char	*ms_getenv(char **envp, const char *name)
 	}
 	return (NULL);
 }
+
+t_token	*last_token(t_token	*start)
+{
+	t_token	*end;
+
+	if (!start)
+		return (NULL);
+	end = start;
+	while (end->next != NULL)
+		end = end->next;
+	return (end);
+}

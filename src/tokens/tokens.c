@@ -59,9 +59,10 @@ void	tokenize_input(t_shell *shell)
 		if (*shell->input == '\0')
 			break ;
 		new = new_token(get_token(shell));
-		add_token_to_list(&shell->tokens, new);
+		add_token_to_list(&shell->first, new);
 		new = NULL;
 	}
+	shell->last = last_token(shell->first);
 	shell->input = start;
 }
 
