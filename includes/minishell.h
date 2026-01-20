@@ -122,6 +122,7 @@ void		black_hole(t_shell *shell);
 int			is_redir(const t_token *token);
 int			add_redir(t_redir **redir, t_token *redir_token, t_token *next);
 t_node_type	is_div(t_token *token);
+t_token		*div_point(t_token *start, t_token *stop);
 
 /* parser/parser.c */
 t_cmd		*create_cmd(t_tree *node, t_token *start, t_token *end);

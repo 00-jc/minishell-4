@@ -50,6 +50,8 @@ int	add_redir(t_redir **redir, t_token *redir_token, t_token *next)
 
 t_node_type	is_div(t_token *token)
 {
+	if (!token)
+		return (N_CMD);
 	if (token->type == T_PIPE)
 		return (N_PIPE); 
 	if (token->type == T_AND)
@@ -59,4 +61,22 @@ t_node_type	is_div(t_token *token)
 	if (token->type == T_ENDLINE)
 		return (N_ENDLINE);
 	return (N_CMD);
+}
+
+t_token	*div_point(t_token *start, t_token *stop)
+{
+	t_token	*div;
+
+	if (!start)
+		return (NULL);
+	div = NULL;
+	while (start != stop)
+	{
+		if (start->type == T_OR || start->type == T_AND)
+			div = start;
+		if (start->type == T_PIPE)
+			div = start;
+		start = start->next;
+	}
+	return (div);
 }
