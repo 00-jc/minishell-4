@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 00:53:59 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/12 21:05:44 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/20 04:38:22 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,21 +42,17 @@ static int	get_envp(char **envp, t_shell *shell)
 
 void	refresh_path(t_shell *shell)
 {
-	size_t	i;
+	char	*val;
 
-	i = 0;
-	while (shell->envp[i])
-	{
-		if (ft_strncmp(shell->envp[i], "PATH=", 5) == 0)
-		{
-			shell->path = ft_split(shell->envp[i] + 5, ':');
-			slash_path(shell);
-			break ;
-		}
-		i++;
-	}
-	if (!shell->envp[i] || !shell->path)
-		shell->path = NULL;
+	free_path(shell->path);
+	shell->path = NULL;
+	val = ms_getenv(shell->envp, "PATH");
+	if (!val)
+		return ;
+	shell->path = ft_split(val, ':');
+	if (!shell->path)
+		return ;
+	slash_path(shell);
 }
 
 static void	init_config_file(t_shell *shell)

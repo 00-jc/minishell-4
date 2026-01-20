@@ -32,7 +32,8 @@ static int	is_valid_identifier(const char *str)
 
 static int	find_env_index(char **envp, const char *name)
 {
-	int	i;
+
+	int		i;
 	size_t	len;
 
 	if (!envp || !*name)
@@ -42,7 +43,7 @@ static int	find_env_index(char **envp, const char *name)
 	while (envp[i])
 	{
 		if (ft_strncmp(envp[i], name, len) == 0 && envp[i][len] == '=')
-			return(i);
+			return (i);
 		i++;
 	}
 	return (-1);
