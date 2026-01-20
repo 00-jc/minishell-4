@@ -28,7 +28,7 @@ char	*search_cmd(char *cmd, t_shell *shell)
 	{
 		route = ft_strjoin(shell->path[i], cmd);
 		if (access(route, X_OK) == 0)
-			return (route) ;
+			return (route);
 		free(route);
 		route = NULL;
 		i++;

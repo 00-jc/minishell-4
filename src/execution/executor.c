@@ -6,20 +6,20 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 16:48:33 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/18 23:40:12 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/20 04:48:06 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	execute_external(t_cmd *cmd, t_redir *redir, char **envp, t_shell *shell)
+void	execute_external(t_cmd *cmd, t_redir *redir, char **envp, t_shell *sh)
 {
 	char	*path;
 
 	(void)redir;
 	if (!cmd || !cmd->args || !cmd->args[0])
 		exit(127);
-	path = search_cmd(cmd->args[0], shell);
+	path = search_cmd(cmd->args[0], sh);
 	if (!path)
 		exit(127);
 	if (execve(path, cmd->args, envp) == -1)
@@ -34,14 +34,12 @@ void	execute_command(t_shell *shell, t_cmd *cmd, char **envp)
 {
 	int	pid;
 	int	status;
-	char	**temp_envp;
 
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return ;
 	if (is_builtin(cmd, envp))
 	{
-		temp_envp = envp;
-		execute_builtin(shell, cmd, &temp_envp);
+		execute_builtin(shell, cmd, &shell->envp);
 		shell->exit_code = 0;
 		return ;
 	}
@@ -66,9 +64,9 @@ void	execute_pipeline(t_shell *shell)
 	current = shell->cmd_list;
 	while (current)
 	{
-		if (current->operator == T_AND ||
-			current->operator == T_OR ||
-			current->operator == T_PIPE)
+		if (current->operator == T_AND
+			|| current->operator == T_OR
+			|| current->operator == T_PIPE)
 		{
 			current = current->next;
 			continue ;

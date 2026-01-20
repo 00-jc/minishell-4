@@ -29,10 +29,5 @@ t_cmd	*create_cmd(t_tree *node, t_token *start, t_token *end)
 		{
 		}
 		start++;
-	}		
-}
-
-t_tree	*create_tree(t_token *start, t_token *stop)
-{
-	
+	}
 }

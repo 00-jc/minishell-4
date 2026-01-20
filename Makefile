@@ -6,7 +6,7 @@
 #    By: asoria <asoria@stedent.42madrid.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/15 00:26:06 by asoria            #+#    #+#              #
-#    Updated: 2026/01/18 23:59:43 by asoria           ###   ########.fr        #
+#    Updated: 2026/01/20 05:39:00 by asoria           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,8 +32,11 @@ SRC	:= \
 	$(SRC_DIR)/parsing.c \
 	$(SRC_DIR)/debug.c \
 	$(SRC_DIR)/cleanup.c \
+	$(SRC_DIR)/cleanup2.c \
 	$(SRC_DIR)/clusters.c \
 	$(SRC_DIR)/utils.c \
+	$(SRC_DIR)/utils2.c \
+	$(SRC_DIR)/parameter-expansion.c \
 	$(EXECUTION_SRC_DIR)/executor.c \
 	$(EXECUTION_SRC_DIR)/pipes.c \
 	$(EXECUTION_SRC_DIR)/executor_utils.c \
