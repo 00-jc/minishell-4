@@ -32,25 +32,6 @@ void	execute_external(t_cmd *cmd, t_redir *redir, char **envp, t_shell *sh)
 
 void	execute_command(t_shell *shell, t_cmd *cmd, char **envp)
 {
-	int	pid;
-	int	status;
-
-	if (!cmd || !cmd->args || !cmd->args[0])
-		return ;
-	if (is_builtin(cmd, envp))
-	{
-		execute_builtin(shell, cmd, &shell->envp);
-		shell->exit_code = 0;
-		return ;
-	}
-	pid = fork();
-	if (pid == -1)
-		return ;
-	if (pid == 0)
-		execute_external(cmd, cmd->redir, envp, shell);
-	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		shell->exit_code = WEXITSTATUS(status);
 }
 
 /* 
@@ -59,19 +40,16 @@ void	execute_command(t_shell *shell, t_cmd *cmd, char **envp)
 */
 void	execute_pipeline(t_shell *shell)
 {
-	t_cmd	*current;
+	t_tree	*node;
 
-	current = shell->cmd_list;
-	while (current)
+	node = shell->ast;
+	if (node->type == N_CMD)
 	{
-		if (current->operator == T_AND
-			|| current->operator == T_OR
-			|| current->operator == T_PIPE)
-		{
-			current = current->next;
-			continue ;
-		}
-		execute_command(shell, current, shell->envp);
-		current = current->next;
+		execute_command(shell, node->cmd, shell->envp);
+		return ;
+	}
+	else
+	{
+
 	}
 }
