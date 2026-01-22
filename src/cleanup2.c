@@ -31,7 +31,7 @@ void	black_hole(t_shell *shell)
 		free(shell->input);
 		shell->input = NULL;
 	}
-	free_tokens(&shell->tokens);
+	free_tokens(&shell->ast->cmd->args);
 	if (shell->path)
 	{
 		free_path(shell->path);

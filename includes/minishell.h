@@ -66,8 +66,8 @@ typedef struct s_redir
 
 typedef struct s_cmd
 {
-	t_token			**args;
-	t_token_type	operator;
+	char			**execute;
+	t_token			*args;
 	t_redir			*redir;
 	struct s_cmd	*next;
 }					t_cmd;
@@ -130,8 +130,7 @@ t_tree		*create_tree(t_token *start, t_token *stop);
 int		is_builtin(t_cmd *cmd, char **envp);
 void	execute_pipeline(t_shell *shell);
 int		execute_builtin(t_shell *shell, t_cmd *cmd, char ***envp);
-void	execute_external(t_cmd *cmd, t_redir *redir,
-			char **envp, t_shell *shell);
+void	execute_external(t_cmd *cmd, char **envp, t_shell *shell);
 void	execute_command(t_shell *shell, t_cmd *cmd, char **envp);
 int		count_commands(t_cmd *cmd_list);
 

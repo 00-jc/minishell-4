@@ -82,9 +82,9 @@ int	init_shell(char **argv, char **envp, t_shell *shell)
 {
 	(void)argv;
 	ft_bzero(shell, sizeof(t_shell));
-	shell->is_alive = true;
+	shell->is_alive = 1;
 	shell->exit_code = 0;
-	shell->cmd_list = NULL;
+	shell->ast = NULL;
 	get_envp(envp, shell);
 	init_config_file(shell);
 	init_rl_history(shell);

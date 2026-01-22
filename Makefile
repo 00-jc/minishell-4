@@ -30,10 +30,8 @@ SRC	:= \
 	$(SRC_DIR)/minishell.c \
 	$(SRC_DIR)/init.c \
 	$(SRC_DIR)/parsing.c \
-	$(SRC_DIR)/debug.c \
 	$(SRC_DIR)/cleanup.c \
 	$(SRC_DIR)/cleanup2.c \
-	$(SRC_DIR)/clusters.c \
 	$(SRC_DIR)/utils.c \
 	$(SRC_DIR)/utils2.c \
 	$(SRC_DIR)/parameter-expansion.c \

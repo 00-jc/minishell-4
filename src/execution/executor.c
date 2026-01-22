@@ -12,19 +12,18 @@
 
 #include "minishell.h"
 
-void	execute_external(t_cmd *cmd, t_redir *redir, char **envp, t_shell *sh)
+void	execute_external(t_cmd *cmd, char **envp, t_shell *sh)
 {
 	char	*path;
 
-	(void)redir;
-	if (!cmd || !cmd->args || !cmd->args[0])
+	if (!cmd || !cmd->args)
 		exit(127);
-	path = search_cmd(cmd->args[0], sh);
+	path = search_cmd(cmd->args->value, sh);
 	if (!path)
 		exit(127);
-	if (execve(path, cmd->args, envp) == -1)
+	if (execve(path, cmd->args->value, envp) == -1)
 	{
-		if (path != cmd->args[0])
+		if (path != cmd->args)
 			free(path);
 		exit(127);
 	}
@@ -32,6 +31,12 @@ void	execute_external(t_cmd *cmd, t_redir *redir, char **envp, t_shell *sh)
 
 void	execute_command(t_shell *shell, t_cmd *cmd, char **envp)
 {
+	if (is_builtin(cmd, envp))
+	{
+		execute_builtin(shell, cmd, envp);
+		return ;
+	}
+	execute_external(cmd, envp, shell);
 }
 
 /* 

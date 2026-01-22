@@ -96,32 +96,3 @@ static void	add_command_to_list(t_cmd **list, t_cmd *new_cmd)
 		last = last->next;
 	last->next = new_cmd;
 }
-
-void	clusterize_tokens(t_shell *shell)
-{
-	int		i;
-	int		cmd_start;
-	t_cmd	*cmd;
-	t_token	*current;
-
-	i = 0;
-	cmd_start = 0;
-	current = shell->tokens;
-	while (current)
-	{
-		if (classify_token(current) && i > cmd_start)
-		{
-			cmd = create_command(shell->tokens, cmd_start, i - 1,
-					current->type);
-			add_command_to_list(&shell->cmd_list, cmd);
-			cmd_start = i + 1;
-		}
-		current = current->next;
-		i++;
-	}
-	if (i > cmd_start)
-	{
-		cmd = create_command(shell->tokens, cmd_start, i - 1, T_WORD);
-		add_command_to_list(&shell->cmd_list, cmd);
-	}
-}
