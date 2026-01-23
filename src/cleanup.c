@@ -31,24 +31,24 @@ void	free_tokens(t_token **lst)
 	*lst = NULL;
 }
 
-static void	free_redir_list(t_redir **redir)
-{
-	t_redir	*current;
-	t_redir	*next;
+// static void	free_redir_list(t_redir **redir)
+// {
+// 	t_redir	*current;
+// 	t_redir	*next;
 
-	if (!redir || !*redir)
-		return ;
-	current = *redir;
-	while (current)
-	{
-		next = current->next;
-		if (current->file.value)
-			free(current->file.value);
-		free(current);
-		current = next;
-	}
-	*redir = NULL;
-}
+// 	if (!redir || !*redir)
+// 		return ;
+// 	current = *redir;
+// 	while (current)
+// 	{
+// 		next = current->next;
+// 		if (current->file.value)
+// 			free(current->file.value);
+// 		free(current);
+// 		current = next;
+// 	}
+// 	*redir = NULL;
+// }
 
 void	free_envp(char ***envp)
 {

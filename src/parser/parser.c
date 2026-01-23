@@ -26,7 +26,7 @@ t_token	*create_cmd(t_tree *node, t_token *start, t_token *end)
 			add_redir(&(node->cmd->redir), start, start + 1);
 		}
 		else
-			add_token_to_list(node->cmd->args, start);
+			add_token_to_list(&(node->cmd->args), start);
 		start = start->next;
 	}
 	return (start);	

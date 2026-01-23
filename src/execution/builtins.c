@@ -24,8 +24,8 @@ int	is_builtin(t_cmd *cmd, char **envp)
 		return (0);
 	while (builtins[i])
 	{
-		if (ft_strncmp(cmd->args[0]->value, builtins[i], ft_strlen(builtins[i]))
-			== 0 && cmd->args[0]->value[ft_strlen(builtins[i])] == '\0')
+		if (ft_strncmp(cmd->args->value, builtins[i], ft_strlen(builtins[i]))
+			== 0 && cmd->args->value[ft_strlen(builtins[i])] == '\0')
 			return (1);
 		i++;
 	}
@@ -41,7 +41,7 @@ int	execute_builtin(t_shell *shell, t_cmd *cmd, char ***envp)
 	else if (ft_strcmp(cmd->args->value, "cd") == 0)
 		ms_cd(cmd->args->next->value);
 	else if (ft_strcmp(cmd->args->value, "echo") == 0)
-		ms_echo(cmd->args->value);
+		ms_echo(tokens_to_args(cmd->args, 0, count_tokens(cmd->args)));
 	else if (ft_strcmp(cmd->args->value, "export") == 0)
 		ms_export(cmd->args->next->value, envp);
 	else if (ft_strcmp(cmd->args->value, "unset") == 0)

@@ -24,6 +24,7 @@ TARGET_DIR	:= target
 RM			?= rm
 EXECUTION_SRC_DIR := $(SRC_DIR)/execution
 TOKEN_SRC_DIR := $(SRC_DIR)/tokens
+PARSE_SRC_DIR := $(SRC_DIR)/parser
 BUILTIN_SRC_DIR	:= $(SRC_DIR)/builtin
 
 SRC	:= \
@@ -34,7 +35,10 @@ SRC	:= \
 	$(SRC_DIR)/cleanup2.c \
 	$(SRC_DIR)/utils.c \
 	$(SRC_DIR)/utils2.c \
+	$(SRC_DIR)/clusters.c \
 	$(SRC_DIR)/parameter-expansion.c \
+	$(PARSE_SRC_DIR)/parser.c \
+	$(PARSE_SRC_DIR)/parser_utils.c \
 	$(EXECUTION_SRC_DIR)/executor.c \
 	$(EXECUTION_SRC_DIR)/pipes.c \
 	$(EXECUTION_SRC_DIR)/executor_utils.c \

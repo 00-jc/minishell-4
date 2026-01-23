@@ -21,10 +21,9 @@ void	execute_external(t_cmd *cmd, char **envp, t_shell *sh)
 	path = search_cmd(cmd->args->value, sh);
 	if (!path)
 		exit(127);
-	if (execve(path, , envp) == -1)
+	if (execve(path, tokens_to_args(cmd->args, 0, count_tokens(cmd->args) - 1), envp) == -1)
 	{
-		if (path != cmd->args)
-			free(path);
+		free(path);
 		exit(127);
 	}
 }
@@ -33,7 +32,7 @@ void	execute_command(t_shell *shell, t_cmd *cmd, char **envp)
 {
 	if (is_builtin(cmd, envp))
 	{
-		execute_builtin(shell, cmd, envp);
+		execute_builtin(shell, cmd, &envp);
 		return ;
 	}
 	execute_external(cmd, envp, shell);

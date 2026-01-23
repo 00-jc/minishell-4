@@ -53,21 +53,6 @@ int	is_environment_modifier(t_cmd *cmd)
 	return (0);
 }
 
-int	count_commands(t_cmd *cmd_list)
-{
-	int		count;
-	t_cmd	*current;
-
-	count = 0;
-	current = cmd_list;
-	while (current)
-	{
-		count++;
-		current = current->next;
-	}
-	return (count);
-}
-
 void	slash_path(t_shell *shell)
 {
 	size_t	i;

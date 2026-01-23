@@ -122,7 +122,7 @@ t_node_type	is_div(t_token *token);
 t_token		*div_point(t_token *start, t_token *stop);
 
 /* parser/parser.c */
-t_cmd		*create_cmd(t_tree *node, t_token *start, t_token *end);
+t_token		*create_cmd(t_tree *node, t_token *start, t_token *end);
 t_tree		*create_tree(t_token *start, t_token *stop);
 
 /* execution/executor.c  */
@@ -149,8 +149,8 @@ void		add_token_to_list(t_token **lst, t_token *new);
 void		tokenize_input(t_shell *shell);
 
 /* clusters.c */
+char		**tokens_to_args(t_token *head, int start, int end);
 int			classify_token(t_token *token);
-void		clusterize_tokens(t_shell *shell);
 
 /* builtin.c */
 int			is_builtin(t_cmd *cmd, char **envp);
