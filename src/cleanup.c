@@ -50,33 +50,6 @@ static void	free_redir_list(t_redir **redir)
 	*redir = NULL;
 }
 
-void	free_cmd_list(t_cmd **cmd_list)
-{
-	int		i;
-	t_cmd	*current;
-	t_cmd	*next;
-
-	if (!cmd_list || !*cmd_list)
-		return ;
-	current = *cmd_list;
-	while (current)
-	{
-		next = current->next;
-		if (current->args)
-		{
-			i = 0;
-			while (current->args[i])
-				free(current->args[i++]);
-			free(current->args);
-		}
-		if (current->redir)
-			free_redir_list(&current->redir);
-		free(current);
-		current = next;
-	}
-	*cmd_list = NULL;
-}
-
 void	free_envp(char ***envp)
 {
 	int	i;

@@ -23,11 +23,7 @@ void	minishell(t_shell *shell, char **argv, char **envp)
 			expand_parameters(shell, &shell->input);
 		}
 		if (!shell->input)
-		{
-			black_hole(shell);
-			free_envp(&shell->envp);
 			break ;
-		}
 		else if (*shell->input)
 		{
 			refresh_path(shell);
@@ -37,6 +33,7 @@ void	minishell(t_shell *shell, char **argv, char **envp)
 			black_hole(shell);
 		}
 	}
+	black_hole(shell);
 	free_envp(&shell->envp);
 }
 

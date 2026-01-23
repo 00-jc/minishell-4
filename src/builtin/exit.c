@@ -20,6 +20,6 @@ void	ms_exit(t_shell *shell, char *arg)
 	if (arg)
 		exit_code = ft_atoi(arg);
 	printf("exit\n");
-	shell->is_alive = false;
+	shell->is_alive = 0;
 	shell->exit_code = exit_code;
 }

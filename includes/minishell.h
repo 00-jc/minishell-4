@@ -69,7 +69,6 @@ typedef struct s_cmd
 	char			**execute;
 	t_token			*args;
 	t_redir			*redir;
-	struct s_cmd	*next;
 }					t_cmd;
 
 typedef struct s_tree

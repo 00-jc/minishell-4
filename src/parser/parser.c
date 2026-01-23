@@ -43,6 +43,7 @@ t_tree	*create_tree(t_token *start, t_token *stop)
 	if (!node)
 		return (perror("node malloc"), NULL);
 	div = div_point(start, stop);
+	node->cmd = NULL;
 	node->type = is_div(div);
 	if (node->type == N_CMD)
 	{

@@ -24,6 +24,17 @@ void	free_path(char **path)
 	free(path);
 }
 
+void	free_ast(t_tree	*node)
+{
+	if (!node)
+		return ;
+	free_ast(node->left);
+	free_ast(node->right);
+	if (node->cmd != NULL)
+		free(node->cmd);
+	free(node);
+}
+
 void	black_hole(t_shell *shell)
 {
 	if (shell->input)
@@ -37,6 +48,6 @@ void	black_hole(t_shell *shell)
 		free_path(shell->path);
 		shell->path = NULL;
 	}
-	free_cmd_list(&shell->cmd_list);
+	free_ast(shell->ast);
 	write_history(shell->history_file);
 }

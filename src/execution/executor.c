@@ -21,7 +21,7 @@ void	execute_external(t_cmd *cmd, char **envp, t_shell *sh)
 	path = search_cmd(cmd->args->value, sh);
 	if (!path)
 		exit(127);
-	if (execve(path, cmd->args->value, envp) == -1)
+	if (execve(path, , envp) == -1)
 	{
 		if (path != cmd->args)
 			free(path);

@@ -31,7 +31,7 @@ static int	count_tokens_range(t_token *head, int start, int end)
 	return (count);
 }
 
-static char	**tokens_to_args(t_token *head, int start, int end)
+char	**tokens_to_args(t_token *head, int start, int end)
 {
 	char	**args;
 	t_token	*current;
@@ -58,41 +58,4 @@ static char	**tokens_to_args(t_token *head, int start, int end)
 	}
 	args[j] = NULL;
 	return (args);
-}
-
-static t_cmd	*create_command(t_token *tokens, int start, int end,
-				t_token_type op)
-{
-	t_cmd	*cmd;
-
-	cmd = malloc(sizeof(t_cmd));
-	if (!cmd)
-		return (NULL);
-	cmd->args = tokens_to_args(tokens, start, end);
-	if (!cmd->args)
-	{
-		free(cmd);
-		return (NULL);
-	}
-	cmd->operator = op;
-	cmd->redir = NULL;
-	cmd->next = NULL;
-	return (cmd);
-}
-
-static void	add_command_to_list(t_cmd **list, t_cmd *new_cmd)
-{
-	t_cmd	*last;
-
-	if (!new_cmd)
-		return ;
-	if (!*list)
-	{
-		*list = new_cmd;
-		return ;
-	}
-	last = *list;
-	while (last->next)
-		last = last->next;
-	last->next = new_cmd;
 }

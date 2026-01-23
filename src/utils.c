@@ -42,13 +42,13 @@ static char	*ft_strjoin_free(char *s1, char *s2)
 
 int	is_environment_modifier(t_cmd *cmd)
 {
-	if (ft_strncmp(cmd->args[0], "export", 6) == 0 && cmd->args->value[6] == '\0')
+	if (ft_strncmp(cmd->args->value, "export", 6) == 0 && cmd->args->value[6] == '\0')
 		return (1);
-	if (ft_strncmp(cmd->args[0], "unset", 5) == 0 && cmd->args->value[5] == '\0')
+	if (ft_strncmp(cmd->args->value, "unset", 5) == 0 && cmd->args->value[5] == '\0')
 		return (1);
-	if (ft_strncmp(cmd->args[0], "exit", 4) == 0 && cmd->args->value[4] == '\0')
+	if (ft_strncmp(cmd->args->value, "exit", 4) == 0 && cmd->args->value[4] == '\0')
 		return (1);
-	if (ft_strncmp(cmd->args[0], "cd", 2) == 0 && cmd->args->value[2] == '\0')
+	if (ft_strncmp(cmd->args->value, "cd", 2) == 0 && cmd->args->value[2] == '\0')
 		return (1);
 	return (0);
 }
