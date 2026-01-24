@@ -26,7 +26,7 @@ t_token	*create_cmd(t_tree *node, t_token *start, t_token *end)
 			add_redir(&(node->cmd->redir), start, start + 1);
 		}
 		else
-			add_token_to_list(node->cmd->args, start);
+			add_token_to_list(&(node->cmd->args), start);
 		start = start->next;
 	}
 	return (start);	
@@ -35,22 +35,25 @@ t_token	*create_cmd(t_tree *node, t_token *start, t_token *end)
 t_tree	*create_tree(t_token *start, t_token *stop)
 {
 	t_tree	*node;
-	t_token	*sep;
+	t_token	*div;
 
 	if (!start || !stop || start == stop)
 		return (NULL);
 	node = ft_calloc(1, sizeof(t_tree));
 	if (!node)
 		return (perror("node malloc"), NULL);
-	while (start != stop)
+	div = div_point(start, stop);
+	node->cmd = NULL;
+	node->type = is_div(div);
+	if (node->type == N_CMD)
 	{
-		if (is_div(start) == N_CMD)
-			create_cmd(node, start, stop);
-		else
-		{
-			
-		}
-		start = start->next;
+		if (!create_cmd(node, start, stop))
+			return (free(node), NULL);
+		return (node);
 	}
+	node->left = create_tree(start, div);
+	node->right = create_tree(div, stop);
+	if (!(node->left) || !(node->right))
+		return (free(node), NULL);
 	return (node);
 }

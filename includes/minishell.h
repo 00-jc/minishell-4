@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 02:47:47 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/18 23:06:55 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/20 04:55:31 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@
 
 # define MAX_TOKENS 1000
 # define MAX_BUFFER 4096
-# define true 1
-# define false 0
 
 typedef enum e_token_type
 {
@@ -68,10 +66,9 @@ typedef struct s_redir
 
 typedef struct s_cmd
 {
-	t_token			**args;
-	t_token_type	operator;
+	char			**execute;
+	t_token			*args;
 	t_redir			*redir;
-	struct s_cmd	*next;
 }					t_cmd;
 
 typedef struct s_tree
@@ -90,13 +87,12 @@ typedef struct s_shell
 	char	**path;
 	char	*prompt;
 	char	*input;
-	t_token	*tokens;
-	t_cmd	*cmd_list;
+	t_token	*first;
+	t_token	*last;
+	t_tree	*ast;
 	char	*config_file;
 	char	*history_file;
 }		t_shell;
-
-
 
 /* init.c */
 void		refresh_path(t_shell *shell);
@@ -113,6 +109,7 @@ void		print_envp(t_shell *shell);
 
 /* cleanup.c */
 void		free_envp(char ***envp);
+void		free_path(char **path);
 void		free_tokens(t_token **list);
 void		free_split(t_token **list);
 void		free_cmd_list(t_cmd **cmd_list);
@@ -122,17 +119,19 @@ void		black_hole(t_shell *shell);
 int			is_redir(const t_token *token);
 int			add_redir(t_redir **redir, t_token *redir_token, t_token *next);
 t_node_type	is_div(t_token *token);
+t_token		*div_point(t_token *start, t_token *stop);
 
 /* parser/parser.c */
-t_cmd		*create_cmd(t_tree *node, t_token *start, t_token *end);
+t_token		*create_cmd(t_tree *node, t_token *start, t_token *end);
+t_tree		*create_tree(t_token *start, t_token *stop);
 
 /* execution/executor.c  */
-int			is_builtin(t_cmd *cmd, char **envp);
-void		execute_pipeline(t_shell *shell);
-int			execute_builtin(t_shell *shell, t_cmd *cmd, char ***envp);
-void		execute_external(t_cmd *cmd, t_redir *redir,char **envp, t_shell *shell);
-void		execute_command(t_shell *shell, t_cmd *cmd, char **envp);
-int			count_commands(t_cmd *cmd_list);
+int		is_builtin(t_cmd *cmd, char **envp);
+void	execute_pipeline(t_shell *shell);
+int		execute_builtin(t_shell *shell, t_cmd *cmd, char ***envp);
+void	execute_external(t_cmd *cmd, char **envp, t_shell *shell);
+void	execute_command(t_shell *shell, t_cmd *cmd, char **envp);
+int		count_commands(t_cmd *cmd_list);
 
 /* execution/executor_utils.c */
 char		*search_cmd(char *cmd, t_shell *shell);
@@ -150,11 +149,14 @@ void		add_token_to_list(t_token **lst, t_token *new);
 void		tokenize_input(t_shell *shell);
 
 /* clusters.c */
+char		**tokens_to_args(t_token *head, int start, int end);
 int			classify_token(t_token *token);
-void		clusterize_tokens(t_shell *shell);
 
 /* builtin.c */
 int			is_builtin(t_cmd *cmd, char **envp);
+
+/* parameter-expansion.c */
+void	expand_parameters(t_shell *shell, char **input);
 
 /* cd.c */
 char		*ms_cd(char *arg);
@@ -166,7 +168,7 @@ void		ms_pwd(void);
 void		ms_env(char **envp);
 
 /* echo.c */
-void		ms_echo(char *arg1, char *arg2);
+void		ms_echo(char **args);
 
 /* export.c */
 void		ms_export(char *arg, char ***envp);
@@ -182,5 +184,8 @@ int			is_environment_modifier(t_cmd *cmd);
 int			count_commands(t_cmd *cmd_list);
 void		slash_path(t_shell *shell);
 int			count_tokens(t_token *tokens);
+
+char		*ms_getenv(char**envp, const char *name);
+t_token		*last_token(t_token	*start);
 
 #endif

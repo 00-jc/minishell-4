@@ -1,25 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/11 02:27:07 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/11 02:29:35 by asoria           ###   ########.fr       */
+/*   Created: 2026/01/20 04:41:16 by asoria            #+#    #+#             */
+/*   Updated: 2026/01/20 04:42:42 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ms_exit(t_shell *shell, char *arg)
+char	*ms_getenv(char **envp, const char *name)
 {
-	int	exit_code;
+	size_t	len;
+	int		i;
 
-	exit_code = 0;
-	if (arg)
-		exit_code = ft_atoi(arg);
-	printf("exit\n");
-	shell->is_alive = 0;
-	shell->exit_code = exit_code;
+	len = ft_strlen(name);
+	i = 0;
+	while (envp && envp[i])
+	{
+		if (!ft_strncmp(envp[i], name, len)
+			&& envp[i][len] == '=')
+			return (envp[i] + len + 1);
+		i++;
+	}
+	return (NULL);
+}
+
+t_token	*last_token(t_token	*start)
+{
+	t_token	*end;
+
+	if (!start)
+		return (NULL);
+	end = start;
+	while (end->next != NULL)
+		end = end->next;
+	return (end);
 }

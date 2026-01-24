@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static const char 	*get_operator_string(t_token_type op)
+static const char	*get_operator_string(t_token_type op)
 {
 	if (op == T_PIPE)
 		return ("|");

@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 00:48:30 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/11 03:00:00 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/20 04:45:00 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,12 @@ void	ms_export(char *arg, char ***envp)
 	int		index;
 	int		size;
 	char	**new_env;
+	char	**old_env;
 	int		i;
 
-	if (!arg)
+	size = env_size(*envp);
+	new_env = malloc(sizeof(char *) * (size + 2));
+	if (!arg || !new_env)
 		return ;
 	index = find_var(*envp, arg);
 	if (index != -1)
@@ -59,10 +62,6 @@ void	ms_export(char *arg, char ***envp)
 		(*envp)[index] = ft_strdup(arg);
 		return ;
 	}
-	size = env_size(*envp);
-	new_env = malloc(sizeof(char *) * (size + 2));
-	if (!new_env)
-		return ;
 	i = 0;
 	while (i < size)
 	{
@@ -71,6 +70,7 @@ void	ms_export(char *arg, char ***envp)
 	}
 	new_env[i] = ft_strdup(arg);
 	new_env[i + 1] = NULL;
-	free(*envp);
+	old_env = *envp;
 	*envp = new_env;
+	free(old_env);
 }
