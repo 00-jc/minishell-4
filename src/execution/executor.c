@@ -53,7 +53,5 @@ void	execute_pipeline(t_shell *shell)
 		return ;
 	}
 	else
-	{
-
-	}
+		
 }
