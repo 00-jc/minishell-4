@@ -15,17 +15,37 @@
 void	execute_external(t_cmd *cmd, char **envp, t_shell *sh)
 {
 	char	*path;
-
-	if (!cmd || !cmd->args)
-		exit(127);
-	path = search_cmd(cmd->args->value, sh);
-	if (!path)
-		exit(127);
-	if (execve(path, tokens_to_args(cmd->args, 0, count_tokens(cmd->args) - 1), envp) == -1)
+	int		n_tokens;
+	pid_t	son;
+	
+	n_tokens = count_tokens(cmd->args);
+	if (n_tokens == -1)
 	{
-		free(path);
-		exit(127);
+		perror("n_tokens ");
+		return ;
 	}
+	cmd->execute = tokens_to_args(cmd->args, 0, n_tokens);
+	if (!cmd->execute)
+		printf("Pues son los argumentos");
+	son = fork();
+	if (son == 0)
+	{
+		if (!cmd || !cmd->args)
+			exit(127);
+		path = search_cmd(cmd->args->value, sh);
+		if (!path)
+		{
+			perror("minishell: ");
+			exit(127);
+		}
+		if (execve(path, cmd->execute, envp) == -1)
+		{
+			perror("execve: ");
+			free(path);
+			exit(127);
+		}
+	}
+	waitpid(son, NULL, 0);
 }
 
 void	execute_command(t_shell *shell, t_cmd *cmd, char **envp)
@@ -47,11 +67,15 @@ void	execute_pipeline(t_shell *shell)
 	t_tree	*node;
 
 	node = shell->ast;
+	if (!node)
+		return ;
 	if (node->type == N_CMD)
 	{
 		execute_command(shell, node->cmd, shell->envp);
 		return ;
 	}
 	else
-		
+	{
+
+	}
 }

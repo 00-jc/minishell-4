@@ -12,7 +12,7 @@
 
 NAME		:= minishell
 CC			?= cc
-CFLAGS		?= -Wall -Wextra -Werror -Wpedantic -g3 -fsanitize=address
+CFLAGS		?= -Wall -Wextra -Werror -Wpedantic -g3
 CPPFLAGS	?= -Iincludes -Iincludes/libft
 SRC_DIR		:= src
 OBJ_DIR		:= obj

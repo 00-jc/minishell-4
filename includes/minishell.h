@@ -122,7 +122,7 @@ t_node_type	is_div(t_token *token);
 t_token		*div_point(t_token *start, t_token *stop);
 
 /* parser/parser.c */
-t_token		*create_cmd(t_tree *node, t_token *start, t_token *end);
+int			create_cmd(t_tree *node, t_token *start, t_token *end);
 t_tree		*create_tree(t_token *start, t_token *stop);
 
 /* execution/executor.c  */

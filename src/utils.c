@@ -69,6 +69,8 @@ int	count_tokens(t_token *tokens)
 {
 	int	i;
 
+	if (!tokens)
+		return (-1);
 	i = 0;
 	while (tokens)
 	{

@@ -28,7 +28,7 @@ void	minishell(t_shell *shell, char **argv, char **envp)
 		{
 			refresh_path(shell);
 			tokenize_input(shell);
-			shell->ast = create_tree(shell->first, shell->last);
+			shell->ast = create_tree(shell->first, NULL);
 			execute_pipeline(shell);
 			black_hole(shell);
 		}
