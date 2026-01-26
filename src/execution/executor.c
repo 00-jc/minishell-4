@@ -25,6 +25,8 @@ void	execute_external(t_cmd *cmd, char **envp, t_shell *sh)
 		return ;
 	}
 	cmd->execute = tokens_to_args(cmd->args, 0, n_tokens);
+	for (int i = 0; cmd->execute[i]; i++)
+		printf("cmd->execute : %s\n", cmd->execute[i]);
 	if (!cmd->execute)
 		printf("Pues son los argumentos");
 	son = fork();
@@ -32,7 +34,8 @@ void	execute_external(t_cmd *cmd, char **envp, t_shell *sh)
 	{
 		if (!cmd || !cmd->args)
 			exit(127);
-		path = search_cmd(cmd->args->value, sh);
+		path = search_cmd(cmd->execute[0], sh);
+		printf("%s\n", path);
 		if (!path)
 		{
 			perror("minishell: ");

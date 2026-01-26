@@ -26,12 +26,27 @@ void	free_path(char **path)
 
 void	free_ast(t_tree	*node)
 {
+	int	i;
+
+	i = 0;
 	if (!node)
 		return ;
 	free_ast(node->left);
 	free_ast(node->right);
 	if (node->cmd != NULL)
+	{
+		free_tokens(&node->cmd->args);
+		if (node->cmd->execute != NULL)
+		{
+			while (node->cmd->execute[i] != NULL)
+			{
+				free(node->cmd->execute[i]);
+				i++;
+			}
+		}
+		free(node->cmd->execute);
 		free(node->cmd);
+	}
 	free(node);
 }
 
@@ -42,12 +57,17 @@ void	black_hole(t_shell *shell)
 		free(shell->input);
 		shell->input = NULL;
 	}
-	free_tokens(&shell->ast->cmd->args);
 	if (shell->path)
 	{
 		free_path(shell->path);
 		shell->path = NULL;
 	}
-	free_ast(shell->ast);
+	if (shell->ast)
+	{
+		free_ast(shell->ast);
+		shell->ast = NULL;
+		shell->ast = NULL;
+	}
+	free_tokens(&(shell->first));
 	write_history(shell->history_file);
 }

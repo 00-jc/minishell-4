@@ -23,8 +23,7 @@ void	free_tokens(t_token **lst)
 	while (current)
 	{
 		tmp = current->next;
-		if (current->value)
-			free(current->value);
+		free(current->value);
 		free(current);
 		current = tmp;
 	}
@@ -64,20 +63,4 @@ void	free_envp(char ***envp)
 	}
 	free(*envp);
 	*envp = NULL;
-}
-
-void	free_split(t_token **token)
-{
-	int	i;
-
-	if (!token || !*token)
-		return ;
-	i = 0;
-	while ((*token)[i].value)
-	{
-		free((*token)[i].value);
-		i++;
-	}
-	free(*token);
-	*token = NULL;
 }

@@ -112,7 +112,6 @@ void		free_envp(char ***envp);
 void		free_path(char **path);
 void		free_tokens(t_token **list);
 void		free_split(t_token **list);
-void		free_cmd_list(t_cmd **cmd_list);
 void		black_hole(t_shell *shell);
 
 /* parser/parser_utils.c */
@@ -142,6 +141,7 @@ int			dup2_manager(int fd_stdout, int fd_stdin);
 void		close_pipes(int pipe[2]);
 
 /* token/tokens_utils.c */
+t_token		*dup_token(char *value, t_token_type type);
 t_token		*new_token(char *value);
 void		add_token_to_list(t_token **lst, t_token *new);
 
@@ -177,7 +177,7 @@ void		ms_export(char *arg, char ***envp);
 int			ms_unset(char ***envp, const char *var_name);
 
 /* exit.c */
-void		ms_exit(t_shell *shell, char *arg);
+void		ms_exit(t_shell *shell, t_token *arg);
 
 /* utils.c */
 int			is_environment_modifier(t_cmd *cmd);
