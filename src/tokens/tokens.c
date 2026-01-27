@@ -63,7 +63,6 @@ void	tokenize_input(t_shell *shell)
 		add_token_to_list(&shell->first, new);
 		new = NULL;
 	}
-	shell->last = last_token(shell->first);
 	shell->input = start;
 }
 

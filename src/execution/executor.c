@@ -12,6 +12,27 @@
 
 #include "minishell.h"
 
+/* void	check_redirs(t_shell *shell, t_cmd *cmd)
+{
+	t_redir	*current;
+
+	if (!cmd->redir)
+		return ;
+	current = cmd->redir;
+	while (current)
+	{
+		if (current->type == T_INFILE)
+			redir_infile(current);
+		if (current->type == T_OUTFILE)
+			redir_outfile(current);
+		if (current->type == T_APPEND)
+			redir_append(current);
+		if (current->type == T_HEREDOC)
+			redir_heredoc(current);
+		current = current->next;
+	}
+} */
+
 void	execute_external(t_cmd *cmd, char **envp, t_shell *sh)
 {
 	char	*path;
@@ -45,6 +66,7 @@ void	execute_external(t_cmd *cmd, char **envp, t_shell *sh)
 
 void	execute_command(t_shell *shell, t_cmd *cmd, char **envp)
 {
+	// check_redirs(shell, cmd);
 	if (is_builtin(cmd, envp))
 	{
 		execute_builtin(shell, cmd, &envp);
@@ -68,9 +90,5 @@ void	execute_pipeline(t_shell *shell)
 	{
 		execute_command(shell, node->cmd, shell->envp);
 		return ;
-	}
-	else if(node->type == N_PIPE)
-	{
-
 	}
 }

@@ -75,7 +75,10 @@ t_token	*div_point(t_token *start, t_token *stop)
 		if (start->type == T_OR || start->type == T_AND)
 			div = start;
 		if (start->type == T_PIPE)
+		{
 			div = start;
+			break ;
+		}
 		start = start->next;
 	}
 	return (div);

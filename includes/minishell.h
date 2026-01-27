@@ -88,7 +88,6 @@ typedef struct s_shell
 	char	*prompt;
 	char	*input;
 	t_token	*first;
-	t_token	*last;
 	t_tree	*ast;
 	char	*config_file;
 	char	*history_file;
