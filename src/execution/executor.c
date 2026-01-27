@@ -19,31 +19,23 @@ void	execute_external(t_cmd *cmd, char **envp, t_shell *sh)
 	pid_t	son;
 	
 	n_tokens = count_tokens(cmd->args);
-	if (n_tokens == -1)
-	{
-		perror("n_tokens ");
-		return ;
-	}
 	cmd->execute = tokens_to_args(cmd->args, 0, n_tokens);
-	for (int i = 0; cmd->execute[i]; i++)
-		printf("cmd->execute : %s\n", cmd->execute[i]);
 	if (!cmd->execute)
-		printf("Pues son los argumentos");
+		return ;
 	son = fork();
 	if (son == 0)
 	{
 		if (!cmd || !cmd->args)
 			exit(127);
 		path = search_cmd(cmd->execute[0], sh);
-		printf("%s\n", path);
 		if (!path)
 		{
-			perror("minishell: ");
+			perror("minishell");
 			exit(127);
 		}
 		if (execve(path, cmd->execute, envp) == -1)
 		{
-			perror("execve: ");
+			perror("execve");
 			free(path);
 			exit(127);
 		}
@@ -77,7 +69,7 @@ void	execute_pipeline(t_shell *shell)
 		execute_command(shell, node->cmd, shell->envp);
 		return ;
 	}
-	else
+	else if(node->type == N_PIPE)
 	{
 
 	}

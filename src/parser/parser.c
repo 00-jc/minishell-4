@@ -46,7 +46,7 @@ t_tree	*create_tree(t_token *start, t_token *stop)
 	if (!div)
 	{
 		node->type = N_CMD;
-		if (!create_cmd(node, start, NULL))
+		if (!create_cmd(node, start, stop))
 			return (perror("Error creating cmd: "), free(node), NULL);
 		return (node);
 	}

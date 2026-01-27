@@ -28,7 +28,6 @@ void	free_ast(t_tree	*node)
 {
 	int	i;
 
-	i = 0;
 	if (!node)
 		return ;
 	free_ast(node->left);
@@ -38,6 +37,7 @@ void	free_ast(t_tree	*node)
 		free_tokens(&node->cmd->args);
 		if (node->cmd->execute != NULL)
 		{
+			i = 0;
 			while (node->cmd->execute[i] != NULL)
 			{
 				free(node->cmd->execute[i]);
