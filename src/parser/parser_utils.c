@@ -36,7 +36,7 @@ int	add_redir(t_redir **redir, t_token *redir_token, t_token *next)
 		return (free(new), 0);
 	new->file.next = NULL;
 	new->next = NULL;
-	if (!redir)
+	if (!(*redir) || !redir)
 		(*redir) = new;
 	else
 	{
