@@ -70,14 +70,8 @@ int	classify_token(t_token *token)
 {
 	if (!token)
 		return (0);
-	if (ft_strncmp(token->value, "&&", 2) == 0)
-		return (token->type = T_AND, 1);
-	if (ft_strncmp(token->value, "||", 2) == 0)
-		return (token->type = T_OR, 1);
 	if (ft_strncmp(token->value, "|", 1) == 0)
 		return (token->type = T_PIPE, 1);
-	if (ft_strncmp(token->value, ";", 1) == 0)
-		return (token->type = T_ENDLINE, 1);
 	if (ft_strncmp(token->value, ">", 1) == 0)
 		return (token->type = T_OUTFILE, 1);
 	if (ft_strncmp(token->value, "<", 1) == 0)

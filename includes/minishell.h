@@ -25,29 +25,22 @@
 # include <readline/history.h>
 # include "libft/libft.h"
 
-# define MAX_TOKENS 1000
 # define MAX_BUFFER 4096
 
 typedef enum e_token_type
 {
 	T_WORD,
-	T_ENDLINE,
 	T_PIPE,
 	T_INFILE,
 	T_OUTFILE,
 	T_APPEND,
-	T_HEREDOC,
-	T_AND,
-	T_OR
+	T_HEREDOC
 }	t_token_type;
 
 typedef enum e_node_type
 {
 	N_CMD,
-	N_PIPE,
-	N_OR,
-	N_AND,
-	N_ENDLINE
+	N_PIPE
 }	t_node_type;
 
 typedef struct s_token
@@ -124,20 +117,22 @@ int			create_cmd(t_tree *node, t_token *start, t_token *end);
 t_tree		*create_tree(t_token *start, t_token *stop);
 
 /* execution/executor.c  */
-int		is_builtin(t_cmd *cmd, char **envp);
-void	execute_pipeline(t_shell *shell);
-int		execute_builtin(t_shell *shell, t_cmd *cmd, char ***envp);
-void	execute_external(t_cmd *cmd, char **envp, t_shell *shell);
-void	execute_command(t_shell *shell, t_cmd *cmd, char **envp);
-int		count_commands(t_cmd *cmd_list);
+int			is_builtin(t_cmd *cmd, char **envp);
+void		execute_pipeline(t_shell *shell);
+int			execute_builtin(t_shell *shell, t_cmd *cmd, char ***envp);
+void		execute_external(t_cmd *cmd, char **envp, t_shell *shell);
+void		execute_command(t_shell *shell, t_cmd *cmd, char **envp);
 
 /* execution/executor_utils.c */
 char		*search_cmd(char *cmd, t_shell *shell);
 
 /* execution/pipes.c */
-
 int			dup2_manager(int fd_stdout, int fd_stdin);
 void		close_pipes(int pipe[2]);
+
+/* execution/redirections.c */
+int			redir_infile(const t_redir *redir);
+int			redir_outfile(const t_redir *redir);
 
 /* token/tokens_utils.c */
 t_token		*dup_token(char *value, t_token_type type);

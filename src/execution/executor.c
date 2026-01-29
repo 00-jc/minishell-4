@@ -46,6 +46,7 @@ void	execute_external(t_cmd *cmd, char **envp, t_shell *sh)
 	son = fork();
 	if (son == 0)
 	{
+		//check_redirs(sh, cmd);
 		if (!cmd || !cmd->args)
 			exit(127);
 		path = search_cmd(cmd->execute[0], sh);
@@ -66,7 +67,6 @@ void	execute_external(t_cmd *cmd, char **envp, t_shell *sh)
 
 void	execute_command(t_shell *shell, t_cmd *cmd, char **envp)
 {
-	// check_redirs(shell, cmd);
 	if (is_builtin(cmd, envp))
 	{
 		execute_builtin(shell, cmd, &envp);

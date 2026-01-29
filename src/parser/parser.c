@@ -54,7 +54,7 @@ t_tree	*create_tree(t_token *start, t_token *stop)
 	node->type = is_div(div);
 	node->left = create_tree(start, div);
 	node->right = create_tree(div->next, stop);
-	if (!(node->left) || !(node->right))
-		return (free(node), NULL);
+/* 	if (!(node->left) || !(node->right))
+		return (free(node), NULL); */
 	return (node);
 }
