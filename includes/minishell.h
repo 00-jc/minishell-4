@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 02:47:47 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/20 04:55:31 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/29 16:49:07 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int			is_builtin(t_cmd *cmd, char **envp);
 void		execute_pipeline(t_shell *shell);
 int			execute_builtin(t_shell *shell, t_cmd *cmd, char ***envp);
 void		execute_external(t_cmd *cmd, char **envp, t_shell *shell);
-void		execute_command(t_shell *shell, t_cmd *cmd, char **envp);
+void		execute_command(t_shell *shell, t_cmd *cmd);
 
 /* execution/executor_utils.c */
 char		*search_cmd(char *cmd, t_shell *shell);
