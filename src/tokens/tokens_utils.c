@@ -26,10 +26,27 @@ t_token	*new_token(char *value)
 	return (new);
 }
 
+t_token	*dup_token(char *value, t_token_type type)
+{
+	t_token	*new;
+
+	if (!value)
+		return (NULL);
+	new = ft_calloc(1, sizeof(t_token));
+	if (!new)
+		return (NULL);
+	new->value = ft_strdup(value);
+	new->type = type;
+	new->next = NULL;
+	return (new);
+}
+
 void	add_token_to_list(t_token **lst, t_token *new)
 {
 	t_token	*idx;
 
+	if (!new)
+		return ;
 	if (!*lst)
 	{
 		*lst = new;

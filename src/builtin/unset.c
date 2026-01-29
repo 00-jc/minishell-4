@@ -32,7 +32,6 @@ static int	is_valid_identifier(const char *str)
 
 static int	find_env_index(char **envp, const char *name)
 {
-
 	int		i;
 	size_t	len;
 

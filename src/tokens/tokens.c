@@ -59,10 +59,10 @@ void	tokenize_input(t_shell *shell)
 		if (*shell->input == '\0')
 			break ;
 		new = new_token(get_token(shell));
+		classify_token(new);
 		add_token_to_list(&shell->first, new);
 		new = NULL;
 	}
-	shell->last = last_token(shell->first);
 	shell->input = start;
 }
 
@@ -70,14 +70,8 @@ int	classify_token(t_token *token)
 {
 	if (!token)
 		return (0);
-	if (ft_strncmp(token->value, "&&", 2) == 0)
-		return (token->type = T_AND, 1);
-	if (ft_strncmp(token->value, "||", 2) == 0)
-		return (token->type = T_OR, 1);
 	if (ft_strncmp(token->value, "|", 1) == 0)
 		return (token->type = T_PIPE, 1);
-	if (ft_strncmp(token->value, ";", 1) == 0)
-		return (token->type = T_ENDLINE, 1);
 	if (ft_strncmp(token->value, ">", 1) == 0)
 		return (token->type = T_OUTFILE, 1);
 	if (ft_strncmp(token->value, "<", 1) == 0)

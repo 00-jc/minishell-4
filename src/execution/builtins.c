@@ -47,6 +47,6 @@ int	execute_builtin(t_shell *shell, t_cmd *cmd, char ***envp)
 	else if (ft_strcmp(cmd->args->value, "unset") == 0)
 		ms_unset(envp, cmd->args->next->value);
 	else if (ft_strcmp(cmd->args->value, "exit") == 0)
-		ms_exit(shell, cmd->args->next->value);
+		ms_exit(shell, cmd->args->next);
 	return (1);
 }

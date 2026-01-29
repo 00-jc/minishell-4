@@ -12,7 +12,7 @@
 
 NAME		:= minishell
 CC			?= cc
-CFLAGS		?= -Wall -Wextra -Werror -Wpedantic -g3 -fsanitize=address
+CFLAGS		?= -Wall -Wextra -Werror -Wpedantic -g3
 CPPFLAGS	?= -Iincludes -Iincludes/libft
 SRC_DIR		:= src
 OBJ_DIR		:= obj
@@ -35,7 +35,6 @@ SRC	:= \
 	$(SRC_DIR)/cleanup2.c \
 	$(SRC_DIR)/utils.c \
 	$(SRC_DIR)/utils2.c \
-	$(SRC_DIR)/clusters.c \
 	$(SRC_DIR)/parameter-expansion.c \
 	$(PARSE_SRC_DIR)/parser.c \
 	$(PARSE_SRC_DIR)/parser_utils.c \
@@ -43,6 +42,7 @@ SRC	:= \
 	$(EXECUTION_SRC_DIR)/pipes.c \
 	$(EXECUTION_SRC_DIR)/executor_utils.c \
 	$(EXECUTION_SRC_DIR)/builtins.c \
+	$(TOKEN_SRC_DIR)/tokens_utils_2.c \
 	$(TOKEN_SRC_DIR)/tokens.c \
 	$(TOKEN_SRC_DIR)/tokens_utils.c \
 	$(BUILTIN_SRC_DIR)/cd.c \
@@ -88,6 +88,9 @@ $(TARGET_DIR):
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+
+test: re
+	valgrind --suppressions=valgrind.supp ./target/minishell
 
 .PHONY: all clean fclean re
 
