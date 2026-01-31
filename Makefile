@@ -42,6 +42,7 @@ SRC	:= \
 	$(EXECUTION_SRC_DIR)/pipes.c \
 	$(EXECUTION_SRC_DIR)/executor_utils.c \
 	$(EXECUTION_SRC_DIR)/builtins.c \
+	$(EXECUTION_SRC_DIR)/redirections.c \
 	$(TOKEN_SRC_DIR)/tokens_utils_2.c \
 	$(TOKEN_SRC_DIR)/tokens.c \
 	$(TOKEN_SRC_DIR)/tokens_utils.c \

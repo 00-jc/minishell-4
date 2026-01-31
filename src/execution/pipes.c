@@ -12,12 +12,29 @@
 
 #include "minishell.h"
 
-int	dup2_manager(int fd_stdout, int fd_stdin)
+int	dup2_manager(t_redir *redir)
 {
-	if (dup2(fd_stdout, STDOUT_FILENO) == -1)
-		return (0);
-	if (dup2(fd_stdin, STDIN_FILENO) == -1)
-		return (0);
+	t_redir	*current;
+	
+	if (!redir)
+		return (1);
+	current = redir;
+	while (current)
+	{
+		printf("tipo: %d", current->type);
+		if (current->type == T_INFILE)
+		{
+			if (dup2(current->fd, STDIN_FILENO) == -1)
+				return (0);
+		}
+		else if (current->type == T_OUTFILE || current->type == T_APPEND)
+		{
+			if (dup2(current->fd, STDOUT_FILENO) == -1)
+				return (0);			
+		}
+		close(current->fd);
+		current = current->next;
+	}
 	return (1);
 }
 

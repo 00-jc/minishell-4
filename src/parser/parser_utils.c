@@ -27,10 +27,12 @@ int	add_redir(t_redir **redir, t_token *redir_token, t_token *next)
 	t_redir	*idx;
 
 	new = ft_calloc(1, sizeof(t_redir));
-	if (!new)
+	if (!new || !next)
 		return (0);
 	new->type = redir_token->type;
-	new->file.type = next->type;
+	new->fd = -1;
+	if (next->type != T_WORD)
+		return (free(new), 0);
 	new->file.value = ft_strdup(next->value);
 	if (!new->file.value)
 		return (free(new), 0);

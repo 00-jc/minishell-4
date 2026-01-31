@@ -12,43 +12,47 @@
 
 #include "minishell.h"
 
-/* void	check_redirs(t_shell *shell, t_cmd *cmd)
+int	check_redirs(t_cmd *cmd)
 {
 	t_redir	*current;
+	int		control;
 
 	if (!cmd->redir)
-		return ;
+		return (1);
 	current = cmd->redir;
 	while (current)
 	{
+		control = 1;
 		if (current->type == T_INFILE)
-			redir_infile(current);
-		if (current->type == T_OUTFILE)
-			redir_outfile(current);
-		if (current->type == T_APPEND)
-			redir_append(current);
-		if (current->type == T_HEREDOC)
-			redir_heredoc(current);
+			control = redir_infile(current);
+		else if (current->type == T_OUTFILE)
+			control = redir_outfile(current);
+		else if (current->type == T_APPEND)
+			control = redir_append(current);
+/* 		else if (current->type == T_HEREDOC)
+			control = redir_heredoc(current); */
+		if (!control)
+			return (0);	
 		current = current->next;
 	}
-} */
+	return (1);
+}
 
-void	execute_external(t_cmd *cmd, char **envp, t_shell *sh)
+pid_t	execute_external(t_cmd *cmd, char **envp, t_shell *sh)
 {
 	char	*path;
-	int		n_tokens;
 	pid_t	son;
 	
-	n_tokens = count_tokens(cmd->args);
-	cmd->execute = tokens_to_args(cmd->args, 0, n_tokens);
+	cmd->execute = tokens_to_args(cmd->args, 0, count_tokens(cmd->args));
 	if (!cmd->execute)
-		return ;
+		return (-1);
 	son = fork();
 	if (son == 0)
 	{
-		//check_redirs(sh, cmd);
-		if (!cmd || !cmd->args)
+		if (!cmd || !check_redirs(cmd) || !cmd->execute)
 			exit(127);
+		if (dup2_manager(cmd->redir) == 0)
+			exit (126);
 		path = search_cmd(cmd->execute[0], sh);
 		if (!path)
 		{
@@ -62,17 +66,17 @@ void	execute_external(t_cmd *cmd, char **envp, t_shell *sh)
 			exit(127);
 		}
 	}
-	waitpid(son, NULL, 0);
+	return (son);
 }
 
-void	execute_command(t_shell *shell, t_cmd *cmd)
+pid_t	execute_command(t_shell *shell, t_cmd *cmd)
 {
 	if (is_builtin(cmd, shell->envp))
 	{
 		execute_builtin(shell, cmd, &shell->envp);
-		return ;
+		return (0);
 	}
-	execute_external(cmd, shell->envp, shell);
+	return (execute_external(cmd, shell->envp, shell));
 }
 
 /* 
@@ -82,13 +86,22 @@ void	execute_command(t_shell *shell, t_cmd *cmd)
 void	execute_pipeline(t_shell *shell)
 {
 	t_tree	*node;
+	pid_t	son;
 
 	node = shell->ast;
 	if (!node)
 		return ;
 	if (node->type == N_CMD)
 	{
-		execute_command(shell, node->cmd);
+		son = execute_command(shell, node->cmd);
+		waitpid(son, &shell->program_exit, 0);
 		return ;
 	}
+	while (node && node->type == N_PIPE)
+	{
+		if (node->left == N_CMD)
+			execute_command(shell, node->left->cmd);
+		node = node->right;
+	}
+
 }

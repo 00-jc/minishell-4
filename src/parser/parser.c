@@ -24,6 +24,7 @@ int	create_cmd(t_tree *node, t_token *start, t_token *end)
 			if (start->next == end || start->next->type != T_WORD)
 				return (free(node->cmd), 0);
 			add_redir(&(node->cmd->redir), start, start->next);
+			start = start->next;
 		}
 		else
 			add_token_to_list(&(node->cmd->args), dup_token(start->value, start->type));
