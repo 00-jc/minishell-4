@@ -61,7 +61,7 @@ pid_t	execute_external(t_cmd *cmd, char **envp, t_shell *sh)
 		}
 		if (execve(path, cmd->execute, envp) == -1)
 		{
-			perror("execve");
+			perror("minishell");
 			free(path);
 			exit(127);
 		}

@@ -91,7 +91,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 test: re
-	valgrind --suppressions=valgrind.supp ./target/minishell
+	valgrind --suppressions=valgrind.supp --track-fds=yes --trace-children=yes --show-leak-kinds=all --leak-check=full ./target/minishell
 
 .PHONY: all clean fclean re
 
