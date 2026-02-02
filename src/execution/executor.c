@@ -29,8 +29,8 @@ int	check_redirs(t_cmd *cmd)
 			control = redir_outfile(current);
 		else if (current->type == T_APPEND)
 			control = redir_append(current);
-/* 		else if (current->type == T_HEREDOC)
-			control = redir_heredoc(current); */
+		else if (current->type == T_HEREDOC)
+			control = redir_heredoc(current);
 		if (!control)
 			return (0);	
 		current = current->next;

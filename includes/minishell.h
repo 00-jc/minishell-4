@@ -55,6 +55,7 @@ typedef struct s_redir
 	t_token_type	type;
 	t_token			file;
 	int				fd;
+	char			*heredoc_name;
 	struct s_redir	*next;
 }	t_redir;
 
@@ -137,6 +138,7 @@ void		close_pipes(int pipe[2]);
 int			redir_infile(t_redir *redir);
 int			redir_outfile(t_redir *redir);
 int			redir_append(t_redir *redir);
+int			redir_heredoc(t_redir *redir);
 
 /* token/tokens_utils.c */
 t_token		*dup_token(char *value, t_token_type type);

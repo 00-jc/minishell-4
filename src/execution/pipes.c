@@ -21,8 +21,7 @@ int	dup2_manager(t_redir *redir)
 	current = redir;
 	while (current)
 	{
-		printf("tipo: %d", current->type);
-		if (current->type == T_INFILE)
+		if (current->type == T_INFILE || current->type == T_HEREDOC)
 		{
 			if (dup2(current->fd, STDIN_FILENO) == -1)
 				return (0);
