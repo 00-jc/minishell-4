@@ -123,15 +123,14 @@ t_tree		*create_tree(t_token *start, t_token *stop);
 int			is_builtin(t_cmd *cmd, char **envp);
 void		execute_pipeline(t_shell *shell);
 int			execute_builtin(t_shell *shell, t_cmd *cmd, char ***envp);
+void		execute_command(t_shell *shell, t_cmd *cmd);
 pid_t		execute_external(t_cmd *cmd, char **envp, t_shell *shell);
-pid_t		execute_command(t_shell *shell, t_cmd *cmd);
 
 /* execution/executor_utils.c */
 char		*search_cmd(char *cmd, t_shell *shell);
 
 /* execution/pipes.c */
 int			dup2_manager(t_redir *redir);
-void		close_fds(t_redir *redir);
 void		close_pipes(int pipe[2]);
 
 /* execution/redirections.c */

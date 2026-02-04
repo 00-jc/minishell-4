@@ -69,14 +69,11 @@ pid_t	execute_external(t_cmd *cmd, char **envp, t_shell *sh)
 	return (son);
 }
 
-pid_t	execute_command(t_shell *shell, t_cmd *cmd)
+void	execute_command(t_shell *shell, t_cmd *cmd)
 {
 	if (is_builtin(cmd, shell->envp))
-	{
 		execute_builtin(shell, cmd, &shell->envp);
-		return (0);
-	}
-	return (execute_external(cmd, shell->envp, shell));
+	execute_external(cmd, shell->envp, shell);
 }
 
 /* 
@@ -86,15 +83,16 @@ pid_t	execute_command(t_shell *shell, t_cmd *cmd)
 void	execute_pipeline(t_shell *shell)
 {
 	t_tree	*node;
-	pid_t	son;
+	pid_t	last_child;
 
 	node = shell->ast;
 	if (!node)
 		return ;
 	if (node->type == N_CMD)
 	{
-		son = execute_command(shell, node->cmd);
-		waitpid(son, &shell->program_exit, 0);
+		execute_command(shell, node->cmd);
+		wait(&last_child);
+		shell->program_exit = WEXITSTATUS(last_child);
 		return ;
 	}
 	while (node && node->type == N_PIPE)
@@ -103,5 +101,7 @@ void	execute_pipeline(t_shell *shell)
 			execute_command(shell, node->left->cmd);
 		node = node->right;
 	}
-
+	while (wait(&last_child) > 0)
+		;
+	shell->program_exit = WEXITSTATUS(last_child);
 }
