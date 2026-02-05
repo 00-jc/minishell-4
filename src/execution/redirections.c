@@ -17,7 +17,7 @@ static char	*put_name()
 	static int	n;
 	char		*result;
 
-	result = ft_strjoin("heredoc_", ft_itoa(n));
+	result = ft_strjoin(".heredoc_", ft_itoa(n));
 	n++;
 	if (!result)
 	{

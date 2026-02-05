@@ -12,6 +12,17 @@
 
 #include "minishell.h"
 
+int	init_ast(t_shell *shell)
+{
+	shell->ast = create_tree(shell->first, NULL);
+	if (!shell->ast)
+	{
+		ft_putstr_fd("minishell: syntax error\n", 2);
+		return (0);
+	}
+	return (1);
+}
+
 int	create_cmd(t_tree *node, t_token *start, t_token *end)
 {
 	node->cmd = ft_calloc(1, sizeof(t_cmd));
@@ -48,7 +59,7 @@ t_tree	*create_tree(t_token *start, t_token *stop)
 	{
 		node->type = N_CMD;
 		if (!create_cmd(node, start, stop))
-			return (perror("Error creating cmd: "), free(node), NULL);
+			return (free(node), NULL);
 		return (node);
 	}
 	node->cmd = NULL;

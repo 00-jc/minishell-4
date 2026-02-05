@@ -72,7 +72,9 @@ pid_t	execute_external(t_cmd *cmd, char **envp, t_shell *sh)
 void	execute_command(t_shell *shell, t_cmd *cmd)
 {
 	if (is_builtin(cmd, shell->envp))
+	{
 		execute_builtin(shell, cmd, &shell->envp);
+	}
 	execute_external(cmd, shell->envp, shell);
 }
 
@@ -97,6 +99,8 @@ void	execute_pipeline(t_shell *shell)
 	}
 	while (node && node->type == N_PIPE)
 	{
+		if (!node->left || !node->right)
+			return ;
 		if (node->left == N_CMD)
 			execute_command(shell, node->left->cmd);
 		node = node->right;

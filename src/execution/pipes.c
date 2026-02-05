@@ -12,6 +12,15 @@
 
 #include "minishell.h"
 
+static void	erase_heredoc(t_redir *redir)
+{
+	if (redir->heredoc_name != NULL)
+	{
+		unlink(redir->heredoc_name);
+		free(redir->heredoc_name);
+	}
+}
+
 int	dup2_manager(t_redir *redir)
 {
 	t_redir	*current;
@@ -32,6 +41,7 @@ int	dup2_manager(t_redir *redir)
 				return (0);			
 		}
 		close(current->fd);
+		erase_heredoc(current);
 		current = current->next;
 	}
 	return (1);
