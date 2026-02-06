@@ -46,9 +46,3 @@ int	dup2_manager(t_redir *redir)
 	}
 	return (1);
 }
-
-void	close_pipes(int pipe[2])
-{
-	close(pipe[0]);
-	close(pipe[1]);
-}
