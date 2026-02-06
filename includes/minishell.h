@@ -74,6 +74,14 @@ typedef struct s_tree
 	struct s_tree	*right;
 }	t_tree;
 
+typedef struct s_pipe
+{
+	int			pipe_fd[2];
+	int			prev_fd;
+	int			n_pipes;
+	pid_t		*childs;
+}	t_pipe;
+
 typedef struct s_shell
 {
 	int		is_alive;
@@ -120,12 +128,15 @@ int			init_ast(t_shell *shell);
 int			create_cmd(t_tree *node, t_token *start, t_token *end);
 t_tree		*create_tree(t_token *start, t_token *stop);
 
+/* execute_pipes.c */
+int			count_pipes(t_tree *root);
+
 /* execution/executor.c  */
 int			is_builtin(t_cmd *cmd, char **envp);
 void		execute_pipeline(t_shell *shell);
 int			execute_builtin(t_shell *shell, t_cmd *cmd, char ***envp);
 void		execute_command(t_shell *shell, t_cmd *cmd);
-pid_t		execute_external(t_cmd *cmd, char **envp, t_shell *shell);
+void		execute_external(t_cmd *cmd, char **envp, t_shell *shell);
 
 /* execution/executor_utils.c */
 char		*search_cmd(char *cmd, t_shell *shell);

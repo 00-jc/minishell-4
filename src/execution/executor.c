@@ -38,14 +38,12 @@ int	check_redirs(t_cmd *cmd)
 	return (1);
 }
 
-pid_t	execute_external(t_cmd *cmd, char **envp, t_shell *sh)
+void	execute_external(t_cmd *cmd, char **envp, t_shell *sh)
 {
 	char	*path;
 	pid_t	son;
 	
 	cmd->execute = tokens_to_args(cmd->args, 0, count_tokens(cmd->args));
-	if (!cmd->execute)
-		return (-1);
 	son = fork();
 	if (son == 0)
 	{
@@ -66,7 +64,6 @@ pid_t	execute_external(t_cmd *cmd, char **envp, t_shell *sh)
 			exit(127);
 		}
 	}
-	return (son);
 }
 
 void	execute_command(t_shell *shell, t_cmd *cmd)
@@ -97,14 +94,7 @@ void	execute_pipeline(t_shell *shell)
 		shell->program_exit = WEXITSTATUS(last_child);
 		return ;
 	}
-	while (node && node->type == N_PIPE)
-	{
-		if (!node->left || !node->right)
-			return ;
-		if (node->left == N_CMD)
-			execute_command(shell, node->left->cmd);
-		node = node->right;
-	}
+	else
 	while (wait(&last_child) > 0)
 		;
 	shell->program_exit = WEXITSTATUS(last_child);

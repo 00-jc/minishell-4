@@ -39,6 +39,7 @@ SRC	:= \
 	$(PARSE_SRC_DIR)/parser.c \
 	$(PARSE_SRC_DIR)/parser_utils.c \
 	$(EXECUTION_SRC_DIR)/executor.c \
+	$(EXECUTION_SRC_DIR)/execute_pipes.c \
 	$(EXECUTION_SRC_DIR)/pipes.c \
 	$(EXECUTION_SRC_DIR)/executor_utils.c \
 	$(EXECUTION_SRC_DIR)/builtins.c \
