@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static char	*put_name()
+static char	*put_name(void)
 {
 	static int	n;
 	char		*result;
@@ -22,7 +22,7 @@ static char	*put_name()
 	if (!result)
 	{
 		perror("minishell");
-		return (NULL);	
+		return (NULL);
 	}
 	return (result);
 }

@@ -32,7 +32,7 @@ int	check_redirs(t_cmd *cmd)
 		else if (current->type == T_HEREDOC)
 			control = redir_heredoc(current);
 		if (!control)
-			return (0);	
+			return (0);
 		current = current->next;
 	}
 	return (1);
@@ -42,7 +42,7 @@ void	execute_external(t_cmd *cmd, char **envp, t_shell *sh)
 {
 	char	*path;
 	pid_t	son;
-	
+
 	cmd->execute = tokens_to_args(cmd->args, 0, count_tokens(cmd->args));
 	son = fork();
 	if (son == 0)
@@ -75,10 +75,6 @@ void	execute_command(t_shell *shell, t_cmd *cmd)
 	execute_external(cmd, shell->envp, shell);
 }
 
-/* 
- * This functions skips AND and OR for easier AST implementation
- * in the future.
-*/
 void	execute_pipeline(t_shell *shell)
 {
 	t_tree	*node;

@@ -53,7 +53,7 @@ void	manage_pipe(t_pipe *info, int i)
 		close_pipes(info->pipe_fd);
 }
 
-static void	new_child(t_shell *shell,t_tree *node, t_pipe *info, int i)
+static void	new_child(t_shell *shell, t_tree *node, t_pipe *info, int i)
 {
 	t_cmd	*cmd;
 
@@ -61,7 +61,6 @@ static void	new_child(t_shell *shell,t_tree *node, t_pipe *info, int i)
 	info->childs[i] = fork();
 	if (info->childs[i] == 0)
 	{
-		fprintf(stderr, "entro al hijo\n");
 		manage_pipe(info, i);
 		if (!check_redirs(cmd) || !dup2_manager(cmd->redir))
 		{
@@ -91,23 +90,17 @@ int	execute_pipe(t_shell *shell, t_tree *node)
 		return (0);
 	info.prev_fd = -1;
 	i = 0;
-	while (i <= info.n_pipes)
+	while (node->type == N_PIPE)
 	{
-		if (i != info.n_pipes)
-			pipe(info.pipe_fd);
-		if (node->type == N_PIPE)
-			new_child(shell, node->left, &info, i);
-		else
-			new_child(shell, node, &info, i);
+		pipe(info.pipe_fd);
+		new_child(shell, node->left, &info, i);
 		close(info.prev_fd);
-		if (i != info.n_pipes)
-		{
-			info.prev_fd = info.pipe_fd[0];
-			close(info.pipe_fd[1]);
-		}
+		info.prev_fd = info.pipe_fd[0];
+		close(info.pipe_fd[1]);
 		node = node->right;
 		i++;
 	}
+	new_child(shell, node, &info, i);
 	i = 0;
 	while (i <= info.n_pipes)
 		waitpid(info.childs[i++], &shell->program_exit, 0);

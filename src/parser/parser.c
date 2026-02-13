@@ -42,7 +42,8 @@ int	create_cmd(t_tree *node, t_token *start, t_token *end)
 			start = start->next;
 		}
 		else
-			add_token_to_list(&(node->cmd->args), dup_token(start->value, start->type));
+			add_token_to_list(&(node->cmd->args),
+				dup_token(start->value, start->type));
 		if (control == 0)
 			node->cmd->redir = NULL;
 		start = start->next;

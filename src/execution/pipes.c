@@ -24,7 +24,7 @@ static void	erase_heredoc(t_redir *redir)
 int	dup2_manager(t_redir *redir)
 {
 	t_redir	*current;
-	
+
 	if (!redir)
 		return (1);
 	current = redir;
@@ -38,7 +38,7 @@ int	dup2_manager(t_redir *redir)
 		else if (current->type == T_OUTFILE || current->type == T_APPEND)
 		{
 			if (dup2(current->fd, STDOUT_FILENO) == -1)
-				return (0);			
+				return (0);
 		}
 		close(current->fd);
 		erase_heredoc(current);
