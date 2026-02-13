@@ -67,15 +67,17 @@ void	slash_path(t_shell *shell)
 
 int	count_tokens(t_token *tokens)
 {
-	int	i;
+	int		i;
+	t_token	*current;
 
 	if (!tokens)
 		return (-1);
 	i = 0;
-	while (tokens)
+	current = tokens;
+	while (current)
 	{
 		i++;
-		tokens = tokens->next;
+		current = current->next;
 	}
 	return (i);
 }

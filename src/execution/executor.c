@@ -96,7 +96,4 @@ void	execute_pipeline(t_shell *shell)
 	}
 	else
 		execute_pipe(shell, node);
-	while (wait(&last_child) > 0)
-		;
-	shell->program_exit = WEXITSTATUS(last_child);
 }

@@ -130,7 +130,7 @@ t_tree		*create_tree(t_token *start, t_token *stop);
 
 /* execute_pipes.c */
 int			count_pipes(t_tree *root);
-void		execute_pipe(t_shell *shell, t_tree *node);
+int			execute_pipe(t_shell *shell, t_tree *node);
 
 /* execution/executor.c  */
 int			is_builtin(t_cmd *cmd, char **envp);
