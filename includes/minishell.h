@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 02:47:47 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/29 16:49:07 by asoria           ###   ########.fr       */
+/*   Updated: 2026/02/19 23:06:48 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,11 @@ int			dup2_manager(t_redir *redir);
 void		close_pipes(int pipe[2]);
 
 /* execution/redirections.c */
-int			redir_infile(t_redir *redir);
+/1000/Alacritty-:0-9056.sock
+MAKEFLAGS=-j12
+XDG_SESSION_CLASS=user
+TERM=alacritty
+USER=cuatroint			redir_infile(t_redir *redir);
 int			redir_outfile(t_redir *redir);
 int			redir_append(t_redir *redir);
 int			redir_heredoc(t_redir *redir);
@@ -200,5 +204,11 @@ int			count_tokens(t_token *tokens);
 
 char		*ms_getenv(char**envp, const char *name);
 t_token		*last_token(t_token	*start);
+
+/* signals.c */
+extern int	g_signal;
+void	setup_signals_interactive(void);
+void	setup_signals_running(void);
+void	setup_signals_child(void);
 
 #endif
