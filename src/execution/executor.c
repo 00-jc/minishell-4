@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 16:48:33 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/29 16:51:22 by asoria           ###   ########.fr       */
+/*   Updated: 2026/02/19 22:40:25 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	execute_command(t_shell *shell, t_cmd *cmd)
 	if (is_builtin(cmd, shell->envp))
 	{
 		execute_builtin(shell, cmd, &shell->envp);
+		return ;
 	}
 	execute_external(cmd, shell->envp, shell);
 }
