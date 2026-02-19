@@ -6,7 +6,7 @@
 #    By: asoria <asoria@stedent.42madrid.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/15 00:26:06 by asoria            #+#    #+#              #
-#    Updated: 2026/01/20 05:39:00 by asoria           ###   ########.fr        #
+#    Updated: 2026/02/19 22:30:00 by asoria           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,20 +22,23 @@ LDLIBS 		:= -lreadline
 LIBFT		:= $(LIBFT_DIR)/libft.a
 TARGET_DIR	:= target
 RM			?= rm
+
+BUILTIN_SRC_DIR	:= $(SRC_DIR)/builtin
+CORE_SRC_DIR	:= $(SRC_DIR)/core
 EXECUTION_SRC_DIR := $(SRC_DIR)/execution
 TOKEN_SRC_DIR := $(SRC_DIR)/tokens
 PARSE_SRC_DIR := $(SRC_DIR)/parser
-BUILTIN_SRC_DIR	:= $(SRC_DIR)/builtin
+UTILS_SRC_DIR := $(SRC_DIR)/utils
 
 SRC	:= \
-	$(SRC_DIR)/minishell.c \
-	$(SRC_DIR)/init.c \
-	$(SRC_DIR)/parsing.c \
-	$(SRC_DIR)/cleanup.c \
-	$(SRC_DIR)/cleanup2.c \
-	$(SRC_DIR)/utils.c \
-	$(SRC_DIR)/utils2.c \
-	$(SRC_DIR)/parameter-expansion.c \
+	$(CORE_SRC_DIR)/minishell.c \
+	$(CORE_SRC_DIR)/init.c \
+	$(PARSE_SRC_DIR)/parsing.c \
+	$(UTILS_SRC_DIR)/cleanup.c \
+	$(UTILS_SRC_DIR)/cleanup2.c \
+	$(UTILS_SRC_DIR)/utils.c \
+	$(UTILS_SRC_DIR)/utils2.c \
+	$(TOKEN_SRC_DIR)/parameter-expansion.c \
 	$(PARSE_SRC_DIR)/parser.c \
 	$(PARSE_SRC_DIR)/parser_utils.c \
 	$(EXECUTION_SRC_DIR)/executor.c \
