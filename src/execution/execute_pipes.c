@@ -32,7 +32,7 @@ static int	collect_cmd(t_tree *node, t_cmd ***cmds)
 
 	n = count_pipes(node) + 1;
 	*cmds = malloc(sizeof(t_cmd *) * n);
-	if (!cmds)
+	if (!*cmds)
 		return (0);
 	i = 0;
 	while (node->type == N_PIPE)
@@ -50,9 +50,9 @@ static void	run_child(t_shell *shell, t_cmd *cmd, int in_fd, int out_fd)
 	if (in_fd != -1)
 	{
 		dup2(in_fd, STDIN_FILENO);
-		close(out_fd);
+		close(in_fd);
 	}
-	if (out_fd == -1)
+	if (out_fd != -1)
 	{
 		dup2(out_fd, STDOUT_FILENO);
 		close(out_fd);
