@@ -24,6 +24,27 @@ void	free_path(char **path)
 	free(path);
 }
 
+static void	free_redir_list(t_redir **redir)
+{
+	t_redir	*current;
+	t_redir	*next;
+
+	if (!redir || !*redir)
+		return ;
+	current = *redir;
+	while (current)
+	{
+		next = current->next;
+		if (current->file.value)
+			free(current->file.value);
+		if (current->heredoc_name)
+			free(current->heredoc_name);
+		free(current);
+		current = next;
+	}
+	*redir = NULL;
+}
+
 void	free_ast(t_tree	*node)
 {
 	int	i;
@@ -35,16 +56,14 @@ void	free_ast(t_tree	*node)
 	if (node->cmd != NULL)
 	{
 		free_tokens(&node->cmd->args);
+		free_redir_list(&node->cmd->redir);
 		if (node->cmd->execute != NULL)
 		{
 			i = 0;
 			while (node->cmd->execute[i] != NULL)
-			{
-				free(node->cmd->execute[i]);
-				i++;
-			}
+				free(node->cmd->execute[i++]);
+			free(node->cmd->execute);
 		}
-		free(node->cmd->execute);
 		free(node->cmd);
 	}
 	free(node);
@@ -65,7 +84,6 @@ void	black_hole(t_shell *shell)
 	if (shell->ast)
 	{
 		free_ast(shell->ast);
-		shell->ast = NULL;
 		shell->ast = NULL;
 	}
 	free_tokens(&(shell->first));
