@@ -1,61 +1,39 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   clusters.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/02 14:46:48 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/18 13:20:31 by asoria           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
-static int	count_tokens_range(t_token *head, int start, int end)
+static int	count_words(t_token *head)
 {
-	t_token	*current;
-	int		i;
-	int		count;
+	int	count;
 
-	current = head;
-	i = 0;
 	count = 0;
-	while (current && i <= end)
+	while (head)
 	{
-		if (i >= start && i <= end)
+		if (head->type == T_WORD)
 			count++;
-		current = current->next;
-		i++;
+		head = head->next;
 	}
 	return (count);
 }
 
-char	**tokens_to_args(t_token *head, int start, int end)
+char	**tokens_to_args(t_token *head)
 {
 	char	**args;
-	t_token	*current;
 	int		i;
-	int		j;
-
-	args = malloc(sizeof(char *) * (count_tokens_range(head, start, end) + 1));
+	
+	args = malloc(sizeof(char *) * (count_words(head) + 1));
 	if (!args)
 		return (NULL);
-	current = head;
 	i = 0;
-	j = 0;
-	while (current && i <= end)
+	while (head)
 	{
-		if (i >= start && i <= end && current->type == T_WORD)
+		if (head->type == T_WORD)
 		{
-			args[j] = ft_strdup(current->value);
-			if (!args[j])
+			args[i] = ft_strdup(head->value);
+			if (!args[i])
 				return (NULL);
-			j++;
+			i++;
 		}
-		current = current->next;
-		i++;
+		head = head->next;
 	}
-	args[j] = NULL;
+	args[i] = NULL;
 	return (args);
 }

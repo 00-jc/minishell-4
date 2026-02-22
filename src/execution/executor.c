@@ -43,7 +43,7 @@ void	execute_external(t_cmd *cmd, t_shell *shell)
 	char	*path;
 	pid_t	son;
 
-	cmd->execute = tokens_to_args(cmd->args, 0, count_tokens(cmd->args));
+	cmd->execute = tokens_to_args(cmd->args);
 	son = fork();
 	if (son == 0)
 	{
@@ -78,6 +78,7 @@ void	execute_pipeline(t_shell *shell)
 {
 	t_tree	*node;
 	int	status;
+	pid_t	son;
 
 	node = shell->ast;
 	if (!node)
@@ -85,8 +86,12 @@ void	execute_pipeline(t_shell *shell)
 	if (node->type == N_CMD)
 	{
 		execute_command(shell, node->cmd);
-		wait(&status);
-		shell->program_exit = WEXITSTATUS(status);
+		if (!is_builtin(node->cmd, shell->envp))
+		{
+			son = wait(&status);
+			if (son > 0)
+				shell->program_exit = WEXITSTATUS(status);
+		}
 		return ;
 	}
 	execute_pipe(shell, node);

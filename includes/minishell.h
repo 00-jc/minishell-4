@@ -152,7 +152,7 @@ void		add_token_to_list(t_token **lst, t_token *new);
 void		tokenize_input(t_shell *shell);
 
 /* clusters.c */
-char		**tokens_to_args(t_token *head, int start, int end);
+char		**tokens_to_args(t_token *head);
 int			classify_token(t_token *token);
 
 /* builtin.c */
@@ -171,6 +171,7 @@ int		ms_pwd(void);
 int		ms_env(char **envp);
 
 /* echo.c */
+int		run_echo(t_cmd *cmd);
 int		ms_echo(char **args);
 
 /* export.c */

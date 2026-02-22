@@ -51,7 +51,7 @@ void	execute_builtin(t_shell *shell, t_cmd *cmd, char ***envp)
 	else if (ft_strcmp(cmd->args->value, "cd") == 0)
 		exit_code = ms_cd(shell, next_value(cmd->args));
 	else if (ft_strcmp(cmd->args->value, "echo") == 0)
-		exit_code = ms_echo(tokens_to_args(cmd->args, 0, count_tokens(cmd->args)));
+		exit_code = run_echo(cmd);
 	else if (ft_strcmp(cmd->args->value, "export") == 0)
 		exit_code = ms_export(next_value(cmd->args), envp);
 	else if (ft_strcmp(cmd->args->value, "unset") == 0)

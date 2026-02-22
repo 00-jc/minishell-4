@@ -21,7 +21,7 @@ void	minishell(t_shell *shell, char **argv, char **envp)
 		read_input(shell);
 		if (!shell->input)
 			break ;
-		if (!shell->input)
+		if (!*shell->input)
 		{
 			free(shell->input);
 			shell->input = NULL;

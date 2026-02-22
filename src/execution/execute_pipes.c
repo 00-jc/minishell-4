@@ -64,7 +64,7 @@ static void	run_child(t_shell *shell, t_cmd *cmd, int in_fd, int out_fd)
 		execute_builtin(shell, cmd, &shell->envp);
 		exit(shell->program_exit);
 	}
-	cmd->execute = tokens_to_args(cmd->args, 0, count_tokens(cmd->args));
+	cmd->execute = tokens_to_args(cmd->args);
 	execve(search_cmd(cmd->execute[0], shell), cmd->execute, shell->envp);
 	perror("minishell");
 	exit(127);
