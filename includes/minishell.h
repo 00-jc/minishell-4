@@ -137,7 +137,7 @@ int			is_builtin(t_cmd *cmd, char **envp);
 void		execute_pipeline(t_shell *shell);
 int			execute_builtin(t_shell *shell, t_cmd *cmd, char ***envp);
 void		execute_command(t_shell *shell, t_cmd *cmd);
-void		execute_external(t_cmd *cmd, char **envp, t_shell *shell);
+void		execute_external(t_cmd *cmd, t_shell *shell);
 
 /* execution/executor_utils.c */
 int			check_redirs(t_cmd *cmd);

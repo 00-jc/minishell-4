@@ -38,7 +38,7 @@ int	check_redirs(t_cmd *cmd)
 	return (1);
 }
 
-void	execute_external(t_cmd *cmd, char **envp, t_shell *sh)
+void	execute_external(t_cmd *cmd, t_shell *shell)
 {
 	char	*path;
 	pid_t	son;
@@ -51,13 +51,13 @@ void	execute_external(t_cmd *cmd, char **envp, t_shell *sh)
 			exit(127);
 		if (dup2_manager(cmd->redir) == 0)
 			exit (126);
-		path = search_cmd(cmd->execute[0], sh);
+		path = search_cmd(cmd->execute[0], shell);
 		if (!path)
 		{
 			perror("minishell");
 			exit(127);
 		}
-		if (execve(path, cmd->execute, envp) == -1)
+		if (execve(path, cmd->execute, shell->envp) == -1)
 		{
 			perror("minishell");
 			free(path);
@@ -73,7 +73,7 @@ void	execute_command(t_shell *shell, t_cmd *cmd)
 		execute_builtin(shell, cmd, &shell->envp);
 		return ;
 	}
-	execute_external(cmd, shell->envp, shell);
+	execute_external(cmd, shell);
 }
 
 void	execute_pipeline(t_shell *shell)
