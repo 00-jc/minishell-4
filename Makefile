@@ -33,6 +33,7 @@ UTILS_SRC_DIR := $(SRC_DIR)/utils
 SRC	:= \
 	$(CORE_SRC_DIR)/minishell.c \
 	$(CORE_SRC_DIR)/init.c \
+	$(CORE_SRC_DIR)/signals.c \
 	$(PARSE_SRC_DIR)/parsing.c \
 	$(UTILS_SRC_DIR)/cleanup.c \
 	$(UTILS_SRC_DIR)/cleanup2.c \

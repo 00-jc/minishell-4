@@ -12,14 +12,12 @@
 
 #include "minishell.h"
 
-void	ms_env(char **envp)
+int	ms_env(char **envp)
 {
 	int	i;
 
 	i = 0;
 	while (envp[i])
-	{
-		printf("%s\n", envp[i]);
-		i++;
-	}
+		printf("%s\n", envp[i++]);
+	return (0);
 }

@@ -39,21 +39,24 @@ static char	*next_value(t_token *token)
 	return (NULL);
 }
 
-int	execute_builtin(t_shell *shell, t_cmd *cmd, char ***envp)
+void	execute_builtin(t_shell *shell, t_cmd *cmd, char ***envp)
 {
+	int	exit_code;
+
+	exit_code = 0;
 	if (ft_strcmp(cmd->args->value, "pwd") == 0)
-		ms_pwd();
+		exit_code = ms_pwd();
 	else if (ft_strcmp(cmd->args->value, "env") == 0)
-		ms_env(*envp);
+		exit_code = ms_env(*envp);
 	else if (ft_strcmp(cmd->args->value, "cd") == 0)
-		ms_cd(shell, next_value(cmd->args));
+		exit_code = ms_cd(shell, next_value(cmd->args));
 	else if (ft_strcmp(cmd->args->value, "echo") == 0)
-		ms_echo(tokens_to_args(cmd->args, 0, count_tokens(cmd->args)));
+		exit_code = ms_echo(tokens_to_args(cmd->args, 0, count_tokens(cmd->args)));
 	else if (ft_strcmp(cmd->args->value, "export") == 0)
-		ms_export(next_value(cmd->args), envp);
+		exit_code = ms_export(next_value(cmd->args), envp);
 	else if (ft_strcmp(cmd->args->value, "unset") == 0)
-		ms_unset(envp, next_value(cmd->args));
+		exit_code = ms_unset(envp, next_value(cmd->args));
 	else if (ft_strcmp(cmd->args->value, "exit") == 0)
 		ms_exit(shell, cmd->args->next);
-	return (1);
+	shell->program_exit = exit_code;
 }

@@ -74,14 +74,6 @@ typedef struct s_tree
 	struct s_tree	*right;
 }	t_tree;
 
-typedef struct s_pipe
-{
-	int			pipe_fd[2];
-	int			prev_fd;
-	int			n_pipes;
-	pid_t		*childs;
-}	t_pipe;
-
 typedef struct s_shell
 {
 	int		is_alive;
@@ -129,13 +121,12 @@ int			create_cmd(t_tree *node, t_token *start, t_token *end);
 t_tree		*create_tree(t_token *start, t_token *stop);
 
 /* execute_pipes.c */
-int			count_pipes(t_tree *root);
 int			execute_pipe(t_shell *shell, t_tree *node);
 
 /* execution/executor.c  */
 int			is_builtin(t_cmd *cmd, char **envp);
 void		execute_pipeline(t_shell *shell);
-int			execute_builtin(t_shell *shell, t_cmd *cmd, char ***envp);
+void			execute_builtin(t_shell *shell, t_cmd *cmd, char ***envp);
 void		execute_command(t_shell *shell, t_cmd *cmd);
 void		execute_external(t_cmd *cmd, t_shell *shell);
 
@@ -145,7 +136,6 @@ char		*search_cmd(char *cmd, t_shell *shell);
 
 /* execution/pipes.c */
 int			dup2_manager(t_redir *redir);
-void		close_pipes(int pipe[2]);
 
 /* execution/redirections.c */
 int			redir_infile(t_redir *redir);
@@ -172,22 +162,22 @@ int			is_builtin(t_cmd *cmd, char **envp);
 void	expand_parameters(t_shell *shell, char **input);
 
 /* cd.c */
-char		*ms_cd(t_shell *shell, char *arg);
+int		ms_cd(t_shell *shell, char *arg);
 
 /* pwd.c */
-void		ms_pwd(void);
+int		ms_pwd(void);
 
 /* env.c */
-void		ms_env(char **envp);
+int		ms_env(char **envp);
 
 /* echo.c */
-void		ms_echo(char **args);
+int		ms_echo(char **args);
 
 /* export.c */
-void		ms_export(char *arg, char ***envp);
+int		ms_export(char *arg, char ***envp);
 
 /* unset.c */
-int			ms_unset(char ***envp, const char *var_name);
+int		ms_unset(char ***envp, const char *var_name);
 
 /* exit.c */
 void		ms_exit(t_shell *shell, t_token *arg);

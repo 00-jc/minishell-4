@@ -16,6 +16,7 @@ static void	check_alive(t_shell *shell)
 {
 	if (shell->is_alive)
 	{
+		setup_signals_interactive();
 		read_input(shell);
 		expand_parameters(shell, &shell->input);
 	}
@@ -27,9 +28,7 @@ void	minishell(t_shell *shell, char **argv, char **envp)
 	while (1)
 	{
 		check_alive(shell);
-		if (!shell->input)
-			break ;
-		else if (*shell->input)
+		if (*shell->input)
 		{
 			refresh_path(shell);
 			tokenize_input(shell);
