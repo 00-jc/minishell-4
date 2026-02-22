@@ -12,16 +12,21 @@
 
 #include "minishell.h"
 
+static void	check_alive(t_shell *shell)
+{
+	if (shell->is_alive)
+	{
+		read_input(shell);
+		expand_parameters(shell, &shell->input);
+	}
+}
+
 void	minishell(t_shell *shell, char **argv, char **envp)
 {
 	init_shell(argv, envp, shell);
 	while (1)
 	{
-		if (shell->is_alive)
-		{
-			read_input(shell);
-			expand_parameters(shell, &shell->input);
-		}
+		check_alive(shell);
 		if (!shell->input)
 			break ;
 		else if (*shell->input)

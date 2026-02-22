@@ -148,11 +148,7 @@ int			dup2_manager(t_redir *redir);
 void		close_pipes(int pipe[2]);
 
 /* execution/redirections.c */
-/1000/Alacritty-:0-9056.sock
-MAKEFLAGS=-j12
-XDG_SESSION_CLASS=user
-TERM=alacritty
-USER=cuatroint			redir_infile(t_redir *redir);
+int			redir_infile(t_redir *redir);
 int			redir_outfile(t_redir *redir);
 int			redir_append(t_redir *redir);
 int			redir_heredoc(t_redir *redir);
@@ -176,7 +172,7 @@ int			is_builtin(t_cmd *cmd, char **envp);
 void	expand_parameters(t_shell *shell, char **input);
 
 /* cd.c */
-char		*ms_cd(char *arg);
+char		*ms_cd(t_shell *shell, char *arg);
 
 /* pwd.c */
 void		ms_pwd(void);

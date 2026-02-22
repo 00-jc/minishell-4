@@ -46,7 +46,7 @@ int	execute_builtin(t_shell *shell, t_cmd *cmd, char ***envp)
 	else if (ft_strcmp(cmd->args->value, "env") == 0)
 		ms_env(*envp);
 	else if (ft_strcmp(cmd->args->value, "cd") == 0)
-		ms_cd(next_value(cmd->args));
+		ms_cd(shell, next_value(cmd->args));
 	else if (ft_strcmp(cmd->args->value, "echo") == 0)
 		ms_echo(tokens_to_args(cmd->args, 0, count_tokens(cmd->args)));
 	else if (ft_strcmp(cmd->args->value, "export") == 0)
