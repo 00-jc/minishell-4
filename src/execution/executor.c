@@ -57,12 +57,10 @@ void	execute_external(t_cmd *cmd, t_shell *shell)
 			perror("minishell");
 			exit(127);
 		}
-		if (execve(path, cmd->execute, shell->envp) == -1)
-		{
-			perror("minishell");
-			free(path);
-			exit(127);
-		}
+		execve(path, cmd->execute, shell->envp);
+		perror("minishell");
+		free(path);
+		exit(127);
 	}
 }
 
