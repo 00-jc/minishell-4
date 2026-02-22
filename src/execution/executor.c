@@ -79,7 +79,7 @@ void	execute_command(t_shell *shell, t_cmd *cmd)
 void	execute_pipeline(t_shell *shell)
 {
 	t_tree	*node;
-	pid_t	last_child;
+	int	status;
 
 	node = shell->ast;
 	if (!node)
@@ -87,10 +87,9 @@ void	execute_pipeline(t_shell *shell)
 	if (node->type == N_CMD)
 	{
 		execute_command(shell, node->cmd);
-		wait(&last_child);
-		shell->program_exit = WEXITSTATUS(last_child);
+		wait(&status);
+		shell->program_exit = WEXITSTATUS(status);
 		return ;
 	}
-	else
-		execute_pipe(shell, node);
+	execute_pipe(shell, node);
 }
