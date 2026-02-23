@@ -74,7 +74,7 @@ void	execute_command(t_shell *shell, t_cmd *cmd)
 	{
 		if (!redir_builtin(cmd, std_fd) || !dup2_manager(cmd->redir))
 		{
-			perror("dup2");
+			perror("minishell");
 			return ;
 		}
 		execute_builtin(shell, cmd, &shell->envp);

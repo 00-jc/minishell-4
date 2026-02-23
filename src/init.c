@@ -68,13 +68,8 @@ static void	init_config_file(t_shell *shell)
 }
 
 static void	init_rl_history(t_shell *shell)
-{
-	int	fd;
-
+{	
 	shell->history_file = ".ms_history";
-	fd = open(shell->history_file, O_RDWR | O_CREAT, 0644);
-	if (fd < 0)
-		printf("Couldn't open .ms_history: %s\n", strerror(errno));
 	read_history(shell->history_file);
 }
 
