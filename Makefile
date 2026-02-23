@@ -17,13 +17,13 @@ EXECUTION_DIR   := $(SRC_DIR)/execution
 BUILTIN_DIR     := $(SRC_DIR)/builtin
 UTILS_DIR       := $(SRC_DIR)/utils
 
-SRC_CORE        := minishell.c init.c
+SRC_CORE        := minishell.c init.c signals.c
 
 SRC_GRAMMAR     := parsing.c parser.c parser_utils.c \
                    parameter-expansion.c tokens.c \
                    tokens_utils.c tokens_utils_2.c
 
-SRC_EXECUTION   := executor.c pipes.c executor_utils.c redirections.c
+SRC_EXECUTION   := execute_pipes.c executor.c pipes.c executor_utils.c redirections.c
 
 SRC_BUILTIN     := builtins.c cd.c echo.c env.c exit.c export.c pwd.c unset.c
 

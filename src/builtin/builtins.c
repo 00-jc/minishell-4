@@ -55,7 +55,8 @@ int	std_builtin(t_cmd *cmd, int std_fd[2])
 		return (0);
 	if (dup2(std_fd[1], STDIN_FILENO) == -1)
 		return (0);
-	close_pipes(std_fd);
+	close(std_fd[0]);
+	close(std_fd[1]);
 	return (1);
 }
 
