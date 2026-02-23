@@ -82,6 +82,6 @@ re:
 	$(MAKE) all
 
 test: re
-	valgrind --suppressions=valgrind.supp ./target/minishell
+	valgrind --suppressions=valgrind.supp --track-fds=yes --trace-children=yes --show-leak-kinds=all --leak-check=full ./target/minishell
 
 .PHONY: all clean fclean re test

@@ -72,14 +72,14 @@ int	classify_token(t_token *token)
 		return (0);
 	if (ft_strncmp(token->value, "|", 1) == 0)
 		return (token->type = T_PIPE, 1);
-	if (ft_strncmp(token->value, ">", 1) == 0)
-		return (token->type = T_OUTFILE, 1);
-	if (ft_strncmp(token->value, "<", 1) == 0)
-		return (token->type = T_INFILE, 1);
 	if (ft_strncmp(token->value, "<<", 2) == 0)
 		return (token->type = T_HEREDOC, 1);
 	if (ft_strncmp(token->value, ">>", 2) == 0)
 		return (token->type = T_APPEND, 1);
+	if (ft_strncmp(token->value, ">", 1) == 0)
+		return (token->type = T_OUTFILE, 1);
+	if (ft_strncmp(token->value, "<", 1) == 0)
+		return (token->type = T_INFILE, 1);
 	token->type = T_WORD;
 	return (0);
 }

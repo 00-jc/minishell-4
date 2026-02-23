@@ -15,29 +15,24 @@
 void	minishell(t_shell *shell, char **argv, char **envp)
 {
 	init_shell(argv, envp, shell);
-	while (1)
+	while (shell->is_alive)
 	{
-		if (shell->is_alive)
-		{
-			read_input(shell);
-			expand_parameters(shell, &shell->input);
-		}
+		setup_signals_interactive();
+		read_input(shell);
 		if (!shell->input)
 			break ;
-		else if (*shell->input)
+		if (!*shell->input)
 		{
-			refresh_path(shell);
-			tokenize_input(shell);
-			shell->ast = create_tree(shell->first, NULL);
-			if (!shell->ast)
-			{
-				perror("ast error");
-				shell->is_alive = 0;
-			}
-			else
-				execute_pipeline(shell);
-			black_hole(shell);
+			free(shell->input);
+			shell->input = NULL;
+			continue ;
 		}
+		expand_parameters(shell, &shell->input);
+		refresh_path(shell);
+		tokenize_input(shell);
+		if (init_ast(shell))
+			execute_pipeline(shell);
+		black_hole(shell);
 	}
 	black_hole(shell);
 	free_envp(&shell->envp);

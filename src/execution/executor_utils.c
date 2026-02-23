@@ -20,11 +20,11 @@ char	*search_cmd(char *cmd, t_shell *shell)
 	if (!cmd)
 		return (NULL);
 	if (access(cmd, X_OK) == 0)
-		return (cmd);
+		return (ft_strdup(cmd));
 	if (!shell ||!shell->path)
 		return (NULL);
 	i = 0;
-	while (shell->path[i] && cmd != NULL)
+	while (shell->path[i])
 	{
 		route = ft_strjoin(shell->path[i], cmd);
 		if (access(route, X_OK) == 0)

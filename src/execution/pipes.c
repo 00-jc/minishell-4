@@ -12,17 +12,37 @@
 
 #include "minishell.h"
 
-int	dup2_manager(int fd_stdout, int fd_stdin)
+static void	erase_heredoc(t_redir *redir)
 {
-	if (dup2(fd_stdout, STDOUT_FILENO) == -1)
-		return (0);
-	if (dup2(fd_stdin, STDIN_FILENO) == -1)
-		return (0);
-	return (1);
+	if (redir->heredoc_name != NULL)
+	{
+		unlink(redir->heredoc_name);
+		free(redir->heredoc_name);
+	}
 }
 
-void	close_pipes(int pipe[2])
+int	dup2_manager(t_redir *redir)
 {
-	close(pipe[0]);
-	close(pipe[1]);
+	t_redir	*current;
+
+	if (!redir)
+		return (1);
+	current = redir;
+	while (current)
+	{
+		if (current->type == T_INFILE || current->type == T_HEREDOC)
+		{
+			if (dup2(current->fd, STDIN_FILENO) == -1)
+				return (0);
+		}
+		else if (current->type == T_OUTFILE || current->type == T_APPEND)
+		{
+			if (dup2(current->fd, STDOUT_FILENO) == -1)
+				return (0);
+		}
+		close(current->fd);
+		erase_heredoc(current);
+		current = current->next;
+	}
+	return (1);
 }

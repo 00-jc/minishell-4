@@ -6,63 +6,62 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 16:48:33 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/29 16:51:22 by asoria           ###   ########.fr       */
+/*   Updated: 2026/02/19 22:40:25 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* void	check_redirs(t_shell *shell, t_cmd *cmd)
+int	check_redirs(t_cmd *cmd)
 {
 	t_redir	*current;
+	int		control;
 
 	if (!cmd->redir)
-		return ;
+		return (1);
 	current = cmd->redir;
 	while (current)
 	{
+		control = 1;
 		if (current->type == T_INFILE)
-			redir_infile(current);
-		if (current->type == T_OUTFILE)
-			redir_outfile(current);
-		if (current->type == T_APPEND)
-			redir_append(current);
-		if (current->type == T_HEREDOC)
-			redir_heredoc(current);
+			control = redir_infile(current);
+		else if (current->type == T_OUTFILE)
+			control = redir_outfile(current);
+		else if (current->type == T_APPEND)
+			control = redir_append(current);
+		else if (current->type == T_HEREDOC)
+			control = redir_heredoc(current);
+		if (!control)
+			return (0);
 		current = current->next;
 	}
-} */
+	return (1);
+}
 
-void	execute_external(t_cmd *cmd, char **envp, t_shell *sh)
+void	execute_external(t_cmd *cmd, t_shell *shell)
 {
 	char	*path;
-	int		n_tokens;
 	pid_t	son;
-	
-	n_tokens = count_tokens(cmd->args);
-	cmd->execute = tokens_to_args(cmd->args, 0, n_tokens);
-	if (!cmd->execute)
-		return ;
+
+	cmd->execute = tokens_to_args(cmd->args);
 	son = fork();
 	if (son == 0)
 	{
-		//check_redirs(sh, cmd);
-		if (!cmd || !cmd->args)
+		if (!cmd || !check_redirs(cmd) || !cmd->execute)
 			exit(127);
-		path = search_cmd(cmd->execute[0], sh);
+		if (dup2_manager(cmd->redir) == 0)
+			exit (126);
+		path = search_cmd(cmd->execute[0], shell);
 		if (!path)
 		{
 			perror("minishell");
 			exit(127);
 		}
-		if (execve(path, cmd->execute, envp) == -1)
-		{
-			perror("execve");
-			free(path);
-			exit(127);
-		}
+		execve(path, cmd->execute, shell->envp);
+		perror("minishell");
+		free(path);
+		exit(127);
 	}
-	waitpid(son, NULL, 0);
 }
 
 void	execute_command(t_shell *shell, t_cmd *cmd)
@@ -72,16 +71,14 @@ void	execute_command(t_shell *shell, t_cmd *cmd)
 		execute_builtin(shell, cmd, &shell->envp);
 		return ;
 	}
-	execute_external(cmd, shell->envp, shell);
+	execute_external(cmd, shell);
 }
 
-/* 
- * This functions skips AND and OR for easier AST implementation
- * in the future.
-*/
 void	execute_pipeline(t_shell *shell)
 {
 	t_tree	*node;
+	int	status;
+	pid_t	son;
 
 	node = shell->ast;
 	if (!node)
@@ -89,6 +86,13 @@ void	execute_pipeline(t_shell *shell)
 	if (node->type == N_CMD)
 	{
 		execute_command(shell, node->cmd);
+		if (!is_builtin(node->cmd, shell->envp))
+		{
+			son = wait(&status);
+			if (son > 0)
+				shell->program_exit = WEXITSTATUS(status);
+		}
 		return ;
 	}
+	execute_pipe(shell, node);
 }

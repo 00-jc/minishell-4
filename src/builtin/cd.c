@@ -34,17 +34,24 @@ static char	*get_new_dir(char *dir_name)
 	return (new_dir);
 }
 
-char	*ms_cd(char *arg)
+int	ms_cd(t_shell *shell, char *arg)
 {
 	char	*new_dir;
 
+	if (!arg)
+		arg = ms_getenv(shell->envp, "HOME");
+	if (!arg)
+	{
+		ft_putstr_fd("cd: HOME not set\n", 2);
+		return (1);
+	}
 	new_dir = get_new_dir(arg);
 	if (chdir(new_dir) == -1)
 	{
 		perror("cd");
 		free(new_dir);
-		return (NULL);
+		return (1);
 	}
 	free(new_dir);
-	return (NULL);
+	return (0);
 }

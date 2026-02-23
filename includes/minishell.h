@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 02:47:47 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/29 16:49:07 by asoria           ###   ########.fr       */
+/*   Updated: 2026/02/19 23:06:48 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ typedef struct s_redir
 {
 	t_token_type	type;
 	t_token			file;
+	int				fd;
+	char			*heredoc_name;
 	struct s_redir	*next;
 }	t_redir;
 
@@ -76,6 +78,7 @@ typedef struct s_shell
 {
 	int		is_alive;
 	int		exit_code;
+	int		program_exit;
 	char	**envp;
 	char	**path;
 	char	*prompt;
@@ -113,26 +116,32 @@ t_node_type	is_div(t_token *token);
 t_token		*div_point(t_token *start, t_token *stop);
 
 /* parser/parser.c */
+int			init_ast(t_shell *shell);
 int			create_cmd(t_tree *node, t_token *start, t_token *end);
 t_tree		*create_tree(t_token *start, t_token *stop);
+
+/* execute_pipes.c */
+int			execute_pipe(t_shell *shell, t_tree *node);
 
 /* execution/executor.c  */
 int			is_builtin(t_cmd *cmd, char **envp);
 void		execute_pipeline(t_shell *shell);
-int			execute_builtin(t_shell *shell, t_cmd *cmd, char ***envp);
-void		execute_external(t_cmd *cmd, char **envp, t_shell *shell);
+void			execute_builtin(t_shell *shell, t_cmd *cmd, char ***envp);
 void		execute_command(t_shell *shell, t_cmd *cmd);
+void		execute_external(t_cmd *cmd, t_shell *shell);
 
 /* execution/executor_utils.c */
+int			check_redirs(t_cmd *cmd);
 char		*search_cmd(char *cmd, t_shell *shell);
 
 /* execution/pipes.c */
-int			dup2_manager(int fd_stdout, int fd_stdin);
-void		close_pipes(int pipe[2]);
+int			dup2_manager(t_redir *redir);
 
 /* execution/redirections.c */
-int			redir_infile(const t_redir *redir);
-int			redir_outfile(const t_redir *redir);
+int			redir_infile(t_redir *redir);
+int			redir_outfile(t_redir *redir);
+int			redir_append(t_redir *redir);
+int			redir_heredoc(t_redir *redir);
 
 /* token/tokens_utils.c */
 t_token		*dup_token(char *value, t_token_type type);
@@ -143,7 +152,7 @@ void		add_token_to_list(t_token **lst, t_token *new);
 void		tokenize_input(t_shell *shell);
 
 /* clusters.c */
-char		**tokens_to_args(t_token *head, int start, int end);
+char		**tokens_to_args(t_token *head);
 int			classify_token(t_token *token);
 
 /* builtin.c */
@@ -153,22 +162,23 @@ int			is_builtin(t_cmd *cmd, char **envp);
 void	expand_parameters(t_shell *shell, char **input);
 
 /* cd.c */
-char		*ms_cd(char *arg);
+int		ms_cd(t_shell *shell, char *arg);
 
 /* pwd.c */
-void		ms_pwd(void);
+int		ms_pwd(void);
 
 /* env.c */
-void		ms_env(char **envp);
+int		ms_env(char **envp);
 
 /* echo.c */
-void		ms_echo(char **args);
+int		run_echo(t_cmd *cmd);
+int		ms_echo(char **args);
 
 /* export.c */
-void		ms_export(char *arg, char ***envp);
+int		ms_export(char *arg, char ***envp);
 
 /* unset.c */
-int			ms_unset(char ***envp, const char *var_name);
+int		ms_unset(char ***envp, const char *var_name);
 
 /* exit.c */
 void		ms_exit(t_shell *shell, t_token *arg);
@@ -181,5 +191,11 @@ int			count_tokens(t_token *tokens);
 
 char		*ms_getenv(char**envp, const char *name);
 t_token		*last_token(t_token	*start);
+
+/* signals.c */
+extern int	g_signal;
+void	setup_signals_interactive(void);
+void	setup_signals_running(void);
+void	setup_signals_child(void);
 
 #endif
