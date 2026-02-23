@@ -143,6 +143,11 @@ int			redir_outfile(t_redir *redir);
 int			redir_append(t_redir *redir);
 int			redir_heredoc(t_redir *redir);
 
+/* executor/builtin.c */
+int			is_builtin(t_cmd *cmd, char **envp);
+int			redir_builtin(t_cmd *cmd, int std_fd[2]);
+int			std_builtin(t_cmd *cmd, int std_fd[2]);
+
 /* token/tokens_utils.c */
 t_token		*dup_token(char *value, t_token_type type);
 t_token		*new_token(char *value);
@@ -154,9 +159,6 @@ void		tokenize_input(t_shell *shell);
 /* clusters.c */
 char		**tokens_to_args(t_token *head);
 int			classify_token(t_token *token);
-
-/* builtin.c */
-int			is_builtin(t_cmd *cmd, char **envp);
 
 /* parameter-expansion.c */
 void	expand_parameters(t_shell *shell, char **input);

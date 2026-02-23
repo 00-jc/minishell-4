@@ -35,9 +35,9 @@ SRC             := $(addprefix $(CORE_DIR)/, $(SRC_CORE)) \
                    $(addprefix $(BUILTIN_DIR)/, $(SRC_BUILTIN)) \
                    $(addprefix $(UTILS_DIR)/, $(SRC_UTILS))
 
-all: $(NAME)
+all: $(TARGET_DIR)/$(NAME)
 
-$(NAME): $(LIBFT) $(OBJ) | $(TARGET_DIR)
+$(TARGET_DIR)/$(NAME): $(LIBFT) $(OBJ) | $(TARGET_DIR)
 	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(LDLIBS) -o $(TARGET_DIR)/$(NAME)
 
 $(LIBFT):

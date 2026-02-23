@@ -66,9 +66,17 @@ void	execute_external(t_cmd *cmd, t_shell *shell)
 
 void	execute_command(t_shell *shell, t_cmd *cmd)
 {
+	int	std_fd[2];
+
 	if (is_builtin(cmd, shell->envp))
 	{
+		if (!redir_builtin(cmd, std_fd) || !dup2_manager(cmd->redir))
+		{
+			perror("minishell");
+			return ;
+		}
 		execute_builtin(shell, cmd, &shell->envp);
+		std_builtin(cmd, std_fd);
 		return ;
 	}
 	execute_external(cmd, shell);
