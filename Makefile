@@ -55,7 +55,7 @@ SRC	:= \
 	$(BUILTIN_SRC_DIR)/exit.c \
 	$(BUILTIN_SRC_DIR)/pwd.c
 
-all: $(NAME)
+all: $(TARGET_DIR)/$(NAME)
 
 clean:
 	$(RM) -f ".msrc"
@@ -72,7 +72,7 @@ re:
 	$(MAKE) fclean
 	$(MAKE) all
 
-$(NAME): $(LIBFT) $(OBJ) | $(TARGET_DIR)
+$(TARGET_DIR)/$(NAME): $(LIBFT) $(OBJ) | $(TARGET_DIR)
 	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(LDLIBS) -o $(TARGET_DIR)/$(NAME)
 
 $(LIBFT):
