@@ -43,7 +43,7 @@ static int	find_var(char **envp, char *arg)
 	return (-1);
 }
 
-void	ms_export(char *arg, char ***envp)
+int	ms_export(char *arg, char ***envp)
 {
 	int		index;
 	int		size;
@@ -51,17 +51,17 @@ void	ms_export(char *arg, char ***envp)
 	char	**old_env;
 	int		i;
 
+	if (!arg)
+		return (0);
 	size = env_size(*envp);
 	new_env = malloc(sizeof(char *) * (size + 2));
-	if (!arg || !new_env)
-		return ;
+	if (!new_env)
+		return (1);
 	index = find_var(*envp, arg);
 	if (index != -1)
-	{
-		free((*envp)[index]);
-		(*envp)[index] = ft_strdup(arg);
-		return ;
-	}
+		return (free((*envp)[index]),
+		(void)((*envp)[index] = ft_strdup(arg)),
+		free(new_env), 1);
 	i = 0;
 	while (i < size)
 	{
@@ -72,5 +72,5 @@ void	ms_export(char *arg, char ***envp)
 	new_env[i + 1] = NULL;
 	old_env = *envp;
 	*envp = new_env;
-	free(old_env);
+	return (free(old_env), 0);
 }

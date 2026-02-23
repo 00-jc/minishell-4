@@ -12,10 +12,15 @@
 
 #include "minishell.h"
 
-void	ms_pwd(void)
+int	ms_pwd(void)
 {
 	char	cwd[PATH_MAX];
 
-	if (getcwd(cwd, PATH_MAX))
-		printf("%s\n", cwd);
+	if (!getcwd(cwd, PATH_MAX))
+	{
+		perror("pwd");
+		return (1);
+	}
+	printf("%s\n", cwd);
+	return (0);
 }

@@ -28,7 +28,7 @@ static int	is_n_flag(char *arg)
 	return (1);
 }
 
-void	ms_echo(char **args)
+int	ms_echo(char **args)
 {
 	int	i;
 	int	newline;
@@ -36,7 +36,7 @@ void	ms_echo(char **args)
 	if (!args || !args[0])
 	{
 		write(1, "\n", 1);
-		return ;
+		return (0);
 	}
 	newline = 1;
 	i = 1;
@@ -54,4 +54,16 @@ void	ms_echo(char **args)
 	}
 	if (newline)
 		write(1, "\n", 1);
+	return (0);
+}
+
+int	run_echo(t_cmd *cmd)
+{
+	char	**args;
+	int	ret;
+
+	args = tokens_to_args(cmd->args);
+	ret = ms_echo(args);
+	free_path(args);
+	return (ret);
 }

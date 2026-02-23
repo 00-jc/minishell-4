@@ -1,61 +1,70 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: asoria <asoria@stedent.42madrid.com>       +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/12/15 00:26:06 by asoria            #+#    #+#              #
-#    Updated: 2026/01/20 05:39:00 by asoria           ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME            := minishell
+CC              ?= cc
+CFLAGS          ?= -Wall -Wextra -Werror -Wpedantic -g3
+CPPFLAGS        ?= -I. -Iincludes -Iincludes/libft -Isrc
+OBJ_DIR         := obj
+OBJ             = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
+LIBFT_DIR       := includes/libft
+LDLIBS          := -lreadline
+LIBFT           := $(LIBFT_DIR)/libft.a
+TARGET_DIR      := target
+RM              ?= rm
 
-NAME		:= minishell
-CC			?= cc
-CFLAGS		?= -Wall -Wextra -Werror -Wpedantic -g3
-CPPFLAGS	?= -Iincludes -Iincludes/libft
-SRC_DIR		:= src
-OBJ_DIR		:= obj
-OBJ			= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
-LIBFT_DIR	:= includes/libft
-LDLIBS 		:= -lreadline
-LIBFT		:= $(LIBFT_DIR)/libft.a
-TARGET_DIR	:= target
-RM			?= rm
-EXECUTION_SRC_DIR := $(SRC_DIR)/execution
-TOKEN_SRC_DIR := $(SRC_DIR)/tokens
-PARSE_SRC_DIR := $(SRC_DIR)/parser
-BUILTIN_SRC_DIR	:= $(SRC_DIR)/builtin
+SRC_DIR         := src
+CORE_DIR        := $(SRC_DIR)/core
+GRAMMAR_DIR     := $(SRC_DIR)/grammar
+EXECUTION_DIR   := $(SRC_DIR)/execution
+BUILTIN_DIR     := $(SRC_DIR)/builtin
+UTILS_DIR       := $(SRC_DIR)/utils
 
-SRC	:= \
-	$(SRC_DIR)/minishell.c \
-	$(SRC_DIR)/init.c \
-	$(SRC_DIR)/parsing.c \
-	$(SRC_DIR)/cleanup.c \
-	$(SRC_DIR)/cleanup2.c \
-	$(SRC_DIR)/utils.c \
-	$(SRC_DIR)/utils2.c \
-	$(SRC_DIR)/parameter-expansion.c \
-	$(PARSE_SRC_DIR)/parser.c \
-	$(PARSE_SRC_DIR)/parser_utils.c \
-	$(EXECUTION_SRC_DIR)/executor.c \
-	$(EXECUTION_SRC_DIR)/execute_pipes.c \
-	$(EXECUTION_SRC_DIR)/pipes.c \
-	$(EXECUTION_SRC_DIR)/executor_utils.c \
-	$(EXECUTION_SRC_DIR)/builtins.c \
-	$(EXECUTION_SRC_DIR)/redirections.c \
-	$(TOKEN_SRC_DIR)/tokens_utils_2.c \
-	$(TOKEN_SRC_DIR)/tokens.c \
-	$(TOKEN_SRC_DIR)/tokens_utils.c \
-	$(BUILTIN_SRC_DIR)/cd.c \
-	$(BUILTIN_SRC_DIR)/env.c \
-	$(BUILTIN_SRC_DIR)/echo.c \
-	$(BUILTIN_SRC_DIR)/export.c \
-	$(BUILTIN_SRC_DIR)/unset.c \
-	$(BUILTIN_SRC_DIR)/exit.c \
-	$(BUILTIN_SRC_DIR)/pwd.c
+SRC_CORE        := minishell.c init.c
+
+SRC_GRAMMAR     := parsing.c parser.c parser_utils.c \
+                   parameter-expansion.c tokens.c \
+                   tokens_utils.c tokens_utils_2.c
+
+SRC_EXECUTION   := executor.c pipes.c executor_utils.c redirections.c
+
+SRC_BUILTIN     := builtins.c cd.c echo.c env.c exit.c export.c pwd.c unset.c
+
+SRC_UTILS       := cleanup.c cleanup2.c utils.c utils2.c #debug.c
+
+SRC             := $(addprefix $(CORE_DIR)/, $(SRC_CORE)) \
+                   $(addprefix $(GRAMMAR_DIR)/, $(SRC_GRAMMAR)) \
+                   $(addprefix $(EXECUTION_DIR)/, $(SRC_EXECUTION)) \
+                   $(addprefix $(BUILTIN_DIR)/, $(SRC_BUILTIN)) \
+                   $(addprefix $(UTILS_DIR)/, $(SRC_UTILS))
 
 all: $(TARGET_DIR)/$(NAME)
+
+$(TARGET_DIR)/$(NAME): $(LIBFT) $(OBJ) | $(TARGET_DIR)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(LDLIBS) -o $(TARGET_DIR)/$(NAME)
+
+$(LIBFT):
+	$(MAKE) -C $(LIBFT_DIR)
+
+$(TARGET_DIR):
+	mkdir -p $(TARGET_DIR)
+
+$(OBJ_DIR)/core/%.o: $(CORE_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+
+$(OBJ_DIR)/grammar/%.o: $(GRAMMAR_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+
+$(OBJ_DIR)/execution/%.o: $(EXECUTION_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+
+$(OBJ_DIR)/builtin/%.o: $(BUILTIN_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+
+$(OBJ_DIR)/utils/%.o: $(UTILS_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 clean:
 	$(RM) -f ".msrc"
@@ -72,27 +81,7 @@ re:
 	$(MAKE) fclean
 	$(MAKE) all
 
-$(TARGET_DIR)/$(NAME): $(LIBFT) $(OBJ) | $(TARGET_DIR)
-	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(LDLIBS) -o $(TARGET_DIR)/$(NAME)
-
-$(LIBFT):
-	$(MAKE) -C $(LIBFT_DIR)
-
-$(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
-	mkdir -p $(OBJ_DIR)/$(BUILTIN_SRC_DIR)
-	mkdir -p $(OBJ_DIR)/$(TOKEN_SRC_DIR)
-	mkdir -p $(OBJ_DIR)/$(EXECUTION_SRC_DIR)
-
-$(TARGET_DIR):
-	mkdir -p $(TARGET_DIR)
-
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
-	mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
-
 test: re
 	valgrind --suppressions=valgrind.supp --track-fds=yes --trace-children=yes --show-leak-kinds=all --leak-check=full ./target/minishell
 
-.PHONY: all clean fclean re
-
+.PHONY: all clean fclean re test

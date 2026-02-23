@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 16:48:33 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/29 16:51:22 by asoria           ###   ########.fr       */
+/*   Updated: 2026/02/19 22:40:25 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ int	check_redirs(t_cmd *cmd)
 	return (1);
 }
 
-void	execute_external(t_cmd *cmd, char **envp, t_shell *sh)
+void	execute_external(t_cmd *cmd, t_shell *shell)
 {
 	char	*path;
 	pid_t	son;
 
-	cmd->execute = tokens_to_args(cmd->args, 0, count_tokens(cmd->args));
+	cmd->execute = tokens_to_args(cmd->args);
 	son = fork();
 	if (son == 0)
 	{
@@ -51,18 +51,16 @@ void	execute_external(t_cmd *cmd, char **envp, t_shell *sh)
 			exit(127);
 		if (dup2_manager(cmd->redir) == 0)
 			exit (126);
-		path = search_cmd(cmd->execute[0], sh);
+		path = search_cmd(cmd->execute[0], shell);
 		if (!path)
 		{
 			perror("minishell");
 			exit(127);
 		}
-		if (execve(path, cmd->execute, envp) == -1)
-		{
-			perror("minishell");
-			free(path);
-			exit(127);
-		}
+		execve(path, cmd->execute, shell->envp);
+		perror("minishell");
+		free(path);
+		exit(127);
 	}
 }
 
@@ -81,13 +79,14 @@ void	execute_command(t_shell *shell, t_cmd *cmd)
 		std_builtin(cmd, std_fd);
 		return ;
 	}
-	execute_external(cmd, shell->envp, shell);
+	execute_external(cmd, shell);
 }
 
 void	execute_pipeline(t_shell *shell)
 {
 	t_tree	*node;
-	pid_t	last_child;
+	int	status;
+	pid_t	son;
 
 	node = shell->ast;
 	if (!node)
@@ -95,10 +94,13 @@ void	execute_pipeline(t_shell *shell)
 	if (node->type == N_CMD)
 	{
 		execute_command(shell, node->cmd);
-		wait(&last_child);
-		shell->program_exit = WEXITSTATUS(last_child);
+		if (!is_builtin(node->cmd, shell->envp))
+		{
+			son = wait(&status);
+			if (son > 0)
+				shell->program_exit = WEXITSTATUS(status);
+		}
 		return ;
 	}
-	else
-		execute_pipe(shell, node);
+	execute_pipe(shell, node);
 }

@@ -12,97 +12,117 @@
 
 #include "minishell.h"
 
-int	count_pipes(t_tree *root)
+int	count_pipes(t_tree *node)
 {
-	t_tree	*node;
 	int		count;
 
-	if (!root || root->type != N_PIPE)
-		return (0);
-	node = root;
 	count = 0;
-	while (node)
+	while (node && node->type == N_PIPE)
 	{
-		if (node->type == N_PIPE)
-			count++;
+		count++;
 		node = node->right;
 	}
 	return (count);
 }
 
-void	close_pipes(int fd_pipe[2])
+static int	collect_cmd(t_tree *node, t_cmd ***cmds)
 {
-	close(fd_pipe[0]);
-	close(fd_pipe[1]);
-}
+	int	n;
+	int	i;
 
-void	manage_pipe(t_pipe *info, int i)
-{
-	if (i == 0)
-		dup2(info->pipe_fd[1], STDOUT_FILENO);
-	else if (i == info->n_pipes)
-		dup2(info->prev_fd, STDIN_FILENO);
-	else
+	n = count_pipes(node) + 1;
+	*cmds = malloc(sizeof(t_cmd *) * n);
+	if (!*cmds)
+		return (0);
+	i = 0;
+	while (node->type == N_PIPE)
 	{
-		dup2(info->pipe_fd[1], STDOUT_FILENO);
-		dup2(info->prev_fd, STDIN_FILENO);
+		(*cmds)[i++] = node->left->cmd;
+		node = node->right;
 	}
-	if (i != 0)
-		close(info->prev_fd);
-	if (i != info->n_pipes)
-		close_pipes(info->pipe_fd);
+	(*cmds)[i] = node->cmd;
+	return (n);
 }
 
-static void	new_child(t_shell *shell, t_tree *node, t_pipe *info, int i)
+static void	run_child(t_shell *shell, t_cmd *cmd, int in_fd, int out_fd)
 {
-	t_cmd	*cmd;
-
-	cmd = node->cmd;
-	info->childs[i] = fork();
-	if (info->childs[i] == 0)
+	setup_signals_child();
+	if (in_fd != -1)
 	{
-		manage_pipe(info, i);
-		if (!check_redirs(cmd) || !dup2_manager(cmd->redir))
+		dup2(in_fd, STDIN_FILENO);
+		close(in_fd);
+	}
+	if (out_fd != -1)
+	{
+		dup2(out_fd, STDOUT_FILENO);
+		close(out_fd);
+	}
+	if (!check_redirs(cmd) || !dup2_manager(cmd->redir))
+		exit(126);
+	if (is_builtin(cmd, shell->envp))
+	{
+		execute_builtin(shell, cmd, &shell->envp);
+		exit(shell->program_exit);
+	}
+	cmd->execute = tokens_to_args(cmd->args);
+	execve(search_cmd(cmd->execute[0], shell), cmd->execute, shell->envp);
+	perror("minishell");
+	exit(127);
+}
+
+static void	fork_all(t_shell *shell, t_cmd **cmds, pid_t *pids, int	n)
+{
+	int	fd[2];
+	int	prev_fd;
+	int	i;
+
+	prev_fd = -1;
+	i = 0;
+	while (i < n)
+	{
+		if (i < n - 1)
+			pipe(fd);
+		else
 		{
-			perror("minishell");
-			exit (126);
+			fd[0] = -1;
+			fd[1] = -1;
 		}
-		if (is_builtin(cmd, shell->envp))
-		{
-			execute_builtin(shell, cmd, &shell->envp);
-			exit (0);
-		}
-		cmd->execute = tokens_to_args(cmd->args, 0, count_tokens(cmd->args));
-		execve(search_cmd(cmd->execute[0], shell), cmd->execute, shell->envp);
-		perror("minishell");
-		exit (127);
+		pids[i] = fork();
+		if (pids[i] == 0)
+			run_child(shell, cmds[i], prev_fd, fd[1]);
+		if (prev_fd != -1)
+			close(prev_fd);
+		if (fd[1] != -1)
+			close(fd[1]);
+		prev_fd = fd[0];
+		i++;
 	}
 }
 
 int	execute_pipe(t_shell *shell, t_tree *node)
 {
-	t_pipe	info;
-	int		i;
+	t_cmd	**cmds;
+	pid_t	*pids;
+	int	status;
+	int	n;
+	int	i;
 
-	info.n_pipes = count_pipes(node);
-	info.childs = malloc(sizeof(pid_t) * (info.n_pipes + 1));
-	if (!info.childs)
+	n = collect_cmd(node, &cmds);
+	if (!n)
 		return (0);
-	info.prev_fd = -1;
+	pids = malloc(sizeof(pid_t) * n);
+	if (!pids)
+		return (free(cmds), 0);
+	setup_signals_running();
+	fork_all(shell, cmds, pids, n),
+	free(cmds);
 	i = 0;
-	while (node->type == N_PIPE)
+	while (i < n)
 	{
-		pipe(info.pipe_fd);
-		new_child(shell, node->left, &info, i);
-		close(info.prev_fd);
-		info.prev_fd = info.pipe_fd[0];
-		close(info.pipe_fd[1]);
-		node = node->right;
+		waitpid(pids[i], &status, 0);
+		if (i == n - 1)
+			shell->program_exit = WEXITSTATUS(status);
 		i++;
 	}
-	new_child(shell, node, &info, i);
-	i = 0;
-	while (i <= info.n_pipes)
-		waitpid(info.childs[i++], &shell->program_exit, 0);
-	return (free(info.childs), 0);
+	return (free(pids), i);
 }
