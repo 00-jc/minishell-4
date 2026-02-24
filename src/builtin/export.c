@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 00:48:30 by asoria            #+#    #+#             */
-/*   Updated: 2026/02/24 17:43:05 by asoria           ###   ########.fr       */
+/*   Updated: 2026/02/24 18:17:28 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	ms_export(char *arg, char ***envp)
 	if (index != -1)
 		return (free((*envp)[index]),
 		(void)((*envp)[index] = ft_strdup(arg)),
-		free(new_env), 1);
+		free(new_env), 0);
 	i = 0;
 	while (i < size)
 	{
