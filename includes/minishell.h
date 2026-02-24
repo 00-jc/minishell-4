@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 02:47:47 by asoria            #+#    #+#             */
-/*   Updated: 2026/02/19 23:06:48 by asoria           ###   ########.fr       */
+/*   Updated: 2026/02/24 16:23:05 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,5 +200,12 @@ extern int	g_signal;
 void	setup_signals_interactive(void);
 void	setup_signals_running(void);
 void	setup_signals_child(void);
+
+/* dollar.c */
+size_t  dollar_len(t_shell *sh, const char *s, size_t *skip);
+void    handle_dollar(t_shell *sh, char **dst, const char **s);
+
+/* parameter-expansion */
+size_t	var_len(const char *s);
 
 #endif

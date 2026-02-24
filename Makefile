@@ -21,7 +21,8 @@ SRC_CORE        := minishell.c init.c signals.c
 
 SRC_GRAMMAR     := parsing.c parser.c parser_utils.c \
                    parameter-expansion.c tokens.c \
-                   tokens_utils.c tokens_utils_2.c
+                   tokens_utils.c tokens_utils_2.c \
+		   dollar.c
 
 SRC_EXECUTION   := execute_pipes.c executor.c pipes.c executor_utils.c redirections.c
 

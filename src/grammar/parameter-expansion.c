@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 05:29:37 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/20 05:32:15 by asoria           ###   ########.fr       */
+/*   Updated: 2026/02/24 16:24:46 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,22 +51,10 @@ size_t	expanded_len(t_shell *sh, const char *s)
 
 void	copy_expanded(t_shell *sh, char *dst, const char *s)
 {
-	size_t	vlen;
-	char	*val;
-
 	while (*s)
 	{
 		if (*s == '$')
-		{
-			vlen = var_len(s + 1);
-			val = ms_getenv(sh->envp, s + 1);
-			if (val)
-			{
-				ft_strcpy(dst, val);
-				dst += ft_strlen(val);
-			}
-			s += vlen + 1;
-		}
+			handle_dollar(sh, &dst, &s);
 		else
 			*dst++ = *s++;
 	}
