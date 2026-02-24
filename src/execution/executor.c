@@ -55,10 +55,11 @@ void	execute_external(t_cmd *cmd, t_shell *shell)
 		if (!path)
 		{
 			perror("minishell");
+			black_hole(shell);
+			free_envp(&shell->envp);
 			exit(127);
 		}
 		execve(path, cmd->execute, shell->envp);
-		perror("minishell");
 		free(path);
 		exit(127);
 	}

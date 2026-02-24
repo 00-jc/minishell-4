@@ -47,8 +47,7 @@ static int	collect_cmd(t_tree *node, t_cmd ***cmds)
 static void	run_child(t_shell *shell, t_cmd *cmd, int in_fd, int *out_fd)
 {
 	setup_signals_child();
-	if (out_fd[0] != -1)
-		close(out_fd[0]);
+	close(out_fd[0]);
 	if (in_fd != -1)
 	{
 		dup2(in_fd, STDIN_FILENO);
@@ -69,6 +68,8 @@ static void	run_child(t_shell *shell, t_cmd *cmd, int in_fd, int *out_fd)
 	cmd->execute = tokens_to_args(cmd->args);
 	execve(search_cmd(cmd->execute[0], shell), cmd->execute, shell->envp);
 	perror("minishell");
+	black_hole(shell);
+	free_envp(&shell->envp);
 	exit(127);
 }
 
