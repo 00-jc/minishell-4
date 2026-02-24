@@ -6,7 +6,7 @@
 /*   By: edblazqu <edblazqu@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 11:39:16 by edblazqu          #+#    #+#             */
-/*   Updated: 2026/02/06 11:39:17 by edblazqu         ###   ########.fr       */
+/*   Updated: 2026/02/24 19:46:11 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,10 @@ static void	fork_all(t_shell *shell, t_cmd **cmds, pid_t *pids, int	n)
 		}
 		pids[i] = fork();
 		if (pids[i] == 0)
+		{
+			close_heredocs(cmds, n, i);
 			run_child(shell, cmds[i], prev_fd, fd[1]);
+		}
 		if (prev_fd != -1)
 			close(prev_fd);
 		if (fd[1] != -1)

@@ -6,11 +6,33 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 19:27:52 by asoria            #+#    #+#             */
-/*   Updated: 2026/02/24 19:31:21 by asoria           ###   ########.fr       */
+/*   Updated: 2026/02/24 19:46:26 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	close_heredocs(t_cmd **cmds, int n, int current)
+{
+	t_redir	*redir;
+	int		i;
+
+	i = 0;
+	while (i < n)
+	{
+		if (i != current)
+		{
+			redir = cmds[i]->redir;
+			while (redir)
+			{
+				if (redir->type == T_HEREDOC && redir->fd != -1)
+					close(redir->fd);
+				redir = redir->next;
+			}
+		}
+		i++;
+	}
+}
 
 static char *put_name(void)
 {

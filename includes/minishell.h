@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 02:47:47 by asoria            #+#    #+#             */
-/*   Updated: 2026/02/24 19:27:24 by asoria           ###   ########.fr       */
+/*   Updated: 2026/02/24 19:47:02 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,5 +215,6 @@ char	*strip_quotes(char *s, int len);
 /* heredocs.c */
 void    preprocess_heredocs(t_tree *node);
 int     redir_heredoc(t_redir *redir);
+void    close_heredocs(t_cmd **cmds, int n, int current);
 
 #endif
