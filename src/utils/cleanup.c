@@ -45,3 +45,28 @@ void	free_envp(char ***envp)
 	free(*envp);
 	*envp = NULL;
 }
+
+void	child_pipe_black_hole(t_shell *shell)
+{
+	if (shell->input)
+	{
+		free(shell->input);
+		shell->input = NULL;
+	}
+	if (shell->path)
+	{
+		free_path(shell->path);
+		shell->path = NULL;
+	}
+	if (shell->ast)
+	{
+		free_ast(shell->ast);
+		shell->ast = NULL;
+	}
+	free_tokens(&(shell->first));
+	free_envp(&shell->envp);
+	free(shell->cmds);
+	free(shell->pids);
+	write_history(shell->history_file);
+	g_signal = 0;
+}

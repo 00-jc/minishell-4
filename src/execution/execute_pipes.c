@@ -68,8 +68,7 @@ static void	run_child(t_shell *shell, t_cmd *cmd, int in_fd, int *out_fd)
 	cmd->execute = tokens_to_args(cmd->args);
 	execve(search_cmd(cmd->execute[0], shell), cmd->execute, shell->envp);
 	perror("minishell");
-	black_hole(shell);
-	free_envp(&shell->envp);
+	child_pipe_black_hole(shell);
 	exit(127);
 }
 
@@ -104,28 +103,26 @@ static void	fork_all(t_shell *shell, t_cmd **cmds, pid_t *pids, int n)
 
 int	execute_pipe(t_shell *shell, t_tree *node)
 {
-	t_cmd	**cmds;
-	pid_t	*pids;
 	int		status;
 	int		n;
 	int		i;
 
-	n = collect_cmd(node, &cmds);
+	n = collect_cmd(node, &shell->cmds);
 	if (!n)
 		return (0);
-	pids = malloc(sizeof(pid_t) * n);
-	if (!pids)
-		return (free(cmds), 0);
+	shell->pids = malloc(sizeof(pid_t) * n);
+	if (!shell->pids)
+		return (free(shell->cmds), 0);
 	setup_signals_running();
-	fork_all(shell, cmds, pids, n),
-	free(cmds);
+	fork_all(shell, shell->cmds, shell->pids, n),
+	free(shell->cmds);
 	i = 0;
 	while (i < n)
 	{
-		waitpid(pids[i], &status, 0);
+		waitpid(shell->pids[i], &status, 0);
 		if (i == n - 1)
 			shell->program_exit = WEXITSTATUS(status);
 		i++;
 	}
-	return (free(pids), i);
+	return (free(shell->pids), i);
 }

@@ -84,6 +84,8 @@ typedef struct s_shell
 	char	**path;
 	char	*prompt;
 	char	*input;
+	t_cmd	**cmds;
+	pid_t	*pids;
 	t_token	*first;
 	t_tree	*ast;
 	char	*config_file;
@@ -104,10 +106,13 @@ void		print_cmd_list(t_cmd *cmd_list);
 void		print_envp(t_shell *shell);
 
 /* cleanup.c */
+void		free_ast(t_tree	*node);
+void		child_pipe_black_hole(t_shell *shell);
 void		free_envp(char ***envp);
 void		free_path(char **path);
 void		free_tokens(t_token **list);
 void		free_split(t_token **list);
+void		child_black_hole(t_shell *shell);
 void		black_hole(t_shell *shell);
 
 /* parser/parser_utils.c */

@@ -90,3 +90,26 @@ void	black_hole(t_shell *shell)
 	write_history(shell->history_file);
 	g_signal = 0;
 }
+
+void	child_black_hole(t_shell *shell)
+{
+	if (shell->input)
+	{
+		free(shell->input);
+		shell->input = NULL;
+	}
+	if (shell->path)
+	{
+		free_path(shell->path);
+		shell->path = NULL;
+	}
+	if (shell->ast)
+	{
+		free_ast(shell->ast);
+		shell->ast = NULL;
+	}
+	free_tokens(&(shell->first));
+	free_envp(&shell->envp);
+	write_history(shell->history_file);
+	g_signal = 0;
+}
