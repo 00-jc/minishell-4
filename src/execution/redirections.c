@@ -6,7 +6,7 @@
 /*   By: edblazqu <edblazqu@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 16:55:05 by edblazqu          #+#    #+#             */
-/*   Updated: 2026/02/24 17:52:07 by asoria           ###   ########.fr       */
+/*   Updated: 2026/02/24 17:57:37 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ int	redir_heredoc(t_redir *redir)
 		if (ft_strcmp(redir->file.value, read) == 0)
 			break ;
 		ft_putstr_fd(read, fd);
+		ft_putstr_fd("\n", fd);
 		free(read);
 	}
 	free(read);
