@@ -1,3 +1,0 @@
-- heredoc + ctrl c
-- cat + ctrl c
-- echo $? no implementado
