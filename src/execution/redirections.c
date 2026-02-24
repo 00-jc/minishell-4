@@ -6,7 +6,7 @@
 /*   By: edblazqu <edblazqu@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 16:55:05 by edblazqu          #+#    #+#             */
-/*   Updated: 2026/02/24 18:15:38 by asoria           ###   ########.fr       */
+/*   Updated: 2026/02/24 18:21:56 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,14 @@
 static char	*put_name(void)
 {
 	static int	n;
+	char		*num;
 	char		*result;
 
-	result = ft_strjoin(".heredoc_", ft_itoa(n));
+	num = ft_itoa(n);
+	if (!num)
+		return (NULL);
+	result = ft_strjoin(".heredoc_", num);
+	free(num);
 	n++;
 	if (!result)
 	{
