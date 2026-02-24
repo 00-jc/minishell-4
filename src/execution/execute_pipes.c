@@ -44,18 +44,20 @@ static int	collect_cmd(t_tree *node, t_cmd ***cmds)
 	return (n);
 }
 
-static void	run_child(t_shell *shell, t_cmd *cmd, int in_fd, int out_fd)
+static void	run_child(t_shell *shell, t_cmd *cmd, int in_fd, int *out_fd)
 {
 	setup_signals_child();
+	if (out_fd != -1)
+		close(out_fd[0]);
 	if (in_fd != -1)
 	{
 		dup2(in_fd, STDIN_FILENO);
 		close(in_fd);
 	}
-	if (out_fd != -1)
+	if (out_fd[1] != -1)
 	{
-		dup2(out_fd, STDOUT_FILENO);
-		close(out_fd);
+		dup2(out_fd[1], STDOUT_FILENO);
+		close(out_fd[1]);
 	}
 	if (!check_redirs(cmd) || !dup2_manager(cmd->redir))
 		exit(126);
@@ -70,7 +72,7 @@ static void	run_child(t_shell *shell, t_cmd *cmd, int in_fd, int out_fd)
 	exit(127);
 }
 
-static void	fork_all(t_shell *shell, t_cmd **cmds, pid_t *pids, int	n)
+static void	fork_all(t_shell *shell, t_cmd **cmds, pid_t *pids, int n)
 {
 	int	fd[2];
 	int	prev_fd;
@@ -83,15 +85,12 @@ static void	fork_all(t_shell *shell, t_cmd **cmds, pid_t *pids, int	n)
 		if (i < n - 1)
 			pipe(fd);
 		else
-		{
-			fd[0] = -1;
-			fd[1] = -1;
-		}
+			set_invalid(fd);
 		pids[i] = fork();
 		if (pids[i] == 0)
 		{
 			close_heredocs(cmds, n, i);
-			run_child(shell, cmds[i], prev_fd, fd[1]);
+			run_child(shell, cmds[i], prev_fd, fd);
 		}
 		if (prev_fd != -1)
 			close(prev_fd);
@@ -106,9 +105,9 @@ int	execute_pipe(t_shell *shell, t_tree *node)
 {
 	t_cmd	**cmds;
 	pid_t	*pids;
-	int	status;
-	int	n;
-	int	i;
+	int		status;
+	int		n;
+	int		i;
 
 	n = collect_cmd(node, &cmds);
 	if (!n)

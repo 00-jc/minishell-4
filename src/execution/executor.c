@@ -84,7 +84,7 @@ void	execute_command(t_shell *shell, t_cmd *cmd)
 
 static void	wait_child(t_shell *shell)
 {
-	int	status;
+	int		status;
 	pid_t	son;
 
 	son = wait(&status);
@@ -100,7 +100,6 @@ static void	wait_child(t_shell *shell)
 		write(1, "\n", 1);
 		g_signal = 0;
 	}
-	
 }
 
 void	execute_pipeline(t_shell *shell)

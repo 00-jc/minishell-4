@@ -42,10 +42,8 @@ void	handle_dollar(t_shell *sh, char **dst, const char **s)
 	char	*val;
 	char	*name;
 	size_t	skip;
-	int		special;
 
-	special = (*(*s + 1) == '?');
-	if (special)
+	if (*(*s + 1) == '?')
 	{
 		val = ft_itoa(sh->program_exit);
 		skip = 2;
@@ -62,7 +60,7 @@ void	handle_dollar(t_shell *sh, char **dst, const char **s)
 		ft_strcpy(*dst, val);
 		*dst += ft_strlen(val);
 	}
-	if (special)
+	if (*(*s + 1) == '?')
 		free(val);
 	*s += skip;
 }

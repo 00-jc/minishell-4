@@ -50,4 +50,3 @@ int	redir_append(t_redir *redir)
 	redir->fd = fd;
 	return (1);
 }
-

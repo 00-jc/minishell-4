@@ -12,6 +12,12 @@
 
 #include "minishell.h"
 
+void	set_invalid(int fd[2])
+{
+	fd[0] = -1;
+	fd[1] = -1;
+}
+
 char	*search_cmd(char *cmd, t_shell *shell)
 {
 	char	*route;

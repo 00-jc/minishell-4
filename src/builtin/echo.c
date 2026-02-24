@@ -60,7 +60,7 @@ int	ms_echo(char **args)
 int	run_echo(t_cmd *cmd)
 {
 	char	**args;
-	int	ret;
+	int		ret;
 
 	args = tokens_to_args(cmd->args);
 	ret = ms_echo(args);

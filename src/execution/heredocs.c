@@ -34,7 +34,7 @@ void	close_heredocs(t_cmd **cmds, int n, int current)
 	}
 }
 
-static char *put_name(void)
+static char	*put_name(void)
 {
 	static int	n;
 	char		*num;

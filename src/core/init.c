@@ -68,7 +68,7 @@ static void	init_config_file(t_shell *shell)
 }
 
 static void	init_rl_history(t_shell *shell)
-{	
+{
 	shell->history_file = ".ms_history";
 	read_history(shell->history_file);
 }

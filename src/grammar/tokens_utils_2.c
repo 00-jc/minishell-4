@@ -30,7 +30,7 @@ char	**tokens_to_args(t_token *head)
 {
 	char	**args;
 	int		i;
-	
+
 	args = malloc(sizeof(char *) * (count_words(head) + 1));
 	if (!args)
 		return (NULL);

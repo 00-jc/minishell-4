@@ -46,7 +46,7 @@ static int	find_var(char **envp, char *arg)
 void	print_export(char **envp)
 {
 	char	*equal;
-	int	i;
+	int		i;
 
 	i = 0;
 	while (envp[i])
@@ -78,8 +78,7 @@ int	ms_export(char *arg, char ***envp)
 	index = find_var(*envp, arg);
 	if (index != -1)
 		return (free((*envp)[index]),
-		(void)((*envp)[index] = ft_strdup(arg)),
-		free(new_env), 0);
+		(void)((*envp)[index] = ft_strdup(arg)), free(new_env), 0);
 	i = 0;
 	while (i < size)
 	{

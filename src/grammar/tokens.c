@@ -22,7 +22,7 @@ static char	*skip_whitespace(char *input)
 static char	*get_token(t_shell *shell)
 {
 	char	*tmp;
-	int	len;
+	int		len;
 
 	len = raw_token_len(shell->input);
 	tmp = strip_quotes(shell->input, len);

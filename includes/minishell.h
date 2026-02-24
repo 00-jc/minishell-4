@@ -127,11 +127,12 @@ int			execute_pipe(t_shell *shell, t_tree *node);
 /* execution/executor.c  */
 int			is_builtin(t_cmd *cmd, char **envp);
 void		execute_pipeline(t_shell *shell);
-void			execute_builtin(t_shell *shell, t_cmd *cmd, char ***envp);
+void		execute_builtin(t_shell *shell, t_cmd *cmd, char ***envp);
 void		execute_command(t_shell *shell, t_cmd *cmd);
 void		execute_external(t_cmd *cmd, t_shell *shell);
 
 /* execution/executor_utils.c */
+void		set_invalid(int fd[2]);
 int			check_redirs(t_cmd *cmd);
 char		*search_cmd(char *cmd, t_shell *shell);
 
@@ -162,33 +163,32 @@ char		**tokens_to_args(t_token *head);
 int			classify_token(t_token *token);
 
 /* parameter-expansion.c */
-void	expand_parameters(t_shell *shell, char **input);
+void		expand_parameters(t_shell *shell, char **input);
 
 /* cd.c */
-int		ms_cd(t_shell *shell, char *arg);
+int			ms_cd(t_shell *shell, char *arg);
 
 /* pwd.c */
-int		ms_pwd(void);
+int			ms_pwd(void);
 
 /* env.c */
-int		ms_env(char **envp);
+int			ms_env(char **envp);
 
 /* echo.c */
-int		run_echo(t_cmd *cmd);
-int		ms_echo(char **args);
+int			run_echo(t_cmd *cmd);
+int			ms_echo(char **args);
 
 /* export.c */
-int		ms_export(char *arg, char ***envp);
+int			ms_export(char *arg, char ***envp);
 
 /* unset.c */
-int		ms_unset(char ***envp, const char *var_name);
+int			ms_unset(char ***envp, const char *var_name);
 
 /* exit.c */
 void		ms_exit(t_shell *shell, t_token *arg);
 
 /* utils.c */
 int			is_environment_modifier(t_cmd *cmd);
-int			count_commands(t_cmd *cmd_list);
 void		slash_path(t_shell *shell);
 int			count_tokens(t_token *tokens);
 
@@ -197,24 +197,24 @@ t_token		*last_token(t_token	*start);
 
 /* signals.c */
 extern int	g_signal;
-void	setup_signals_interactive(void);
-void	setup_signals_running(void);
-void	setup_signals_child(void);
+void		setup_signals_interactive(void);
+void		setup_signals_running(void);
+void		setup_signals_child(void);
 
 /* dollar.c */
-size_t  dollar_len(t_shell *sh, const char *s, size_t *skip);
-void    handle_dollar(t_shell *sh, char **dst, const char **s);
+size_t		dollar_len(t_shell *sh, const char *s, size_t *skip);
+void		handle_dollar(t_shell *sh, char **dst, const char **s);
 
 /* parameter-expansion */
-size_t	var_len(const char *s);
+size_t		var_len(const char *s);
 
 /* quotes.c */
-int	raw_token_len(char *s);
-char	*strip_quotes(char *s, int len);
+int			raw_token_len(char *s);
+char		*strip_quotes(char *s, int len);
 
 /* heredocs.c */
-void    preprocess_heredocs(t_tree *node);
-int     redir_heredoc(t_redir *redir);
-void    close_heredocs(t_cmd **cmds, int n, int current);
+void		preprocess_heredocs(t_tree *node);
+int			redir_heredoc(t_redir *redir);
+void		close_heredocs(t_cmd **cmds, int n, int current);
 
 #endif
