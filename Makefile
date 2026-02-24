@@ -24,7 +24,8 @@ SRC_GRAMMAR     := parsing.c parser.c parser_utils.c \
                    tokens_utils.c tokens_utils_2.c \
 		   dollar.c quotes.c
 
-SRC_EXECUTION   := execute_pipes.c executor.c pipes.c executor_utils.c redirections.c
+SRC_EXECUTION   := execute_pipes.c executor.c pipes.c executor_utils.c \
+			redirections.c heredocs.c
 
 SRC_BUILTIN     := builtins.c cd.c echo.c env.c exit.c export.c pwd.c unset.c
 
@@ -83,6 +84,7 @@ re:
 	$(MAKE) all
 
 test: re
-	valgrind --suppressions=valgrind.supp --track-fds=yes --trace-children=yes --show-leak-kinds=all --leak-check=full ./target/minishell
+	valgrind --suppressions=valgrind.supp --track-fds=yes \
+	--show-leak-kinds=all --leak-check=full ./target/minishell
 
 .PHONY: all clean fclean re test

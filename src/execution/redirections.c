@@ -6,31 +6,11 @@
 /*   By: edblazqu <edblazqu@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 16:55:05 by edblazqu          #+#    #+#             */
-/*   Updated: 2026/02/24 18:21:56 by asoria           ###   ########.fr       */
+/*   Updated: 2026/02/24 19:31:29 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static char	*put_name(void)
-{
-	static int	n;
-	char		*num;
-	char		*result;
-
-	num = ft_itoa(n);
-	if (!num)
-		return (NULL);
-	result = ft_strjoin(".heredoc_", num);
-	free(num);
-	n++;
-	if (!result)
-	{
-		perror("minishell");
-		return (NULL);
-	}
-	return (result);
-}
 
 int	redir_infile(t_redir *redir)
 {
@@ -71,31 +51,3 @@ int	redir_append(t_redir *redir)
 	return (1);
 }
 
-int	redir_heredoc(t_redir *redir)
-{
-	int		fd;
-	char	*read;
-
-	redir->heredoc_name = put_name();
-	if (!redir->heredoc_name)
-	{
-		perror("heredoc");
-		return (0);
-	}
-	fd = open(redir->heredoc_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	redir->fd = open(redir->heredoc_name, O_RDONLY);
-	if (fd < 0 || redir->fd < 0)
-		return (0);
-	while (1)
-	{
-		read = readline("> ");
-		if (!read || ft_strcmp(redir->file.value, read) == 0)
-			break ;
-		ft_putstr_fd(read, fd);
-		ft_putstr_fd("\n", fd);
-		free(read);
-	}
-	free(read);
-	close(fd);
-	return (1);
-}

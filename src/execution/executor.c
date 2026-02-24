@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 16:48:33 by asoria            #+#    #+#             */
-/*   Updated: 2026/02/24 17:50:05 by asoria           ###   ########.fr       */
+/*   Updated: 2026/02/24 19:35:04 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ int	check_redirs(t_cmd *cmd)
 			control = redir_outfile(current);
 		else if (current->type == T_APPEND)
 			control = redir_append(current);
-		else if (current->type == T_HEREDOC)
-			control = redir_heredoc(current);
 		if (!control)
 			return (0);
 		current = current->next;
@@ -84,37 +82,40 @@ void	execute_command(t_shell *shell, t_cmd *cmd)
 	execute_external(cmd, shell);
 }
 
-static void	handle_exit_status(t_shell *shell, int status)
+static void	wait_child(t_shell *shell)
 {
-	if (WIFSIGNALED(status))
-		shell->program_exit = 128 + WTERMSIG(status);
-	else
-		shell->program_exit = WEXITSTATUS(status);
+	int	status;
+	pid_t	son;
+
+	son = wait(&status);
+	if (son > 0)
+	{
+		if (WIFSIGNALED(status))
+			shell->program_exit = 128 + WTERMSIG(status);
+		else
+			shell->program_exit = WEXITSTATUS(status);
+	}
+	if (g_signal == SIGINT)
+	{
+		write(1, "\n", 1);
+		g_signal = 0;
+	}
+	
 }
 
 void	execute_pipeline(t_shell *shell)
 {
 	t_tree	*node;
-	int	status;
-	pid_t	son;
 
 	node = shell->ast;
 	if (!node)
 		return ;
+	preprocess_heredocs(node);
 	if (node->type == N_CMD)
 	{
 		execute_command(shell, node->cmd);
 		if (!is_builtin(node->cmd, shell->envp))
-		{
-			son = wait(&status);
-			if (son > 0)
-				handle_exit_status(shell, status);
-			if (g_signal == SIGINT)
-			{
-				write(1, "\n", 1);
-				g_signal = 0;
-			}
-		}
+			wait_child(shell);
 		return ;
 	}
 	execute_pipe(shell, node);
