@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 16:48:33 by asoria            #+#    #+#             */
-/*   Updated: 2026/02/19 22:40:25 by asoria           ###   ########.fr       */
+/*   Updated: 2026/02/24 15:49:26 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,11 @@ void	execute_external(t_cmd *cmd, t_shell *shell)
 	pid_t	son;
 
 	cmd->execute = tokens_to_args(cmd->args);
+	setup_signals_running();
 	son = fork();
 	if (son == 0)
 	{
+		setup_signals_child();
 		if (!cmd || !check_redirs(cmd) || !cmd->execute)
 			exit(127);
 		if (dup2_manager(cmd->redir) == 0)
@@ -99,6 +101,11 @@ void	execute_pipeline(t_shell *shell)
 			son = wait(&status);
 			if (son > 0)
 				shell->program_exit = WEXITSTATUS(status);
+			if (g_signal == SIGINT)
+			{
+				write(1, "\n", 1);
+				g_signal = 0;
+			}
 		}
 		return ;
 	}

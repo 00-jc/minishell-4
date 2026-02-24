@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 05:36:59 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/20 05:37:00 by asoria           ###   ########.fr       */
+/*   Updated: 2026/02/24 15:34:59 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,5 @@ void	black_hole(t_shell *shell)
 	}
 	free_tokens(&(shell->first));
 	write_history(shell->history_file);
+	g_signal = 0;
 }
