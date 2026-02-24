@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 02:47:47 by asoria            #+#    #+#             */
-/*   Updated: 2026/02/24 16:23:05 by asoria           ###   ########.fr       */
+/*   Updated: 2026/02/24 16:59:25 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,5 +207,9 @@ void    handle_dollar(t_shell *sh, char **dst, const char **s);
 
 /* parameter-expansion */
 size_t	var_len(const char *s);
+
+/* quotes.c */
+int	raw_token_len(char *s);
+char	*strip_quotes(char *s, int len);
 
 #endif

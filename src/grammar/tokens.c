@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 19:43:20 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/18 23:39:24 by asoria           ###   ########.fr       */
+/*   Updated: 2026/02/24 17:04:32 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,29 +21,12 @@ static char	*skip_whitespace(char *input)
 
 static char	*get_token(t_shell *shell)
 {
-	int		i;
-	int		j;
-	char	*start;
 	char	*tmp;
+	int	len;
 
-	start = shell->input;
-	i = 0;
-	while (*shell->input != ' ' && *shell->input != '\t'
-		&& *shell->input != '\0')
-	{
-		shell->input++;
-		i++;
-	}
-	tmp = malloc(sizeof(char) * (i + 1));
-	if (!tmp)
-		return (NULL);
-	j = 0;
-	while (j < i)
-	{
-		tmp[j] = start[j];
-		j++;
-	}
-	tmp[i] = '\0';
+	len = raw_token_len(shell->input);
+	tmp = strip_quotes(shell->input, len);
+	shell->input += len;
 	return (tmp);
 }
 

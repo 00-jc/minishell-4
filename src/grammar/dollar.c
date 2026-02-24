@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 15:59:03 by asoria            #+#    #+#             */
-/*   Updated: 2026/02/24 16:22:18 by asoria           ###   ########.fr       */
+/*   Updated: 2026/02/24 17:21:36 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ size_t	dollar_len(t_shell *sh, const char *s, size_t *skip)
 void	handle_dollar(t_shell *sh, char **dst, const char **s)
 {
 	char	*val;
+	char	*name;
 	size_t	skip;
 	int		special;
 
@@ -52,7 +53,9 @@ void	handle_dollar(t_shell *sh, char **dst, const char **s)
 	else
 	{
 		skip = var_len(*s + 1) + 1;
-		val = ms_getenv(sh->envp, *s + 1);
+		name = ft_substr(*s + 1, 0, var_len(*s + 1));
+		val = ms_getenv(sh->envp, name);
+		free(name);
 	}
 	if (val)
 	{
