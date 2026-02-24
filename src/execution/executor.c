@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 16:48:33 by asoria            #+#    #+#             */
-/*   Updated: 2026/02/24 15:49:26 by asoria           ###   ########.fr       */
+/*   Updated: 2026/02/24 17:50:05 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,14 @@ void	execute_command(t_shell *shell, t_cmd *cmd)
 	execute_external(cmd, shell);
 }
 
+static void	handle_exit_status(t_shell *shell, int status)
+{
+	if (WIFSIGNALED(status))
+		shell->program_exit = 128 + WTERMSIG(status);
+	else
+		shell->program_exit = WEXITSTATUS(status);
+}
+
 void	execute_pipeline(t_shell *shell)
 {
 	t_tree	*node;
@@ -100,7 +108,7 @@ void	execute_pipeline(t_shell *shell)
 		{
 			son = wait(&status);
 			if (son > 0)
-				shell->program_exit = WEXITSTATUS(status);
+				handle_exit_status(shell, status);
 			if (g_signal == SIGINT)
 			{
 				write(1, "\n", 1);
