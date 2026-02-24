@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 00:48:30 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/20 04:45:00 by asoria           ###   ########.fr       */
+/*   Updated: 2026/02/24 17:43:05 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,24 @@ static int	find_var(char **envp, char *arg)
 	return (-1);
 }
 
+void	print_export(char **envp)
+{
+	char	*equal;
+	int	i;
+
+	i = 0;
+	while (envp[i])
+	{
+		equal = ft_strchr(envp[i], '=');
+		if (equal)
+			printf("declare -x %.*s=\"%s\"\n",
+				(int)(equal - envp[i]), envp[i], equal + 1);
+		else
+			printf("declare -x %s\n", envp[i]);
+		i++;
+	}
+}
+
 int	ms_export(char *arg, char ***envp)
 {
 	int		index;
@@ -52,7 +70,7 @@ int	ms_export(char *arg, char ***envp)
 	int		i;
 
 	if (!arg)
-		return (0);
+		return (print_export(*envp), 0);
 	size = env_size(*envp);
 	new_env = malloc(sizeof(char *) * (size + 2));
 	if (!new_env)
