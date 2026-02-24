@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 02:46:23 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/20 04:26:13 by asoria           ###   ########.fr       */
+/*   Updated: 2026/02/24 18:29:39 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,7 @@ void	minishell(t_shell *shell, char **argv, char **envp)
 	{
 		setup_signals_interactive();
 		read_input(shell);
-		if (!shell->input)
-			break ;
-		if (!*shell->input)
-		{
-			free(shell->input);
-			shell->input = NULL;
-			continue ;
-		}
-		expand_parameters(shell, &shell->input);
-		refresh_path(shell);
-		tokenize_input(shell);
-		if (init_ast(shell))
-			execute_pipeline(shell);
+		process_input(shell);
 		black_hole(shell);
 	}
 	black_hole(shell);
