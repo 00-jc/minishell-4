@@ -47,7 +47,7 @@ static int	collect_cmd(t_tree *node, t_cmd ***cmds)
 static void	run_child(t_shell *shell, t_cmd *cmd, int in_fd, int *out_fd)
 {
 	setup_signals_child();
-	if (out_fd != -1)
+	if (out_fd[0] != -1)
 		close(out_fd[0]);
 	if (in_fd != -1)
 	{
