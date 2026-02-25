@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 02:30:42 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/18 23:50:24 by asoria           ###   ########.fr       */
+/*   Updated: 2026/02/25 01:36:23 by jaicastr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,14 @@ int	is_environment_modifier(t_cmd *cmd)
 void	slash_path(t_shell *shell)
 {
 	size_t	i;
+	void	*tmp;
 
 	i = 0;
 	while (shell->path[i] != NULL)
 	{
-		shell->path[i] = ft_strjoin_free(shell->path[i], "/");
+		tmp = ft_strjoin_free(shell->path[i], "/");
+		if (tmp)
+			shell->path[i] = tmp;
 		i++;
 	}
 }
