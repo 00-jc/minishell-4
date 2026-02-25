@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:18:30 by asoria            #+#    #+#             */
-/*   Updated: 2026/02/24 18:18:32 by asoria           ###   ########.fr       */
+/*   Updated: 2026/02/25 01:40:31 by jaicastr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	**tokens_to_args(t_token *head)
 		{
 			args[i] = ft_strdup(head->value);
 			if (!args[i])
-				return (NULL);
+				return (free(args), NULL);
 			i++;
 		}
 		head = head->next;

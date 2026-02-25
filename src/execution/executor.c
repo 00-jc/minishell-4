@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 16:48:33 by asoria            #+#    #+#             */
-/*   Updated: 2026/02/24 19:35:04 by asoria           ###   ########.fr       */
+/*   Updated: 2026/02/25 01:41:54 by jaicastr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	execute_external(t_cmd *cmd, t_shell *shell)
 	char	*path;
 	pid_t	son;
 
+	if (!cmd || !shell)
+		return ;
 	cmd->execute = tokens_to_args(cmd->args);
 	setup_signals_running();
 	son = fork();
