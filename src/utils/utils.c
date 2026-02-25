@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 02:30:42 by asoria            #+#    #+#             */
-/*   Updated: 2026/02/25 01:36:23 by jaicastr         ###   ########.fr       */
+/*   Updated: 2026/02/25 01:38:25 by jaicastr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ static char	*ft_strjoin_free(char *s1, char *s2)
 	j = 0;
 	join = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!join)
+	{
+		free(s1);
 		return (NULL);
+	}
 	while (s1[i])
 	{
 		join[i] = s1[i];
@@ -56,7 +59,7 @@ int	is_environment_modifier(t_cmd *cmd)
 void	slash_path(t_shell *shell)
 {
 	size_t	i;
-	void	*tmp;
+	char	*tmp;
 
 	i = 0;
 	while (shell->path[i] != NULL)
